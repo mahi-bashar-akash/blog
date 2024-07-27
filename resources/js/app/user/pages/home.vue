@@ -215,16 +215,16 @@
                             </a>
                         </div>
                         <div class="mt-4">
-                            <a href="javascript:void(0)" class="text-decoration-none text-secondary-theme">
+                            <router-link :to="{name: 'details'}" class="text-decoration-none text-secondary-theme">
                                 Read more
-                            </a>
+                            </router-link>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- pagination -->
-            <div class="d-flex justify-content-between align-items-center my-4 py-3">
+            <div class="d-flex justify-content-center align-items-center my-4 py-3">
                 <div aria-label="Page navigation example" class="front-pagination">
                     <div class="pagination">
                         <div class="page-item">
@@ -253,9 +253,6 @@
                             </a>
                         </div>
                     </div>
-                </div>
-                <div class="text-theme">
-                    Showing 1 - 12 of 13 items
                 </div>
             </div>
 

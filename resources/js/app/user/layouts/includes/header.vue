@@ -3,9 +3,9 @@
     <header class="header bg-body-tertiary">
         <nav class="navbar navbar-expand-lg p-3">
             <div class="container">
-                <a class="navbar-brand" href="javascript:void(0)">
+                <router-link :to="{name: 'home'}" class="navbar-brand">
                     <img :src="`/images/logo.png`" class="img-fluid width-120" alt="logo">
-                </a>
+                </router-link>
                 <button class="navbar-toggler" type="button" @click="collapse()">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -17,9 +17,9 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item mb-1" href="javascript:void(0)" @click="collapse()">
+                                    <router-link :to="{name: 'details'}" class="dropdown-item mb-1" @click="collapse()">
                                         Profile
-                                    </a>
+                                    </router-link>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item mb-1" @click="collapse();openProfileSettingsModal()">
@@ -27,9 +27,9 @@
                                     </button>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" @click="collapse()">
+                                    <button type="button" class="dropdown-item" @click="collapse()">
                                         Logout
-                                    </a>
+                                    </button>
                                 </li>
                             </ul>
                         </li>
