@@ -12,7 +12,7 @@
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'details'}" class="text-decoration-none text-dark fw-bold">
+                    <router-link :to="{name: 'blogDetails'}" class="text-decoration-none text-dark fw-bold">
                         Self-observation is the first step of inner
                     </router-link>
                 </li>

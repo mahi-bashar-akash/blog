@@ -73,7 +73,7 @@
                            autocomplete="off">
                 </div>
                 <button type="submit" class="btn btn-theme" style="width: 100px;">
-                    Forgot
+                    Reset
                 </button>
             </form>
 

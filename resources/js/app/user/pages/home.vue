@@ -215,7 +215,7 @@
                             </a>
                         </div>
                         <div class="mt-4">
-                            <router-link :to="{name: 'details'}" class="text-decoration-none text-secondary-theme">
+                            <router-link :to="{name: 'blogDetails'}" class="text-decoration-none text-secondary-theme">
                                 Read more
                             </router-link>
                         </div>
