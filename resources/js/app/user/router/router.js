@@ -8,6 +8,7 @@ import forgot from './../pages/forgot.vue'
 
 import profileLayout from './../pages/profile/layout/layout.vue'
 import userDetails from './../pages/profile/pages/profile.vue'
+import userBlogManagement from './../pages/profile/pages/blog-management.vue'
 
 const title = window.core.APP_NAME
 const root_url = "/user/";
@@ -21,9 +22,10 @@ const routes = [
             { path: 'forgot', name: 'forgot', component: forgot, meta: { title: title + ' - forgot' } },
 
             {
-                path: 'profile/', name: 'profileLayout', component: profileLayout,
+                path: '', name: 'profileLayout', component: profileLayout,
                 children: [
-                    { path: 'user/cetails', name: 'userDetails', component: userDetails, meta: { title: title + ' - user details' } },
+                    { path: 'details', name: 'userDetails', component: userDetails, meta: { title: title + ' - user details' } },
+                    { path: 'blog/management', name: 'userBlogManagement', component: userBlogManagement, meta: { title: title + ' - user blog management' } },
                 ]
             }
 

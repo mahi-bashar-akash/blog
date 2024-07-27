@@ -3,12 +3,13 @@
     <section class="row py-5 align-items-center px-3">
         <article class="col-lg-6 py-5">
             <h1 class="fs-1 mb-4">
-                Hey, I’m <span class="text-theme"> Jonathan Doe 👋 </span>
+                Hey, We are <span class="text-theme"> News provider </span>
             </h1>
             <p class="line-height-2">
-                I’m a <span class="fw-bold">design technologist</span> in Atlanta. I like working on the front-end of
-                the web. This is my site, <span class="fw-bold">Zento</span>
-                where I blog, share and write about my personal projects..
+                We work for share experience of <span class="fw-bold"> world activities by any writers </span>. We work
+                as team working with different places to share any need or necessary information by create, listing,
+                update and delete. This is <span class="fw-bold">writers site to provide experience</span>,
+                where We like, comment, share as opinion and write about ethical and none-violence topic.
             </p>
             <div class="fs-5 fw-semibold"> Let's connect</div>
             <div class="my-3">
@@ -168,13 +169,14 @@
 
             <!-- recent post -->
             <div class="px-2">
-                <div class="row justify-content-start align-items-start p-2 bg-white shadow rounded-4 my-3" v-for="each in 10">
-                    <div class="col-12 col-xl-5 py-3">
+                <div class="row justify-content-start align-items-start p-2 bg-white shadow rounded-4 my-3"
+                     v-for="each in 10">
+                    <div class="col-12 col-xl-5 py-2">
                         <img :src="'/images/about-personal.webp'" class="img-fluid object-fit-cover rounded-3"
                              alt="about-person">
                     </div>
-                    <div class="col-12 col-xl-7 py-3">
-                        <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 mb-2">
+                    <div class="col-12 col-xl-7 py-2">
+                        <div class="d-flex justify-content-start align-items-center flex-wrap gap-3">
                             <div>
                                 <i class="bi bi-calendar me-2 text-theme"></i>
                                 September 26, 2019
@@ -186,16 +188,16 @@
                             <div>
                                 <i class="bi bi-stars me-2 text-theme"></i>
                                 <span>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                                <i class="bi bi-star-fill text-warning"></i>
-                            </span>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                </span>
                             </div>
                         </div>
-                        <h1 class="fw-bold fs-4 line-height-2">
+                        <h1 class="fw-bold fs-5 line-height-2">
                             The spectacle before us was indeed sublime
                         </h1>
                         <p class="text-secondary line-height-2">
@@ -214,7 +216,7 @@
                             </span>
                             </a>
                         </div>
-                        <div class="mt-4">
+                        <div class="mt-3">
                             <router-link :to="{name: 'blogDetails'}" class="text-decoration-none text-secondary-theme">
                                 Read more
                             </router-link>

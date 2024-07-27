@@ -24,9 +24,9 @@
                                     </router-link>
                                 </li>
                                 <li>
-                                    <button type="button" class="dropdown-item mb-1" @click="collapse();openProfileSettingsModal()">
-                                        Settings
-                                    </button>
+                                    <router-link :to="{name: 'userBlogManagement'}" class="dropdown-item mb-1" @click="collapse()">
+                                        Blog management
+                                    </router-link>
                                 </li>
                                 <li>
                                     <button type="button" class="dropdown-item" @click="collapse()">
@@ -40,88 +40,6 @@
             </div>
         </nav>
     </header>
-
-    <!-- modal -->
-    <div class="modal fade" id="profileSettings" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <form class="modal-content rounded-3 border-0 p-2" v-if="tab === 'edit-profile'">
-                <div class="modal-header border-0 d-flex justify-content-between align-items-center">
-                    <h1 class="modal-title fs-6 fw-bold" id="exampleModalLabel">
-                        Edit Profile
-                    </h1>
-                    <button type="button" class="btn btn-theme py-2 px-3 badge" @click="tab = 'change-password'" v-if="tab === 'edit-profile'">
-                        Change Password
-                    </button>
-                </div>
-                <div class="modal-body border-0">
-                    <div class="form-group mb-3">
-                        <label for="name" class="form-label fw-semibold">Name</label>
-                        <input id="name" type="text" name="name"
-                               class="form-control p-3 border shadow-none rounded-3" required
-                               autoComplete="new-name">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="username" class="form-label fw-semibold">Username</label>
-                        <input id="username" type="text" name="username"
-                               class="form-control p-3 border shadow-none rounded-3" required
-                               autoComplete="new-username">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email" class="form-label fw-semibold">Email</label>
-                        <input id="email" type="text" name="email"
-                               class="form-control p-3 border shadow-none rounded-3" required
-                               autoComplete="new-email">
-                    </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary py-2 width-95 rounded-3" @click="closeProfileSettingsModal()">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-theme py-2 width-95 rounded-3">
-                        Update
-                    </button>
-                </div>
-            </form>
-            <form class="modal-content rounded-3 border-0 p-4" v-if="tab === 'change-password'">
-                <div class="modal-header border-0 d-flex justify-content-between align-items-center">
-                    <h1 class="modal-title fs-6 fw-bold" id="exampleModalLabel">
-                        Change Password
-                    </h1>
-                    <button type="button" class="btn btn-theme py-2 px-3 badge" @click="tab = 'edit-profile'" v-if="tab === 'change-password'">
-                        Edit Profile
-                    </button>
-                </div>
-                <div class="modal-body border-0">
-                    <div class="form-group mb-3">
-                        <label for="current_password" class="form-label fw-semibold">Current Password</label>
-                        <input id="current_password" type="password" name="current_password"
-                               class="form-control p-3 border shadow-none rounded-3" required
-                               autoComplete="new-current-password">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="password" class="form-label fw-semibold">Password</label>
-                        <input id="password" type="password" name="password"
-                               class="form-control p-3 border shadow-none rounded-3" required
-                               autoComplete="new-password">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="password_confirmation" class="form-label fw-semibold">Email</label>
-                        <input id="password_confirmation" type="password" name="password_confirmation"
-                               class="form-control p-3 border shadow-none rounded-3" required
-                               autoComplete="new-password-confirmation">
-                    </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary py-2 width-95 rounded-3" @click="closeProfileSettingsModal()">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-theme py-2 width-95 rounded-3">
-                        Update
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
 </template>
 

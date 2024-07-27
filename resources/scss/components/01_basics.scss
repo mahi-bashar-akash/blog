@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&display=swap');
 
 body {
-    --font-family: "ABeeZee", sans-serif !important;
+    font-family: "ABeeZee", sans-serif !important;
 }
 
 :root {
@@ -55,7 +55,7 @@ $base-value: 1px;
         &.active .page-link {
             transition: 0.3s all ease-in-out !important;
             background-color: var(--theme) !important;
-            border: 1px solid var(--theme) !important;
+            border: 1px solid transparent !important;
             color: var(--bs-white) !important;
         }
 
@@ -63,6 +63,7 @@ $base-value: 1px;
             width: 30px;
             height: 30px;
             display: flex;
+            padding: 0 !important;
             justify-content: center;
             align-items: center;
             color: var(--theme) !important;
@@ -75,7 +76,7 @@ $base-value: 1px;
             &:hover, &:active, &:focus {
                 transition: 0.3s all ease-in-out !important;
                 background-color: var(--theme) !important;
-                border: 1px solid var(--theme) !important;
+                border: 1px solid transparent !important;
                 color: var(--bs-white) !important;
             }
 

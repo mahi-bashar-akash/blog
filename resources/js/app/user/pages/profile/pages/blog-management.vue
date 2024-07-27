@@ -12,8 +12,8 @@
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'userDetails'}" class="text-decoration-none text-dark fw-bold">
-                        User Details
+                    <router-link :to="{name: 'userBlogManagement'}" class="text-decoration-none text-dark fw-bold">
+                        Blog Management
                     </router-link>
                 </li>
             </ol>
@@ -31,7 +31,6 @@ export default {
     mounted() {
     },
     methods: {
-
     }
 }
 
