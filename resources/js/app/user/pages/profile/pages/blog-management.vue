@@ -20,6 +20,112 @@
         </nav>
     </section>
 
+    <section class="w-100 py-5">
+
+        <div class="card border-0 rounded-3">
+
+            <div class="card-header border-0 px-4 pt-4">
+
+                <div class="row justify-content-between align-items-center">
+
+                    <div class="col-md-4">
+
+                        <!-- Search -->
+                        <div class="position-relative">
+                            <input type="text" name="keyword" class="form-control shadow-none ps-5" placeholder="Search Here" required autocomplete="off">
+                            <div class="position-absolute top-0 start-0 h-100 d-flex justify-content-center align-items-center ps-3">
+                                <i class="bi bi-search"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 text-end">
+
+                        <!-- New -->
+                        <button type="button" class="btn btn-theme">
+                            New
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- Title of Listing -->
+                <div class="mt-4 fs-4 fw-bold">
+                    Blog Listing
+                </div>
+
+            </div>
+
+            <div class="card-body border-0 px-4">
+
+                <!-- table data -->
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                        <thead>
+                            <tr>
+                                <th class="p-3" style="min-width: 200px; max-width: 200px"> Title </th>
+                                <th class="p-3" style="min-width: 150px; max-width: 100px"> Views </th>
+                                <th class="p-3" style="min-width: 150px; max-width: 100px"> Like </th>
+                                <th class="p-3" style="min-width: 150px; max-width: 100px"> Comment </th>
+                                <th class="p-3" style="min-width: 150px; max-width: 100px"> Share </th>
+                                <th class="p-3" style="min-width: 150px; max-width: 100px"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="each in 10">
+                                <td class="p-3">Title</td>
+                                <td class="p-3">View</td>
+                                <td class="p-3">Like</td>
+                                <td class="p-3">Comment</td>
+                                <td class="p-3">Share</td>
+                                <td class="p-3">Action</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-footer border-0 px-4 pb-4">
+
+                <!-- pagination -->
+                <div class="d-flex justify-content-center align-items-center">
+                    <div aria-label="Page navigation example" class="front-pagination">
+                        <div class="pagination">
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </div>
+                            <div class="page-item active">
+                                <a class="page-link" href="javascript:void(0)">
+                                    1
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    2
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    3
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
 </template>
 
 <script>
