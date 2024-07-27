@@ -1,0 +1,23 @@
+.text-theme {
+    color: var(--theme) !important;
+}
+
+.text-footer {
+    transition: 0.3s all ease-in-out !important;
+    &:hover {
+        transition: 0.3s all ease-in-out !important;
+        padding-left: 30px !important;
+        color: var(--theme) !important;
+    }
+}
+
+.text-secondary-theme {
+    color: var(--bs-secondary) !important;
+    transition: 0.3s all ease-in-out !important;
+
+    &:hover {
+        color: var(--theme) !important;
+        transition: 0.3s all ease-in-out !important;
+    }
+
+}

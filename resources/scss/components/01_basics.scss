@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+body {
+    font-family: "DM Sans", sans-serif !important;
+}
+
+:root {
+    --theme: #ef4444;
+    --opacity-theme: rgba(239, 68, 68, 0.1);
+    --dark-theme: #d52626;
+}
+
+$iteration: 2560;
+$base-value: 1px;
+@for $i from 1 through $iteration {
+    .width-#{$i} { width: $base-value * $i !important; }
+    .height-#{$i} { height: $base-value * $i !important; }
+    .height-calc-#{$i} { height: calc(100vh - $base-value * $i) !important; }
+    .min-width-#{$i} { min-width: $base-value * $i !important }
+}
+
+.line-height-2 {
+    line-height: 2;
+}
+
+.dropdown {
+    .dropdown-menu {
+        border-radius: 10px !important;
+        padding: 10px !important;
+        .dropdown-item {
+            border-radius: 10px !important;
+            font-size: 14px !important;
+            padding: 10px 20px !important;
+            transition: 0.3s all ease-in-out !important;
+
+            &:hover, &.router-link-active {
+                border-radius: 10px !important;
+                transition: 0.3s all ease-in-out !important;
+                background-color: var(--theme) !important;
+                color: var(--bs-white) !important;
+            }
+        }
+    }
+}
+
+.pagination {
+
+    .disabled {
+        background-color: transparent !important;
+    }
+
+    .page-item {
+        transition: 0.3s all ease-in-out;
+
+        &.active .page-link {
+            transition: 0.3s all ease-in-out !important;
+            background-color: var(--theme) !important;
+            border: 1px solid var(--theme) !important;
+            color: var(--bs-white) !important;
+        }
+
+        .page-link {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--theme) !important;
+            border: 1px solid transparent !important;
+            margin: 0 5px;
+            border-radius: 10px !important;
+            box-shadow: 0 0 0 0 !important;
+
+            &:hover, &:active, &:focus {
+                transition: 0.3s all ease-in-out !important;
+                background-color: var(--theme) !important;
+                border: 1px solid var(--theme) !important;
+                color: var(--bs-white) !important;
+            }
+
+        }
+
+    }
+
+}
