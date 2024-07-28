@@ -4,6 +4,7 @@
     color: var(--bs-white) !important;
     transition: 0.3s all ease-in-out !important;
     &:hover {
+        border: 1px solid var(--dark-theme) !important;
         background-color: var(--dark-theme) !important;
         color: var(--bs-white) !important;
         transition: 0.3s all ease-in-out !important;
@@ -16,6 +17,7 @@
     color: var(--theme) !important;
     transition: 0.3s all ease-in-out !important;
     &:hover {
+        border: 1px solid var(--dark-theme) !important;
         background-color: var(--dark-theme) !important;
         color: var(--bs-white) !important;
         transition: 0.3s all ease-in-out !important;

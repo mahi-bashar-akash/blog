@@ -4,13 +4,17 @@
         <nav class="navbar navbar-expand-lg p-3">
             <div class="container">
                 <router-link :to="{name: 'home'}" class="navbar-brand">
-                    <img :src="`/images/logo.png`" class="img-fluid width-120" alt="logo">
+                    <img :src="`/images/logo.png`" class="img-fluid" width="40" alt="logo">
+                    <span class="text-theme ms-1 fw-bold"> Npvider </span>
                 </router-link>
                 <button class="navbar-toggler" type="button" @click="collapse()">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item text-end d-inline-block d-lg-none">
+                            <button type="button" class="btn btn-close border-0 p-3 icon-close" @click="collapse()"></button>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link p-0" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="rounded-circle bg-theme text-white d-flex justify-content-center align-items-center" style="width:45px; height:45px;">

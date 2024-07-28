@@ -36,42 +36,7 @@
 
         <div class="col-lg-4 sticky-lg-top order-2 order-lg-1 py-5" style="top: 85px; z-index: 0">
 
-            <div class="fs-5 fw-bold"> About Me</div>
-
-            <div class="mt-3 mb-5 p-4 bg-white rounded-4 shadow">
-                <div class="d-flex justify-content-start align-items-center">
-                    <div>
-                        <img :src="'/images/about-personal.webp'"
-                             class="img-fluid object-fit-cover width-65 height-65 rounded-circle" alt="about-personal">
-                    </div>
-                    <div class="d-block ms-3">
-                        <div class="fw-bold">
-                            Jonathan Doe
-                        </div>
-                        <div class="text-secondary">
-                            Founder & Editor
-                        </div>
-                    </div>
-                </div>
-                <p class="mt-4 line-height-2">
-                    Hello! My name is Jonathan Doe!, Actively writing articles for this website. I really like tutorials
-                    and
-                    illustrations, so stay alert for my next tutorials.
-                </p>
-                <div class="d-flex justify-content-start align-items-center gap-3">
-                    <a href="javascript:void(0)" class="text-decoration-none text-secondary">
-                        Facebook
-                    </a>
-                    <a href="javascript:void(0)" class="text-decoration-none text-secondary">
-                        Twitter
-                    </a>
-                    <a href="javascript:void(0)" class="text-decoration-none text-secondary">
-                        Instagram
-                    </a>
-                </div>
-            </div>
-
-            <div class="fs-5 fw-bold"> Tag cloud</div>
+            <div class="fs-5 fw-bold"> Tag Categories </div>
 
             <div class="mt-3 mb-5 d-flex justify-content-start align-items-center flex-wrap gap-3">
                 <a href="javascript:void(0)" class="text-decoration-none text-dark">
@@ -120,7 +85,7 @@
                              alt="about-person">
                     </div>
                     <div class="ms-3">
-                        <div class="fw-bold">
+                        <div class="fw-bold text-truncate-2">
                             The spectacle before us was indeed sublime
                         </div>
                         <div class="text-secondary">
@@ -135,7 +100,7 @@
                              alt="about-person">
                     </div>
                     <div class="ms-3">
-                        <div class="fw-bold">
+                        <div class="fw-bold text-truncate-2">
                             The spectacle before us was indeed sublime
                         </div>
                         <div class="text-secondary">
@@ -150,7 +115,7 @@
                              alt="about-person">
                     </div>
                     <div class="ms-3">
-                        <div class="fw-bold">
+                        <div class="fw-bold text-truncate-2">
                             The spectacle before us was indeed sublime
                         </div>
                         <div class="text-secondary">
@@ -169,7 +134,7 @@
 
             <!-- recent post -->
             <div class="px-2">
-                <div class="row justify-content-start align-items-start p-2 bg-white shadow rounded-4 my-3"
+                <div class="row justify-content-start align-items-center p-2 bg-white shadow rounded-4 my-3"
                      v-for="each in 10">
                     <div class="col-12 col-xl-5 py-2">
                         <img :src="'/images/about-personal.webp'" class="img-fluid object-fit-cover rounded-3"
@@ -186,10 +151,10 @@
                                 1 person read
                             </div>
                         </div>
-                        <h1 class="fw-bold fs-5 line-height-2">
+                        <h1 class="fw-bold fs-5 line-height-2 text-truncate-2">
                             The spectacle before us was indeed sublime
                         </h1>
-                        <p class="text-secondary line-height-2">
+                        <p class="text-secondary line-height-2 text-truncate-2">
                             Welcome, it’s great to have you here. We know that first impressions are important, so we’ve
                             populated your new site with some initial getting started posts that…
                         </p>

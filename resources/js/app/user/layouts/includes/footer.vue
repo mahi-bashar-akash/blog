@@ -26,30 +26,25 @@
                 <div class="col-12 col-md-6 col-xl-4 py-5">
                     <div class="fs-4 fw-bold"> Quick Links</div>
                     <div class="my-3">
-                        <a href="javascript:void(0)"
-                           class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        <router-link :to="{name: 'home'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
                             Home
-                        </a>
-                        <a href="javascript:void(0)"
-                           class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
-                            Features
-                        </a>
-                        <a href="javascript:void(0)"
-                           class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
-                            Contact
-                        </a>
-                        <a href="javascript:void(0)"
-                           class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        </router-link>
+                        <router-link :to="{name: 'login'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                            Login
+                        </router-link>
+                        <a href="javascript:void(0)" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
                             Terms & Conditions
                         </a>
-                        <a href="javascript:void(0)"
-                           class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        <a href="javascript:void(0)" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
                             Privacy Policy
                         </a>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4 py-5">
-                    <img :src="`/images/logo.png`" class="img-fluid width-150" alt="logo">
+                    <div class="d-flex align-items-center justify-content-start">
+                        <img :src="`/images/logo.png`" class="img-fluid" width="40" alt="logo">
+                        <span class="text-theme ms-1 fw-bold"> Npvider </span>
+                    </div>
                     <div class="my-3 line-height-2 text-secondary">
                         Subscribe to our email newsletter and unlock access to <span
                         class="fw-bold"> members-only </span> content and <span

@@ -6,13 +6,13 @@
             aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'home'}" class="text-decoration-none text-dark">
+                    <router-link :to="{name: 'home'}" class="text-decoration-none text-theme">
                         <i class="bi bi-house-door-fill me-2"></i>
                         Home
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'userBlogManagement'}" class="text-decoration-none text-dark">
+                    <router-link :to="{name: 'userBlogManagement'}" class="text-decoration-none text-theme">
                         Blog Management
                     </router-link>
                 </li>
@@ -21,7 +21,7 @@
     </section>
 
     <section class="w-100">
-        <div class="card border-0 rounded-3">
+        <div class="card border-0 rounded-3 shadow-lg">
             <div class="card-header border-0 px-4 pt-4">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-12 col-lg-4 py-1">
@@ -59,6 +59,7 @@
                     <table class="table table-borderless table-hover align-middle">
                         <thead>
                             <tr>
+                                <th class="p-3"> Photo or video </th>
                                 <th class="p-3 text-start" style="min-width: 200px; max-width: 200px"> Title </th>
                                 <th class="p-3 text-center" style="min-width: 150px; max-width: 100px"> Views </th>
                                 <th class="p-3 text-center" style="min-width: 150px; max-width: 100px"> Like </th>
@@ -69,11 +70,16 @@
                         </thead>
                         <tbody>
                             <tr v-for="each in 10">
-                                <td class="p-3 text-start">Title</td>
-                                <td class="p-3 text-center">0</td>
-                                <td class="p-3 text-center">0</td>
-                                <td class="p-3 text-center">0</td>
-                                <td class="p-3 text-center">0</td>
+                                <td class="p-3 text-start"><img :src="`/images/about-personal.webp`" class="img-fluid object-fit-cover rounded-3" style="min-width: 90px; min-height: 90px;" alt="picture"> </td>
+                                <td class="p-3">
+                                    <div class="text-truncate-3">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur deserunt eligendi fuga laborum maiores minima perspiciatis quam quidem repellat rerum!
+                                    </div>
+                                </td>
+                                <td class="p-3 text-center">{{numberFormat(1000)}}</td>
+                                <td class="p-3 text-center">{{numberFormat(20000)}}</td>
+                                <td class="p-3 text-center">{{numberFormat(300000)}}</td>
+                                <td class="p-3 text-center">{{numberFormat(4000000)}}</td>
                                 <td class="p-3">
                                     <div class="dropdown w-100 text-center">
                                         <a class="text-decoration-none text-theme fw-bold p-2" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -142,9 +148,9 @@
     <!-- Blog manage modal -->
     <div class="modal fade" id="manageModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <form class="modal-content rounded-0 border-0 p-4">
+            <form class="modal-content rounded-3 border-0 p-4">
                 <div class="modal-header border-0">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
                         <template v-if="this.formData.id === undefined">
                             Create
                         </template>
@@ -158,7 +164,7 @@
                 <div class="modal-body border-0">
                     <div class="form-group mv-3">
                         <label for="file-upload"
-                               class="form-label border w-100 px-3 height-200 d-flex justify-content-center align-items-center flex-column cursor-pointer">
+                               class="form-label border w-100 px-3 height-200 rounded-3 d-flex justify-content-center align-items-center flex-column cursor-pointer">
                             <input type="file" name="file-upload" id="file-upload" hidden="hidden">
                             <i class="bi bi-cloud-check fs-1"></i>
                             <span class="fw-bold small">
@@ -180,10 +186,10 @@
                     </div>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary py-2 width-95 rounded-0" @click="closeManageModal()">
+                    <button type="button" class="btn btn-secondary py-2 width-95" @click="closeManageModal()">
                         Close
                     </button>
-                    <button type="submit" class="btn btn-theme py-2 width-95 rounded-0">
+                    <button type="submit" class="btn btn-theme py-2 width-95">
                         Save
                     </button>
                 </div>
@@ -194,23 +200,24 @@
     <!-- Blog delete modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <form class="modal-content rounded-0 border-0 p-4">
+            <form class="modal-content rounded-3 border-0 p-4">
                 <div class="modal-header border-0">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel"> Delete Blog </h1>
+                    <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel"> Delete Blog </h1>
                     <button type="button" class="btn-close shadow-none" @click="closeDeleteModal()"></button>
                 </div>
                 <div class="modal-body border-0">
-                    <div class="mb-3 text-center pt-4 fs-4"> Are you sure ?</div>
+                    <div class="bi bi-trash2 m-0 p-0 text-center text-danger" style="font-size: 65px"></div>
+                    <div class="mb-3 text-center fs-4"> Are you sure ?</div>
                 </div>
                 <div class="modal-footer border-0 d-flex justify-content-between align-items-center">
                     <div class="col-5">
-                        <button type="button" class="btn btn-secondary py-2 w-100 rounded-0"
+                        <button type="button" class="btn btn-secondary py-2 w-100"
                                 @click="closeDeleteModal()">
                             Close
                         </button>
                     </div>
                     <div class="col-5">
-                        <button type="submit" class="btn btn-theme py-2 w-100 rounded-0">
+                        <button type="submit" class="btn btn-theme py-2 w-100">
                             Confirm
                         </button>
                     </div>
@@ -263,10 +270,21 @@ export default {
             modal.hide();
         },
 
-        // category dropdown
-        categoryDropdown() {
-            this.isCategorySelect = !this.isCategorySelect;
-        }
+        // number format
+        numberFormat(num, digits) {
+            const lookup = [
+                { value: 1, symbol: "" },
+                { value: 1e3, symbol: "k" },
+                { value: 1e6, symbol: "M" },
+                { value: 1e9, symbol: "G" },
+                { value: 1e12, symbol: "T" },
+                { value: 1e15, symbol: "P" },
+                { value: 1e18, symbol: "E" }
+            ];
+            const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
+            const item = lookup.findLast(item => num >= item.value);
+            return item ? (num / item.value).toFixed(digits).replace(regexp, "").concat(item.symbol) : "0";
+        },
 
     }
 }

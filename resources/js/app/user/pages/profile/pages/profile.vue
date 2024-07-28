@@ -6,13 +6,13 @@
             aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'home'}" class="text-decoration-none text-dark">
+                    <router-link :to="{name: 'home'}" class="text-decoration-none text-theme">
                         <i class="bi bi-house-door-fill me-2"></i>
                         Home
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'userDetails'}" class="text-decoration-none text-dark">
+                    <router-link :to="{name: 'userDetails'}" class="text-decoration-none text-theme">
                         User Details
                     </router-link>
                 </li>
@@ -22,81 +22,103 @@
 
     <section class="w-100 py-5">
         <div class="d-flex justify-content-center">
-            <div class="col-12">
-                <div class="w-100 shadow bg-white p-5">
-                    <div class="d-flex justify-content-start align-items-center mb-3 flex-wrap">
-                        <button type="button" class="btn me-2" :class="{ 'btn-theme' :tab === 'details', 'btn-outline-theme' : tab !== 'details' }" @click="tab = 'details'">
-                            Details
-                        </button>
-                        <button type="button" class="btn me-2" :class="{ 'btn-theme' : tab === 'edit-profile', 'btn-outline-theme' : tab !== 'edit-profile' }" @click="tab = 'edit-profile'">
-                            Edit Profile
-                        </button>
-                        <button type="button" class="btn" :class="{ 'btn-theme' : tab === 'change-password', 'btn-outline-theme' : tab !== 'change-password' }" @click="tab = 'change-password'">
-                            Change Password
-                        </button>
+            <div class="col-12 col-xl-7">
+                <div class="w-100 shadow bg-white p-4 p-md-5 rounded-4">
+
+                    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+                        <div class="p-2">
+                            <button type="button" class="btn w-100" :class="{ 'btn-theme' :tab === 'details', 'btn-outline-theme' : tab !== 'details' }" @click="tab = 'details'">
+                                Details
+                            </button>
+                        </div>
+                        <div class="p-2">
+                            <button type="button" class="btn w-100" :class="{ 'btn-theme' : tab === 'edit-profile', 'btn-outline-theme' : tab !== 'edit-profile' }" @click="tab = 'edit-profile'">
+                                Edit Profile
+                            </button>
+                        </div>
+                        <div class="p-2">
+                            <button type="button" class="btn w-100" :class="{ 'btn-theme' : tab === 'change-password', 'btn-outline-theme' : tab !== 'change-password' }" @click="tab = 'change-password'">
+                                Change Password
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="w-100" v-if="tab === 'details'">
-
+                    <div class="w-100 mt-5" v-if="tab === 'details'">
+                        <div class="d-flex justify-content-center mb-3">
+                            <img :src="`/images/avatar.png`" class="img-fluid rounded-circle object-fit-cover" style="width: 200px; height: 200px" alt="avatar">
+                        </div>
+                        <div class="mb-3">
+                            <div class="fs-6 fw-bold"> Full Name </div>
+                            <div class="fs-6 text-secondary"> Mahi Bashar Akash </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="fs-6 fw-bold"> Email </div>
+                            <div class="fs-6 text-secondary"> mahibashar2023@gmail.com </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="fs-6 fw-bold"> Phone Number </div>
+                            <div class="fs-6 text-secondary"> 01400125289 </div>
+                        </div>
+                        <div>
+                            <div class="fs-6 fw-bold"> Present Address </div>
+                            <div class="fs-6 text-secondary"> Dhanmondi, Dhaka - 1209, Bangladesh </div>
+                        </div>
                     </div>
-                    <div class="w-100 d-flex justify-content-center">
-                        <form class="col-12 col-sm-6 mt-5" v-if="tab === 'edit-profile'">
-                            <div class="d-flex justify-content-center">
-                                <div class="form-group mb-3">
-                                    <div class="position-relative">
-                                        <label for="file-upload" class="form-label rounded-circle bg-opacity-theme d-flex justify-content-center align-items-center" style="width: 200px; height:200px; cursor: pointer;">
-                                            <input id="file-upload" type="file" name="avatar" hidden="hidden">
-                                            <i class="bi bi-plus fs-1 text-theme"></i>
-                                        </label>
-                                        <div class="position-absolute top-0 end-0 w-100 h-100 d-flex justify-content-center align-items-center invisible" style="width: 200px; height:200px;">
-                                            <button type="button" class="btn btn-theme rounded-circle" style="width:45px; height:45px;">
-                                                <i class="bi bi-trash2"></i>
-                                            </button>
-                                        </div>
+
+                    <form class="w-100 mt-5" v-if="tab === 'edit-profile'">
+                        <div class="d-flex justify-content-center align-items-center flex-column text-start">
+                            <div class="form-group mb-3">
+                                <div class="position-relative">
+                                    <label for="file-upload" class="form-label rounded-circle bg-opacity-theme d-flex justify-content-center align-items-center" style="width: 200px; height:200px; cursor: pointer;">
+                                        <input id="file-upload" type="file" name="avatar" hidden="hidden">
+                                        <i class="bi bi-plus fs-1 text-theme"></i>
+                                    </label>
+                                    <div class="position-absolute top-0 end-0 w-100 h-100 d-flex justify-content-center align-items-center invisible" style="width: 200px; height:200px;">
+                                        <button type="button" class="btn btn-theme rounded-circle" style="width:45px; height:45px;">
+                                            <i class="bi bi-trash2"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="user-name" class="form-label"> Full Name </label>
-                                <input id="user-name" type="text" name="full-name" class="form-control shadow-none" required autocomplete="off">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="user-email" class="form-label"> Email </label>
-                                <input id="user-email" type="email" name="email" class="form-control shadow-none" required autocomplete="off">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="user-phone-number" class="form-label"> Phone Number </label>
-                                <input id="user-phone-number" type="text" name="phone-number" class="form-control shadow-none" required autocomplete="off">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="user-present-address" class="form-label"> Preset Address </label>
-                                <input id="user-present-address" type="text" name="present-address" class="form-control shadow-none" required autocomplete="off">
-                            </div>
-                            <button type="submit" class="btn btn-theme" style="width: 150px;">
-                                Update
-                            </button>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="user-name" class="form-label"> Full Name </label>
+                            <input id="user-name" type="text" name="full-name" class="form-control shadow-none" required autocomplete="off">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="user-email" class="form-label"> Email </label>
+                            <input id="user-email" type="email" name="email" class="form-control shadow-none" required autocomplete="off">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="user-phone-number" class="form-label"> Phone Number </label>
+                            <input id="user-phone-number" type="text" name="phone-number" class="form-control shadow-none" required autocomplete="off">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="user-present-address" class="form-label"> Preset Address </label>
+                            <input id="user-present-address" type="text" name="present-address" class="form-control shadow-none" required autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn btn-theme" style="width: 150px;">
+                            Update
+                        </button>
+                    </form>
 
-                    <div class="w-100 d-flex justify-content-center">
-                        <form class="col-12 col-sm-6 mt-5" v-if="tab === 'change-password'">
-                            <div class="form-group mb-3">
-                                <label for="user-current-password" class="form-label"> Current Password </label>
-                                <input id="user-current-password" type="password" name="current-password" class="form-control shadow-none" required autocomplete="off">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="user-password" class="form-label"> Password </label>
-                                <input id="user-password" type="password" name="password" class="form-control shadow-none" required autocomplete="off">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="user-password-confirmation" class="form-label"> Password Confirmation </label>
-                                <input id="user-password-confirmation" type="password" name="password-confirmation" class="form-control shadow-none" required autocomplete="off">
-                            </div>
-                            <button type="submit" class="btn btn-theme" style="width: 150px;">
-                                Update
-                            </button>
-                        </form>
-                    </div>
+                    <form class="w-100 mt-5" v-if="tab === 'change-password'">
+                        <div class="form-group mb-3">
+                            <label for="user-current-password" class="form-label"> Current Password </label>
+                            <input id="user-current-password" type="password" name="current-password" class="form-control shadow-none" required autocomplete="off">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="user-password" class="form-label"> Password </label>
+                            <input id="user-password" type="password" name="password" class="form-control shadow-none" required autocomplete="off">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="user-password-confirmation" class="form-label"> Password Confirmation </label>
+                            <input id="user-password-confirmation" type="password" name="password-confirmation" class="form-control shadow-none" required autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn btn-theme" style="width: 150px;">
+                            Update
+                        </button>
+                    </form>
 
                 </div>
             </div>
