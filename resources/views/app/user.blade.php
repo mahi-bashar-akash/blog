@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User Portal</title>
+    <title> Npvider </title>
+    <link rel="shortcut icon" href="{{asset('/images/logo.png')}}" type="image/x-icon">
     <link rel="stylesheet" href="{{asset('/source-code/bootstrap/dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('/source-code/bootstrap-icons/font/bootstrap-icons.min.css')}}">
     @vite('resources/scss/style-sheet.scss')
@@ -13,7 +14,7 @@
 <body id="app"></body>
 <script>
     window.core = {
-        APP_NAME: 'Project',
+        APP_NAME: 'Npvider',
         APP_URL: '{{env('APP_URL')}}'
     };
 </script>
