@@ -6,13 +6,13 @@
             aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'home'}" class="text-decoration-none text-dark fw-bold">
+                    <router-link :to="{name: 'home'}" class="text-decoration-none text-dark">
                         <i class="bi bi-house-door-fill me-2"></i>
                         Home
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'userDetails'}" class="text-decoration-none text-dark fw-bold">
+                    <router-link :to="{name: 'userDetails'}" class="text-decoration-none text-dark">
                         User Details
                     </router-link>
                 </li>

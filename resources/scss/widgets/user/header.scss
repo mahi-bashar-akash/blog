@@ -3,13 +3,11 @@
     position: fixed;
     left: 0;
     right: 0;
-    padding: 15px 0;
-    z-index: 99999999;
+    z-index: 999;
 
     &.animated-shadow {
         transition: 0.3s all ease-in-out;
         box-shadow: 0 0 16px 0 #8888;
-        padding: 0;
     }
 
     .navbar {

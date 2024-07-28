@@ -23,6 +23,10 @@ $base-value: 1px;
     line-height: 2;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .dropdown {
     .dropdown-menu {
         border-radius: 10px !important;

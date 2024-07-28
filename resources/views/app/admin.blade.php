@@ -7,7 +7,6 @@
     <title>Admin Portal</title>
     <link rel="stylesheet" href="{{asset('/source-code/bootstrap/dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('/source-code/bootstrap-icons/font/bootstrap-icons.min.css')}}">
-    <script defer src="{{asset('/source-code/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     @vite('resources/scss/style-sheet.scss')
     @vite('resources/js/app/admin/app.js')
 </head>
@@ -18,4 +17,5 @@
         APP_URL: '{{env('APP_URL')}}'
     };
 </script>
+<script src="{{asset('/source-code/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 </html>

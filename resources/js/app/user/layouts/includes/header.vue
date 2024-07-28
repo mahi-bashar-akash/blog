@@ -12,7 +12,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link fw-bold p-0" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link p-0" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="rounded-circle bg-theme text-white d-flex justify-content-center align-items-center" style="width:45px; height:45px;">
                                     {{nameControl(profileName)}}
                                 </div>
@@ -81,19 +81,6 @@ export default {
                     nav.classList.remove("animated-shadow");
                 }
             });
-        },
-
-        // open manage model
-        openProfileSettingsModal() {
-            const myModal = new bootstrap.Modal("#profileSettings", {keyboard: false});
-            myModal.show();
-        },
-
-        // close manage modal
-        closeProfileSettingsModal() {
-            let myModalEl = document.getElementById('profileSettings');
-            let modal = bootstrap.Modal.getInstance(myModalEl)
-            modal.hide();
         },
 
         // Function of name control

@@ -34,7 +34,7 @@
 
     <section class="row align-items-start px-3">
 
-        <div class="col-lg-4 sticky-lg-top order-2 order-lg-1 py-5" style="top: 85px;">
+        <div class="col-lg-4 sticky-lg-top order-2 order-lg-1 py-5" style="top: 85px; z-index: 0">
 
             <div class="fs-5 fw-bold"> About Me</div>
 
