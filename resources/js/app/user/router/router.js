@@ -14,7 +14,7 @@ const title = window.core.APP_NAME
 const root_url = "/user/";
 const routes = [
     {
-        path: root_url, name: 'adminLayout', component: layout,
+        path: root_url, name: 'userLayout', component: layout,
         children: [
             { path: 'home', name: 'home', component: home, meta: { title: title + ' - home' } },
             { path: 'blog/details', name: 'blogDetails', component: blogDetails, meta: { title: title + ' - blog details' } },

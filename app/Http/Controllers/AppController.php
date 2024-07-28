@@ -12,4 +12,9 @@ class AppController extends BaseController
         return view('app.user');
     }
 
+    public function admin()
+    {
+        return view('app.admin');
+    }
+
 }
