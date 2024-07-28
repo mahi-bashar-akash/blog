@@ -2,7 +2,7 @@
 
     <section class="row py-5 align-items-center px-3">
         <article class="col-lg-6 py-5">
-            <h1 class="fs-1 mb-4">
+            <h1 class="fs-1 mb-4 fw-bold">
                 Hey, We are <span class="text-theme"> News provider </span>
             </h1>
             <p class="line-height-2">
