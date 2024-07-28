@@ -165,7 +165,7 @@
 
         <div class="col-lg-8 order-1 order-lg-2 py-5">
 
-            <div class="fs-5 fw-bold"> Recent Post</div>
+            <div class="fs-5 fw-bold"> Regular Post Activities</div>
 
             <!-- recent post -->
             <div class="px-2">
@@ -176,7 +176,7 @@
                              alt="about-person">
                     </div>
                     <div class="col-12 col-xl-7 py-2">
-                        <div class="d-flex justify-content-start align-items-center flex-wrap gap-3">
+                        <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 mb-2">
                             <div>
                                 <i class="bi bi-calendar me-2 text-theme"></i>
                                 September 26, 2019
@@ -184,17 +184,6 @@
                             <div>
                                 <i class="bi bi-person me-2 text-theme"></i>
                                 1 person read
-                            </div>
-                            <div>
-                                <i class="bi bi-stars me-2 text-theme"></i>
-                                <span>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                    <i class="bi bi-star-fill text-warning"></i>
-                                </span>
                             </div>
                         </div>
                         <h1 class="fw-bold fs-5 line-height-2">
