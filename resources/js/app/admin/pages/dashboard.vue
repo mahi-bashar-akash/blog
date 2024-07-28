@@ -1,6 +1,7 @@
 <template>
 
-    <section class="w-100 p-3 bg-white shadow-lg">
+    <!-- breadcrumb -->
+    <section class="w-100 py-3 px-4 bg-white shadow-lg">
         <div
             style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
             aria-label="breadcrumb">
@@ -15,27 +16,11 @@
         </div>
     </section>
 
-    <section class="mt-3">
-        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+    <section class="w-100 px-1 mt-2">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
 
-            <div class="p-3">
-                <div class="card border-0 rounded-0 shadow-lg">
-                    <div class="card-header border-0 rounded-0 p-4">
-                      Sliders
-                    </div>
-                    <div class="card-body border-0 rounded-0 text-center">
-                        <div class="mb-3"> {{numberFormat(10000)}} </div>
-                        <div class="text-secondary"> Summary </div>
-                    </div>
-                    <div class="card-footer border-0 rounded-0 text-end p-4">
-                        <router-link :to="{name: 'sliders'}" class="text-decoration-none text-theme-secondary">
-                            Explore <i class="bi bi-caret-right-fill ms-2"></i>
-                        </router-link>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-3">
+            <!-- categories -->
+            <div class="p-2">
                 <div class="card border-0 rounded-0 shadow-lg">
                     <div class="card-header border-0 rounded-0 p-4">
                       Categories
@@ -52,7 +37,8 @@
                 </div>
             </div>
 
-            <div class="p-3">
+            <!-- blogs -->
+            <div class="p-2">
                 <div class="card border-0 rounded-0 shadow-lg">
                     <div class="card-header border-0 rounded-0 p-4">
                       Blogs
@@ -69,7 +55,8 @@
                 </div>
             </div>
 
-            <div class="p-3">
+            <!-- users -->
+            <div class="p-2">
                 <div class="card border-0 rounded-0 shadow-lg">
                     <div class="card-header border-0 rounded-0 p-4">
                       Users

@@ -23,3 +23,21 @@
         transition: 0.3s all ease-in-out !important;
     }
 }
+
+.btn-action {
+    transition: 0.3s all ease-in-out !important;
+
+    &:hover {
+        transition: 0.3s all ease-in-out !important;
+        background-color: var(--bs-white) !important;
+
+        &.text-secondary {
+            box-shadow: 0 0 8px 0 var(--bs-secondary) inset !important;
+        }
+
+        &.text-danger {
+            box-shadow: 0 0 8px 0 var(--bs-danger) inset !important;
+        }
+
+    }
+}

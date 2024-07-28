@@ -14,23 +14,19 @@
     <div class="admin-sidebar-body">
         <router-link :to="{name: 'dashboard'}" class="admin-sidebar-link" @click="sidebarClose()">
             <i class="bi bi-speedometer"></i>
-            <span class="none-res-text ms-2"> Dashboard </span>
-        </router-link>
-        <router-link :to="{name: 'sliders'}" class="admin-sidebar-link" @click="sidebarClose()">
-            <i class="bi bi-sliders"></i>
-            <span class="none-res-text ms-2"> Slider Management </span>
+            <span class="none-res-text ms-1"> Dashboard </span>
         </router-link>
         <router-link :to="{name: 'categories'}" class="admin-sidebar-link" @click="sidebarClose()">
             <i class="bi bi-link-45deg"></i>
-            <span class="none-res-text ms-2"> Category Management </span>
+            <span class="none-res-text ms-1"> Category Management </span>
         </router-link>
         <router-link :to="{name: 'blogs'}" class="admin-sidebar-link" @click="sidebarClose()">
             <i class="bi bi-book"></i>
-            <span class="none-res-text ms-2"> Blog Management </span>
+            <span class="none-res-text ms-1"> Blog Management </span>
         </router-link>
         <router-link :to="{name: 'users'}" class="admin-sidebar-link" @click="sidebarClose()">
-            <i class="bi bi-person"></i>
-            <span class="none-res-text ms-2"> User Management </span>
+            <i class="bi bi-people"></i>
+            <span class="none-res-text ms-1"> User Management </span>
         </router-link>
     </div>
 

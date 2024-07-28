@@ -186,6 +186,28 @@
             padding: 20px;
             box-shadow: 0 0 4px 0 var(--bs-secondary-bg-subtle) inset;
             background-color: var(--opacity-theme);
+
+            .card-list {
+                height: calc(100vh - 400px);
+                overflow-y: scroll;
+
+                @media screen and (max-width: 1200px) {
+                    height: calc(100vh - 450px);
+                }
+
+                &::-webkit-scrollbar {
+                    background-color: transparent;
+                    width: 5px !important;
+                    height: 5px !important;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: var(--bs-secondary);
+                    height: 5px !important;
+                }
+
+            }
+
         }
 
     }
