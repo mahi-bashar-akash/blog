@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{asset('/source-code/bootstrap/dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('/source-code/bootstrap-icons/font/bootstrap-icons.min.css')}}">
     @vite('resources/scss/style-sheet.scss')
-    @vite('resources/js/app/user/app.js')
+    @vite('resources/js/app/admin/app.js')
 </head>
 <body id="app"></body>
 <script>

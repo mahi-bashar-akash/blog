@@ -24,7 +24,7 @@
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
             <form class="w-100 p-5 shadow bg-white">
                 <div class="h4 fw-bold">
-                    Welcome to Zento ! 👋🏻
+                    Welcome to Npvider ! 👋🏻
                 </div>
                 <div class="text-secondary mb-3">
                     Please sign-in to your account and start the adventure
@@ -38,7 +38,7 @@
                     <input id="user-password" type="password" name="password" class="form-control shadow-none" required autocomplete="off">
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <label for="remember-me">
+                    <label for="remember-me" class="form-label cursor-pointer">
                         <input id="remember-me" type="checkbox" class="form-checkbox">
                         Remember me
                     </label>

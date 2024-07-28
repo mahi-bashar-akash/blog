@@ -11,6 +11,10 @@
     }
 }
 
+.text-theme-secondary {
+    color: var(--dark-theme) !important;
+}
+
 .text-secondary-theme {
     color: var(--bs-secondary) !important;
     transition: 0.3s all ease-in-out !important;

@@ -40,9 +40,16 @@
                     <input id="user-email" type="email" name="email" class="form-control shadow-none" required
                            autocomplete="off">
                 </div>
-                <button type="submit" class="btn btn-theme" style="width: 100px;" @click="tab = 'reset'">
-                    Forgot
-                </button>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-theme" style="width: 100px;" @click="tab = 'reset'">
+                        Forgot
+                    </button>
+                </div>
+                <div class="text-end">
+                    <router-link :to="{name: 'login'}" class="text-decoration-none text-theme-secondary">
+                        <i class="bi bi-caret-left-fill"></i> Back to login
+                    </router-link>
+                </div>
             </form>
 
             <form class="w-100 p-5 shadow bg-white" v-if="tab === 'reset'">
@@ -72,9 +79,14 @@
                     <input id="user-password-confirmation" type="text" name="password-confirmation" class="form-control shadow-none" required
                            autocomplete="off">
                 </div>
-                <button type="submit" class="btn btn-theme" style="width: 100px;">
-                    Reset
-                </button>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-theme" style="width: 100px;">
+                        Reset
+                    </button>
+                </div>
+                <router-link :to="{name: 'login'}" class="text-decoration-none text-theme-secondary">
+                    Back to login
+                </router-link>
             </form>
 
         </div>
