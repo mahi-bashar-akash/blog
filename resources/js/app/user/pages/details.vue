@@ -22,7 +22,7 @@
 
     <section class="w-100 py-5">
         <div class="d-flex justify-content-center">
-            <div class="h1 text-center col-9 mb-5">
+            <div class="h1 text-center col-9 mb-5 fw-bold">
                 Self-observation is the first step of inner
             </div>
         </div>
@@ -81,28 +81,28 @@
                 </div>
                 <hr class="w-100 border border-secondary">
                 <div class="py-3 d-flex justify-content-start align-items-center gap-1 flex-wrap">
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         Animal
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         Business
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         Culture
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         Fashion
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         Food
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         Interior
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         LifeStyle
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-theme">
+                    <a href="javascript:void(0)" class="btn btn-outline-theme">
                         Travel
                     </a>
                 </div>
