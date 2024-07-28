@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="col-12 text-center pb-5">
-                    <span class="fw-bold">Zento</span> Theme by <span class="fw-bold"> Mahi Bashar Akash.</span> Powered
+                    <span class="fw-bold">Npvider</span> Theme by <a href="https://github.com/mahi-bashar-akash" class="text-decoration-none text-theme fw-bold"> Mahi Bashar Akash.</a> Powered
                     by <span class="fw-bold"> Laravel with Vuejs (SPA) </span>
                 </div>
             </div>
