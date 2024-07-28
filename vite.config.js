@@ -7,9 +7,10 @@ export default defineConfig({
         vue(),
         laravel({
             input: [
+                'resources/js/app/admin/app.js',
+                'resources/js/app/user/app.js',
                 'resources/scss/style-sheet.scss',
                 'resources/css/app.css',
-                'resources/js/app.js'
             ],
             refresh: true,
         }),

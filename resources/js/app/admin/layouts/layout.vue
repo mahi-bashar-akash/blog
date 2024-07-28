@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Sidebar from "./includes/Sidebar";
-import Header from "./includes/Header";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
 
 export default {
     components: {
