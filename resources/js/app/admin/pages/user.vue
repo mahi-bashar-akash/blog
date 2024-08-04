@@ -27,11 +27,12 @@
             <div class="card-header border-0 rounded-0">
 
                 <div class="py-3 ps-2 fs-6">
-                    Slider Listing
+                    User Listing
                 </div>
 
                 <div class="px-2">
                     <div class="row">
+
                         <div class="col-lg-4 pb-3">
                             <div class="position-relative">
                                 <input type="text" name="keyword" class="form-control shadow-none ps-5" required autocomplete="off" placeholder="Search Here">
@@ -40,22 +41,129 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-8 pb-3 text-end">
-                            <button type="button" class="btn btn-theme">
-                                <i class="bi bi-plus"></i>
-                                <span class="ms-2"> Add Slider </span>
-                            </button>
-                        </div>
+
                     </div>
                 </div>
 
             </div>
-            <div class="card-body border-0 rounded-0 py-0">
+            <div class="card-body card-list border-0 rounded-0 py-0 px-4">
 
+                <!-- Table data -->
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover align-middle">
 
+                        <!-- Table data head -->
+                        <thead>
+                        <tr>
+                            <th class="p-3" style="min-width: 45px; max-width: 45px">
+                                <input type="checkbox" class="form-checkbox" name="checkbox">
+                            </th>
+                            <th class="p-3" style="min-width: 65px; max-width: 65px;">
+                                Picture
+                            </th>
+                            <th class="p-3" style="min-width: 150px; max-width: 150px;">
+                                Name
+                            </th>
+                            <th class="p-3" style="min-width: 150px; max-width: 100px;">
+                                Email
+                            </th>
+                            <th class="p-3" style="min-width: 150px; max-width: 100px;">
+                                Phone Number
+                            </th>
+                            <th class="p-3" style="min-width: 150px; max-width: 100px;">
+                                Address
+                            </th>
+                            <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
+                                Action
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <!-- Table data body -->
+                        <tbody>
+
+                        <!-- Table single data -->
+                        <tr v-for="each in 10">
+                            <td class="p-3">
+                                <input type="checkbox" class="form-checkbox" name="checkbox">
+                            </td>
+                            <td class="p-3">
+                                <img :src="`/images/avatar.png`" class="img-fluid object-fit-cover rounded-2 width-45 height-45" alt="picture">
+                            </td>
+                            <td class="p-3">
+                                User name {{each}}
+                            </td>
+                            <td class="p-3">
+                                User email {{each}}
+                            </td>
+                            <td class="p-3">
+                                User phone number {{each}}
+                            </td>
+                            <td class="p-3">
+                                User Address {{each}}
+                            </td>
+                            <td class="p-3">
+                                <div class="dropdown w-100 text-center">
+                                    <a class="text-decoration-none text-theme fw-bold p-2" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <button type="button" class="dropdown-item mb-1">
+                                                Block
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item">
+                                                View
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
             <div class="card-footer border-0 rounded-0">
+
+                <!-- pagination -->
+                <div class="d-flex justify-content-center align-items-center py-3">
+                    <div aria-label="Page navigation example" class="front-pagination">
+                        <div class="pagination">
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </div>
+                            <div class="page-item active">
+                                <a class="page-link" href="javascript:void(0)">
+                                    1
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    2
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    3
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

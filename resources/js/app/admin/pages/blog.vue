@@ -27,7 +27,7 @@
             <div class="card-header border-0 rounded-0">
 
                 <div class="py-3 ps-2 fs-6">
-                    Slider Listing
+                    Blog Listing
                 </div>
 
                 <div class="px-2">
@@ -40,22 +40,131 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-8 pb-3 text-end">
-                            <button type="button" class="btn btn-theme">
-                                <i class="bi bi-plus"></i>
-                                <span class="ms-2"> Add Slider </span>
-                            </button>
-                        </div>
                     </div>
                 </div>
 
             </div>
-            <div class="card-body border-0 rounded-0 py-0">
+            <div class="card-body card-list border-0 rounded-0 py-0 px-4">
 
+                <!-- Table data -->
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover align-middle">
 
+                        <!-- Table data head -->
+                        <thead>
+                        <tr>
+                            <th class="p-3" style="min-width: 150px; max-width: 150px;">
+                                Photo or video
+                            </th>
+                            <th class="p-3 text-start" style="min-width: 150px; max-width: 150px;">
+                                Title
+                            </th>
+                            <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
+                                Views
+                            </th>
+                            <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
+                                Like
+                            </th>
+                            <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
+                                Comment
+                            </th>
+                            <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
+                                Share
+                            </th>
+                            <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
+                                Action
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <!-- Table data body -->
+                        <tbody>
+
+                        <!-- Table single data -->
+                        <tr v-for="each in 10">
+                            <td class="p-3 text-start">
+                                <img :src="`/images/about-personal.webp`" class="img-fluid object-fit-cover rounded-2 width-150 height-150" alt="picture">
+                            </td>
+                            <td class="p-3">
+                                <div class="text-truncate-3">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur deserunt
+                                    eligendi fuga laborum maiores minima perspiciatis quam quidem repellat rerum!
+                                </div>
+                            </td>
+                            <td class="p-3 text-center">
+                                {{numberFormat(1000)}}
+                            </td>
+                            <td class="p-3 text-center">
+                                {{numberFormat(20000)}}
+                            </td>
+                            <td class="p-3 text-center">
+                                {{numberFormat(300000)}}
+                            </td>
+                            <td class="p-3 text-center">
+                                {{numberFormat(4000000)}}
+                            </td>
+                            <td class="p-3">
+                                <div class="dropdown w-100 text-center">
+                                    <a class="text-decoration-none text-theme fw-bold p-2" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <button type="button" class="dropdown-item mb-1">
+                                                Block
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item">
+                                                View
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
             <div class="card-footer border-0 rounded-0">
+
+                <!-- pagination -->
+                <div class="d-flex justify-content-center align-items-center py-3">
+                    <div aria-label="Page navigation example" class="front-pagination">
+                        <div class="pagination">
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </div>
+                            <div class="page-item active">
+                                <a class="page-link" href="javascript:void(0)">
+                                    1
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    2
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    3
+                                </a>
+                            </div>
+                            <div class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -70,7 +179,25 @@ export default {
         return {  }
     },
     mounted() {  },
-    methods: {  }
+    methods: {
+
+        // Function of number format
+        numberFormat(num, digits) {
+            const lookup = [
+                { value: 1, symbol: "" },
+                { value: 1e3, symbol: "k" },
+                { value: 1e6, symbol: "M" },
+                { value: 1e9, symbol: "G" },
+                { value: 1e12, symbol: "T" },
+                { value: 1e15, symbol: "P" },
+                { value: 1e18, symbol: "E" }
+            ];
+            const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
+            const item = lookup.findLast(item => num >= item.value);
+            return item ? (num / item.value).toFixed(digits).replace(regexp, "").concat(item.symbol) : "0";
+        },
+
+    }
 }
 
 </script>

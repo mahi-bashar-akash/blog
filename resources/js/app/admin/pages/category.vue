@@ -49,15 +49,6 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-xl-7 pb-3 text-end">
-
-                            <!-- add category as open manage modal -->
-                            <button type="button" class="btn btn-theme">
-                                <i class="bi bi-plus-lg"></i>
-                                <span class="ms-2"> Add Category </span>
-                            </button>
-
-                        </div>
                     </div>
                 </div>
 
@@ -79,7 +70,7 @@
                                 <th style="min-width: 250px;" class="p-3">
                                     Category Name
                                 </th>
-                                <th style="min-width: 150px;" class="p-3">
+                                <th style="min-width: 150px;" class="p-3 text-center">
                                     Action
                                  </th>
                             </tr>
@@ -95,12 +86,23 @@
                                     Category name {{each}}
                                 </td>
                                 <td style="min-width: 150px" class="p-3">
-                                    <button type="button" class="btn rounded-circle p-0 btn-action border-0 me-3 text-secondary" style="width: 35px; height: 35px;">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
-                                    <button type="button" class="btn rounded-circle p-0 btn-action border-0 text-danger" style="width: 35px; height: 35px;">
-                                        <i class="bi bi-trash2"></i>
-                                    </button>
+                                    <div class="dropdown w-100 text-center">
+                                        <a class="text-decoration-none text-theme fw-bold p-2" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li>
+                                                <button type="button" class="dropdown-item mb-1">
+                                                    Block
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item">
+                                                    View
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
