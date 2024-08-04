@@ -37,12 +37,20 @@
                     Please sign-up to your account
                 </div>
 
-                <!-- Email input field -->
+                <!-- Name input field -->
                 <div class="form-group mb-3">
                     <label for="registration-name" class="form-label">Full name</label>
                     <input id="registration-name" type="text" name="name" class="form-control shadow-none"
                            v-model="registrationParam.name" autocomplete="off">
                     <div class="error-report" v-if="error != null && error.name !== undefined"> {{error.name[0]}} </div>
+                </div>
+
+                <!-- Phone input field -->
+                <div class="form-group mb-3">
+                    <label for="registration-phone" class="form-label">Phone Number</label>
+                    <input id="registration-phone" type="text" name="phone" class="form-control shadow-none"
+                           v-model="registrationParam.phone" autocomplete="off">
+                    <div class="error-report" v-if="error != null && error.phone !== undefined"> {{error.phone[0]}} </div>
                 </div>
 
                 <!-- Email input field -->
@@ -164,22 +172,16 @@ export default {
 
         // Function of registration api callback
         registration() {
-            apiServices.clearErrorHandler()
             this.loading = true;
             axios.post(apiRoutes.register, this.registrationParam, { headers: apiServices.headerContent }).then((response) => {
-                if(response?.data?.status === 200) {
-                    this.loading = false;
-                    toaster.info(response?.message);
-                    this.$router.push({name: 'login'});
-                }else{
-                    this.error = response?.data?.errors
-                }
+                this.loading = false;
+                toaster.info(response?.data?.message);
             }).catch(err => {
                 this.loading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors.error;
+                    this.error = res?.data?.errors;
                 } else {
                     toaster.error('Server error!');
                 }

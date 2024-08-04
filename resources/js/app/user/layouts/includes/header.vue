@@ -69,6 +69,8 @@ export default {
     },
     mounted() {
 
+        console.log(this.userInfo)
+
         this.scrollEffect();
 
     },

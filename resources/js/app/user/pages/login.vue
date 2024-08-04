@@ -27,6 +27,8 @@
             <!-- Login form -->
             <form @submit.prevent="login()" class="w-100 p-5 shadow bg-white">
 
+                <div class="alert alert-danger rounded-3 mb-3 text-center" v-if="error !== null && error.error !== undefined" v-text="error.error"></div>
+
                 <!-- Title -->
                 <div class="h4 fw-bold">
                     Welcome to Npvider ! 👋🏻
@@ -146,22 +148,17 @@ export default {
 
         // Function of login api callback
         login() {
-            apiServices.clearErrorHandler()
             this.loading = true;
             axios.post(apiRoutes.login, this.loginParam, { headers: apiServices.headerContent }).then((response) => {
-                if(response?.data?.status === 200) {
-                    this.loading = false;
-                    toaster.info(response?.message);
-                    window.location.reload();
-                }else{
-                    this.error = response?.data?.errors
-                }
+                this.loading = false;
+                toaster.info(response?.message);
+                window.location.reload();
             }).catch(err => {
                 this.loading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors.error;
+                    this.error = res?.data?.errors;
                 } else {
                     toaster.error('Server error!');
                 }

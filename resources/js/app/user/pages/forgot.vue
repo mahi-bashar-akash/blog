@@ -212,22 +212,18 @@ export default {
 
         // Function of forgot api callback
         forgot() {
-            apiServices.clearErrorHandler()
             this.forgotLoading = true;
-            axios.post(apiRoutes.register, this.forgotParam, { headers: apiServices.headerContent }).then((response) => {
-                if(response?.data?.status === 200) {
-                    this.forgotLoading = false;
-                    toaster.info(response?.message);
-                    this.tab = 'reset';
-                }else{
-                    this.error = response?.data?.errors;
-                }
+            axios.post(apiRoutes.forgot, this.forgotParam, { headers: apiServices.headerContent }).then((response) => {
+                this.forgotLoading = false;
+                toaster.info(response?.data?.message);
+                this.forgotParam.email = this.resetParam.email
+                this.tab = 'reset';
             }).catch(err => {
                 this.forgotLoading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors.error;
+                    this.error = res?.data?.errors;
                 } else {
                     toaster.error('Server error!');
                 }
@@ -236,22 +232,16 @@ export default {
 
         // Function of reset api callback
         reset() {
-            apiServices.clearErrorHandler()
             this.resetLoading = true;
-            axios.post(apiRoutes.register, this.resetParam, { headers: apiServices.headerContent }).then((response) => {
-                if(response?.data?.status === 200) {
-                    this.resetLoading = false;
-                    toaster.info(response?.message);
-                    this.$router.push({name: 'login'});
-                }else{
-                    this.error = response?.data?.errors;
-                }
+            axios.post(apiRoutes.reset, this.resetParam, { headers: apiServices.headerContent }).then((response) => {
+                this.resetLoading = false;
+                toaster.info(response?.data?.message);
             }).catch(err => {
                 this.resetLoading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors.error;
+                    this.error = res?.data?.errors;
                 } else {
                     toaster.error('Server error!');
                 }
