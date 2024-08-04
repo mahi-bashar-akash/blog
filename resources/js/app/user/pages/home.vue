@@ -29,7 +29,7 @@
 
                         <!-- Action button -->
                         <button type="submit"
-                                class="btn btn-theme width-45 height-45 d-flex justify-content-center align-items-center">
+                                class="btn btn-theme width-35 height-35 d-flex justify-content-center align-items-center">
                             <i class="bi bi-send"></i>
                         </button>
 
