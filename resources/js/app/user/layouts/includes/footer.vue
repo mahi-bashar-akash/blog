@@ -2,22 +2,24 @@
     <footer class="w-100 bg-light">
         <div class="container">
             <div class="row">
+
+                <!-- Social Media -->
                 <div class="col-12 col-md-6 col-xl-4 py-5">
                     <div class="fs-4 fw-bold"> Follow me!</div>
                     <div class="my-3">
-                        <a href="javascript:void(0)"
+                        <a :href="footer?.social_media?.twitter" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
                             Follow on <span class="text-theme"> Twitter </span>
                         </a>
-                        <a href="javascript:void(0)"
+                        <a :href="footer?.social_media?.facebook" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
                             Follow on <span class="text-theme"> Facebook </span>
                         </a>
-                        <a href="javascript:void(0)"
+                        <a :href="footer?.social_media?.instagram" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
                             Follow on <span class="text-theme"> Instagram </span>
                         </a>
-                        <a href="javascript:void(0)"
+                        <a :href="footer?.social_media?.tiktok" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
                             Follow on <span class="text-theme"> Tiktok </span>
                         </a>
@@ -32,35 +34,36 @@
                         <router-link :to="{name: 'login'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
                             Login
                         </router-link>
-                        <a href="javascript:void(0)" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        <router-link :to="{name: 'terms_conditions'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
                             Terms & Conditions
-                        </a>
-                        <a href="javascript:void(0)" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        </router-link>
+                        <router-link :to="{name: 'privacy_policy'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
                             Privacy Policy
-                        </a>
+                        </router-link>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4 py-5">
-                    <div class="d-flex align-items-center justify-content-start">
+                    <router-link :to="{name: 'home'}" class="d-flex align-items-center justify-content-start text-decoration-none">
                         <img :src="`/images/logo.png`" class="img-fluid" width="40" alt="logo">
                         <span class="text-theme ms-1 fw-bold"> Npvider </span>
-                    </div>
+                    </router-link>
                     <div class="my-3 line-height-2 text-secondary">
-                        Subscribe to our email newsletter and unlock access to <span
-                        class="fw-bold"> members-only </span> content and <span
-                        class="fw-bold"> exclusive updates.</span>
+                        {{footer?.description}}
                     </div>
                     <div class="fs-4 fw-bold"> Let's connect</div>
                     <div class="my-3">
                         <form class="position-relative w-100">
-                            <input type="text" name="subscribe"
-                                   class="form-control shadow-none border border-secondary-subtle rounded-3 p-3"
-                                   required placeholder="Enter your email">
+                            <input type="text" name="newsletter"
+                                   class="form-control shadow-none border border-secondary-subtle rounded-3 p-3" required
+                                   placeholder="Enter your email">
                             <div class="position-absolute top-50 end-0 pe-2 translate-middle-y">
+
+                                <!-- Action button -->
                                 <button type="submit"
-                                        class="btn btn-theme width-45 height-45 d-flex justify-content-center align-items-center">
+                                        class="btn btn-theme width-35 height-35 d-flex justify-content-center align-items-center">
                                     <i class="bi bi-send"></i>
                                 </button>
+
                             </div>
                         </form>
                     </div>
@@ -78,7 +81,21 @@
 
 export default {
     data() {
-        return {}
+        return {
+            // Data properties
+            footer: {
+                social_media: {
+                    twitter: 'https://www.twitter.com',
+                    facebook: 'https://www.facebook.com',
+                    instagram: 'https://www.instagram.com',
+                    tiktok: 'https://www.tiktok.com',
+                },
+                description: `
+                    Subscribe to our email newsletter and unlock access to members-only content and
+                    exclusive updates.
+                `,
+            }
+        }
     },
     mounted() {
     },
