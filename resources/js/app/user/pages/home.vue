@@ -54,43 +54,29 @@
             <!-- Category -->
             <div class="fs-5 fw-bold"> Tag Categories </div>
 
-            <div class="mt-3 mb-5 d-flex justify-content-start align-items-center flex-wrap gap-3">
+            <div class="mt-3 mb-5">
 
                 <!-- Category data list -->
-                <a href="javascript:void(0)" class="text-decoration-none text-dark">
-                    <span class="d-flex justify-content-start align-items-center">
-                        <span class="d-inline-block width-8 height-8 bg-dark rounded-circle me-2"></span> Health
-                    </span>
+                <a href="javascript:void(0)" class="text-decoration-none d-block p-2 mb-1 text-animation">
+                    <span class="width-8 height-8 rounded-circle bg-effect d-inline-block"></span> <span class="ms-2"> Health </span>
                 </a>
-                <a href="javascript:void(0)" class="text-decoration-none text-secondary">
-                    <span class="d-flex justify-content-start align-items-center">
-                        <span class="d-inline-block width-8 height-8 bg-secondary rounded-circle me-2"></span> Inspiration
-                    </span>
+                <a href="javascript:void(0)" class="text-decoration-none d-block p-2 mb-1 text-animation">
+                    <span class="width-8 height-8 rounded-circle bg-effect d-inline-block"></span> <span class="ms-2"> Inspiration </span>
                 </a>
-                <a href="javascript:void(0)" class="text-decoration-none text-warning">
-                    <span class="d-flex justify-content-start align-items-center">
-                        <span class="d-inline-block width-8 height-8 bg-warning rounded-circle me-2"></span> Lifestyle
-                    </span>
+                <a href="javascript:void(0)" class="text-decoration-none d-block p-2 mb-1 text-animation">
+                    <span class="width-8 height-8 rounded-circle bg-effect d-inline-block"></span> <span class="ms-2"> Lifestyle </span>
                 </a>
-                <a href="javascript:void(0)" class="text-decoration-none text-info">
-                    <span class="d-flex justify-content-start align-items-center">
-                        <span class="d-inline-block width-8 height-8 bg-info rounded-circle me-2"></span> Music
-                    </span>
+                <a href="javascript:void(0)" class="text-decoration-none d-block p-2 mb-1 text-animation">
+                    <span class="width-8 height-8 rounded-circle bg-effect d-inline-block"></span> <span class="ms-2"> Music </span>
                 </a>
-                <a href="javascript:void(0)" class="text-decoration-none text-danger">
-                    <span class="d-flex justify-content-start align-items-center">
-                        <span class="d-inline-block width-8 height-8 bg-danger rounded-circle me-2"></span> Technology
-                    </span>
+                <a href="javascript:void(0)" class="text-decoration-none d-block p-2 mb-1 text-animation">
+                    <span class="width-8 height-8 rounded-circle bg-effect d-inline-block"></span> <span class="ms-2"> Technology </span>
                 </a>
-                <a href="javascript:void(0)" class="text-decoration-none text-success">
-                    <span class="d-flex justify-content-start align-items-center">
-                        <span class="d-inline-block width-8 height-8 bg-success rounded-circle me-2"></span> Travel
-                    </span>
+                <a href="javascript:void(0)" class="text-decoration-none d-block p-2 mb-1 text-animation">
+                    <span class="width-8 height-8 rounded-circle bg-effect d-inline-block"></span> <span class="ms-2"> Travel </span>
                 </a>
-                <a href="javascript:void(0)" class="text-decoration-none text-primary">
-                    <span class="d-flex justify-content-start align-items-center">
-                        <span class="d-inline-block width-8 height-8 bg-primary rounded-circle me-2"></span> Video
-                    </span>
+                <a href="javascript:void(0)" class="text-decoration-none d-block p-2 mb-1 text-animation">
+                    <span class="width-8 height-8 rounded-circle bg-effect d-inline-block"></span> <span class="ms-2"> Video </span>
                 </a>
 
             </div>

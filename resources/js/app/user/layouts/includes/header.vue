@@ -5,7 +5,7 @@
             <div class="container">
                 <router-link :to="{name: 'home'}" class="navbar-brand">
                     <img :src="`/images/logo.png`" class="img-fluid" width="40" alt="logo">
-                    <span class="text-theme ms-1 fw-bold"> Npvider </span>
+                    <span class="text-gradient ms-1 fw-bold"> Npvider </span>
                 </router-link>
                 <button class="navbar-toggler" type="button" @click="collapse()">
                     <span class="navbar-toggler-icon"></span>

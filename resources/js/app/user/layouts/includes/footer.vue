@@ -9,35 +9,35 @@
                     <div class="my-3">
                         <a :href="footer?.social_media?.twitter" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
-                            Follow on <span class="text-theme"> Twitter </span>
+                            Follow on <span class="text-theme fw-semibold"> Twitter </span>
                         </a>
                         <a :href="footer?.social_media?.facebook" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
-                            Follow on <span class="text-theme"> Facebook </span>
+                            Follow on <span class="text-theme fw-semibold"> Facebook </span>
                         </a>
                         <a :href="footer?.social_media?.instagram" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
-                            Follow on <span class="text-theme"> Instagram </span>
+                            Follow on <span class="text-theme fw-semibold"> Instagram </span>
                         </a>
                         <a :href="footer?.social_media?.tiktok" target="_blank"
                            class="text-decoration-none d-block text-secondary p-2 mb-1 border-bottom">
-                            Follow on <span class="text-theme"> Tiktok </span>
+                            Follow on <span class="text-theme fw-semibold"> Tiktok </span>
                         </a>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-xl-4 py-5">
                     <div class="fs-4 fw-bold"> Quick Links</div>
                     <div class="my-3">
-                        <router-link :to="{name: 'home'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        <router-link :to="{name: 'home'}" class="text-decoration-none d-block p-2 mb-1 text-animation">
                             Home
                         </router-link>
-                        <router-link :to="{name: 'login'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        <router-link :to="{name: 'login'}" class="text-decoration-none d-block p-2 mb-1 text-animation">
                             Login
                         </router-link>
-                        <router-link :to="{name: 'terms_conditions'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        <router-link :to="{name: 'terms_conditions'}" class="text-decoration-none d-block p-2 mb-1 text-animation">
                             Terms & Conditions
                         </router-link>
-                        <router-link :to="{name: 'privacy_policy'}" class="text-decoration-none d-block text-secondary p-2 mb-1 text-footer">
+                        <router-link :to="{name: 'privacy_policy'}" class="text-decoration-none d-block p-2 mb-1 text-animation">
                             Privacy Policy
                         </router-link>
                     </div>
@@ -45,7 +45,7 @@
                 <div class="col-12 col-md-6 col-xl-4 py-5">
                     <router-link :to="{name: 'home'}" class="d-flex align-items-center justify-content-start text-decoration-none">
                         <img :src="`/images/logo.png`" class="img-fluid" width="40" alt="logo">
-                        <span class="text-theme ms-1 fw-bold"> Npvider </span>
+                        <span class="text-gradient ms-1 fw-bold"> Npvider </span>
                     </router-link>
                     <div class="my-3 line-height-2 text-secondary">
                         {{footer?.description}}

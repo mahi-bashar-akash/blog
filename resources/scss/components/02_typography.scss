@@ -2,13 +2,25 @@
     color: var(--theme) !important;
 }
 
-.text-footer {
+.text-animation {
+    color: var(--bs-dark) !important;
     transition: 0.3s all ease-in-out !important;
     &:hover {
         transition: 0.3s all ease-in-out !important;
         padding-left: 30px !important;
-        color: var(--theme) !important;
+        color: var(--dark-theme) !important;
+
+        .bg-effect {
+            background-color: var(--dark-theme) !important;
+        }
+
     }
+
+    .bg-effect {
+        transition: 0.3s all ease-in-out !important;
+        background-color: var(--bs-dark) !important;
+    }
+
 }
 
 .text-theme-secondary {
