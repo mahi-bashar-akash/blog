@@ -127,9 +127,7 @@ export default {
             error: null,
         }
     },
-    mounted() {
-
-    },
+    mounted() {  },
     methods: {
 
         // Function of password visibility
@@ -144,20 +142,24 @@ export default {
         // Function of login api callback
         login() {
             this.loading = true;
-            axios.post(apiRoutes.login, this.loginParam, {headers: apiServices.headerContent}).then((response) => {
-                this.loading = false;
-                toaster.info(response?.message)
-                window.location.reload();
+            axios.post(apiRoutes.login, this.loginParam, { headers: apiServices.headerContent }).then((response) => {
+                if(response?.data?.status === 200) {
+                    this.loading = false;
+                    toaster.info(response?.message);
+                    window.location.reload();
+                }else{
+                    this.error = response?.data?.errors
+                }
             }).catch(err => {
                 this.loading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors.error
+                    this.error = res?.data?.errors.error;
                 } else {
-                    toaster.error('Server error!')
+                    toaster.error('Server error!');
                 }
-            })
+            });
         },
 
     }

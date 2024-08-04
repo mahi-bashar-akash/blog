@@ -1,4 +1,4 @@
-const userApi = '/user';
+const userApi = '/user/api';
 
 const apiRoutes = {
 
@@ -7,10 +7,10 @@ const apiRoutes = {
     forgot: userApi + '/auth/forgot',
     reset: userApi + '/auth/reset',
 
-    profile: userApi + '/admin-profile/details',
-    profileUpdate: userApi + '/admin-profile/update',
-    changePassword: userApi + '/admin-profile/update/password',
-    logout: userApi + '/admin-profile/logout',
+    profile: userApi + '/profile/details',
+    profileUpdate: userApi + '/profile/update',
+    changePassword: userApi + '/profile/update/password',
+    logout: userApi + '/profile/logout',
 
     blogs: userApi + '/blogs',
 

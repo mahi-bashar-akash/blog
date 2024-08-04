@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController\AuthenticationController;
 use App\Http\Controllers\UserController\BlogController;
@@ -19,12 +20,12 @@ use App\Http\Controllers\UserController\CategoryController;
 /* USER AUTHENTICATION API Routes */
 
 Route::group(
-    ['middleware' => ['UserAuth'], 'prefix' => 'user'],
+    ['middleware' => ['UserAuth'], ['prefix' => 'auth']],
     function () {
-        Route::post('/auth/login', [AuthenticationController::class, 'login'])->name('User.Auth.Login');
-        Route::post('/auth/register', [AuthenticationController::class, 'register'])->name('User.Auth.Register');
-        Route::post('/auth/forgot', [AuthenticationController::class, 'forgot'])->name('User.Auth.Forgot');
-        Route::post('/auth/reset', [AuthenticationController::class, 'reset'])->name('User.Auth.Reset');
+        Route::post('/login', [AuthenticationController::class, 'user_login'])->name('User.Auth.Login');
+        Route::post('/register', [AuthenticationController::class, 'user_register'])->name('User.Auth.Register');
+        Route::post('/forgot', [AuthenticationController::class, 'user_forgot'])->name('User.Auth.Forgot');
+        Route::post('/reset', [AuthenticationController::class, 'user_reset'])->name('User.Auth.Reset');
     }
 );
 
@@ -35,12 +36,12 @@ Route::group(
         /* USER PROFILE API Routes */
 
         Route::group(
-            ['prefix' => 'user'],
+            ['prefix' => 'profile'],
             function () {
-                Route::get('/details', [AuthenticationController::class, 'profile_details'])->name('User.Profile.Details');
-                Route::patch('/update', [AuthenticationController::class, 'profile_update'])->name('User.Profile.Update');
-                Route::patch('/update/password', [AuthenticationController::class, 'profile_update_password'])->name('User.Profile.Update.Password');
-                Route::get('/logout', [AuthenticationController::class, 'profile_logout'])->name('User.Profile.Logout');
+                Route::get('/details', [AuthenticationController::class, 'user_profile_details'])->name('User.Profile.Details');
+                Route::patch('/update', [AuthenticationController::class, 'user_profile_update'])->name('User.Profile.Update');
+                Route::patch('/update/password', [AuthenticationController::class, 'user_profile_update_password'])->name('User.Profile.Update.Password');
+                Route::get('/logout', [AuthenticationController::class, 'user_profile_logout'])->name('User.Profile.Logout');
             }
         );
 

@@ -160,22 +160,24 @@ export default {
         // Function of registration api callback
         registration() {
             this.loading = true;
-            axios.post(apiRoutes.register, this.registrationParam, {headers: apiServices.headerContent}).then((response) => {
-                console.log(response)
-                // if()
-                // this.loading = false;
-                // toaster.info(response?.message)
-                // this.$router.push({name: 'login'})
+            axios.post(apiRoutes.register, this.registrationParam, { headers: apiServices.headerContent }).then((response) => {
+                if(response?.data?.status === 200) {
+                    this.loading = false;
+                    toaster.info(response?.message);
+                    this.$router.push({name: 'login'});
+                }else{
+                    this.error = response?.data?.errors
+                }
             }).catch(err => {
                 this.loading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors.error
+                    this.error = res?.data?.errors.error;
                 } else {
-                    toaster.error('Server error!')
+                    toaster.error('Server error!');
                 }
-            })
+            });
         },
 
     }
