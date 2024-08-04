@@ -17,7 +17,7 @@
                 <!-- Single data - title -->
                 <li class="breadcrumb-item">
                     <router-link :to="{name: 'blogDetails'}" class="text-decoration-none text-theme">
-                        Self-observation is the first step of inner
+                        {{singleData?.name}}
                     </router-link>
                 </li>
 
@@ -31,13 +31,13 @@
 
             <!-- Name -->
             <div class="h1 text-center col-11 col-md-6 line-height-2 fw-bold text-gradient">
-                Self-observation is the first step of inner
+                {{singleData?.name}}
             </div>
         </div>
 
         <!-- Avatar or photo -->
         <div class="w-100">
-            <img :src="`/images/blog-details.jpg`" class="img-fluid object-fit-cover w-100 rounded-4"
+            <img :src="singleData?.picture" class="img-fluid object-fit-cover w-100 rounded-4 height-500"
                  alt="blog-details">
         </div>
         <div class="d-flex justify-content-center">
@@ -47,17 +47,16 @@
                     <!-- Author picture -->
                     <div class="d-flex justify-content-start align-items-center py-3">
                         <div>
-                            <img :src="'/images/avatar.png'" class="img-fluid object-fit-cover"
-                                 style="width: 45px; height: 45px;"
+                            <img :src="singleData?.author?.picture" class="img-fluid object-fit-cover width-45 height-45"
                                  alt="avatar">
                         </div>
                         <div class="ms-3">
 
                             <!-- Author name -->
-                            <div class="d-block fw-bold"> Mahi Bashar Akash</div>
+                            <div class="d-block fw-bold"> {{singleData?.author?.author_name}} </div>
 
                             <!-- Author created date -->
-                            <div class="d-block fw-medium small"> Feb 12, 2023</div>
+                            <div class="d-block fw-medium small"> {{singleData?.author?.author_created_date}} </div>
 
                         </div>
                     </div>
@@ -65,13 +64,13 @@
                     <!-- Author social media link -->
                     <div class="d-flex justify-content-start align-items-center gap-3 py-3">
                         <div class="fw-bold"> Share</div>
-                        <a href="javascript:void(0)" class="text-decoration-none text-secondary">
+                        <a :href="singleData?.author?.facebook" class="text-decoration-none text-secondary">
                             <i class="bi bi-facebook"></i>
                         </a>
-                        <a href="javascript:void(0)" class="text-decoration-none text-secondary">
+                        <a :href="singleData?.author?.twitter" class="text-decoration-none text-secondary">
                             <i class="bi bi-twitter"></i>
                         </a>
-                        <a href="javascript:void(0)" class="text-decoration-none text-secondary">
+                        <a :href="singleData?.author?.instagram" class="text-decoration-none text-secondary">
                             <i class="bi bi-instagram"></i>
                         </a>
                     </div>
@@ -80,61 +79,29 @@
 
                 <!-- Description -->
                 <div class="py-3 line-height-2">
-                    The fancy moon going in little artist painting. Thirty days of lavender in the dreamy light inside.
-                    Other perfect oh plants, for and again. I’ve honey feeling. Caring dreamland projects noteworthy
-                    than minimal, their it oh pretty feeling may. Include pink be.
+                    {{singleData?.description}}
                 </div>
 
                 <!-- Extra content image -->
                 <div class="w-100 py-3">
-                    <img :src="`/images/blog-details.jpg`" class="img-fluid object-fit-cover rounded-4"
+                    <img :src="singleData?.content?.image" class="img-fluid object-fit-cover rounded-4"
                          alt="blog-details">
                 </div>
 
                 <!-- Extra content description -->
                 <div class="py-3 line-height-2">
-                    Tortor placerat bibendum consequat sapien, facilisi facilisi pellentesque morbi. Id conse ctetur ut
-                    vitae a massa a. Lacus ut bibendum sollicitudin fusce sociis mi. Dictum volutpat praesent ornare
-                    accumsan elit venenatis. Congue sodales nunc quis ultricies odio porta. Egestas mauris placerat leo
-                    phasellu s ut sit.
-
-                    <br><br>
-
-                    Thirty there & time wear across days, make inside on these you. Can young a really, roses blog small
-                    of song their dreamy life pretty? Because really duo living to noteworthy bloom bell. Transform
-                    clean daydreaming cute twenty process rooms cool. White white dreamy dramatically place everything
-                    although. Place out apartment afternoon whimsical kinder, little romantic joy we flower handmade.
-                    Thirty she a studio of she whimsical projects, afternoon effect going a floated maybe.
+                    {{singleData?.content?.description}}
                 </div>
 
                 <hr class="w-100 border border-secondary">
 
                 <!-- Category tags -->
                 <div class="py-3 d-flex justify-content-start align-items-center gap-1 flex-wrap">
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        Animal
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        Business
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        Culture
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        Fashion
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        Food
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        Interior
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        LifeStyle
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-theme">
-                        Travel
-                    </a>
+                    <template v-for="each in singleData?.categoryTag">
+                        <a href="javascript:void(0)" class="btn btn-outline-theme">
+                            {{each.name}}
+                        </a>
+                    </template>
                 </div>
 
                 <hr class="w-100 border border-secondary">
@@ -142,13 +109,13 @@
                 <!-- Count of like comment and share -->
                 <div class="d-flex justify-content-end align-items-center gap-3 small">
                     <button type="button" class="btn p-0 m-0 border-0 text-dark fw-medium">
-                        {{numberFormat(4000)}} likes
+                        {{numberFormat(singleData?.likes)}} likes
                     </button>
                     <button type="button" class="btn p-0 m-0 border-0 text-dark fw-medium">
-                        {{numberFormat(3000000)}} comments
+                        {{numberFormat(singleData?.comment)}} comments
                     </button>
                     <button type="button" class="btn p-0 m-0 border-0 text-dark fw-medium">
-                        {{numberFormat(2000)}} Shares
+                        {{numberFormat(singleData?.share)}} Shares
                     </button>
                 </div>
 
@@ -162,7 +129,9 @@
                 <!-- Login to access form for submit comment -->
                 <div class="text-secondary pb-3">
                     You must be
-                    <router-link :to="{name: 'login'}" class="text-decoration-none text-primary"> logged in
+                    <!-- Login route -->
+                    <router-link :to="{name: 'login'}" class="text-decoration-none text-primary">
+                        logged in
                     </router-link>
                     to post a comment.
                 </div>
@@ -202,7 +171,7 @@
                     <div class="col-md-12">
 
                         <!-- Action button -->
-                        <button type="submit" class="btn btn-theme" style="width: 100px;">
+                        <button type="submit" class="btn btn-theme width-100">
                             Submit
                         </button>
 
@@ -248,7 +217,7 @@
 
                 <!-- view more comments -->
                 <div class="text-center">
-                    <button type="button" class="btn btn-theme" style="width: 200px;">
+                    <button type="button" class="btn btn-theme width-200 py-3">
                         View more
                     </button>
                 </div>
@@ -265,6 +234,47 @@ export default {
     data() {
         return {
             // Data properties
+            singleData: {
+                name: 'Self-observation is the first step of inner',
+                picture: '/images/blog-details.jpg',
+                author: {
+                    picture: '/images/avatar.png',
+                    author_name: 'Mahi Bashar Akash',
+                    author_created_date: 'Feb 12, 2023',
+                    facebook: 'https://www.facebook.com',
+                    twitter: 'https://www.twitter.com',
+                    instagram: 'https://www.instagram.com',
+                },
+                description: `The fancy moon going in little artist painting. Thirty days of lavender in the dreamy
+                    light inside. Other perfect oh plants, for and again. I’ve honey feeling. Caring dreamland projects
+                    noteworthy than minimal, their it oh pretty feeling may. Include pink be.`,
+                content: {
+                    image: '/images/blog-details.jpg',
+                    description: `
+                    Tortor placerat bibendum consequat sapien, facilisi facilisi pellentesque morbi. Id conse
+                    ctetur ut vitae a massa a. Lacus ut bibendum sollicitudin fusce sociis mi. Dictum volutpat
+                    praesent ornare accumsan elit venenatis. Congue sodales nunc quis ultricies odio porta.
+                    Egestas mauris placerat leo phasellu s ut sit. Thirty there & time wear across days, make
+                    inside on these you. Can young a really, roses blog small of song their dreamy life pretty?
+                    Because really duo living to noteworthy bloom bell. Transform clean daydreaming cute twenty
+                    process rooms cool. White white dreamy dramatically place everything although. Place out
+                    apartment afternoon whimsical kinder, little romantic joy we flower handmade. Thirty she a studio
+                    of she whimsical projects, afternoon effect going a floated maybe.`,
+                },
+                categoryTag: [
+                    { name: 'Animal' },
+                    { name: 'Business' },
+                    { name: 'Culture' },
+                    { name: 'Fashion' },
+                    { name: 'Food' },
+                    { name: 'Interior' },
+                    { name: 'LifeStyle' },
+                    { name: 'Travel' },
+                ],
+                likes: '4000',
+                comment: '3000000',
+                share: '2000',
+            }
         }
     },
     mounted() {

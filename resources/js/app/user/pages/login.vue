@@ -39,20 +39,35 @@
 
                 <!-- Email input field -->
                 <div class="form-group mb-3">
-                    <label for="user-email" class="form-label">Email</label>
-                    <input id="user-email" type="email" name="email" class="form-control shadow-none" required autocomplete="off">
+                    <label for="login-email" class="form-label">Email</label>
+                    <input id="login-email" type="email" name="email" class="form-control shadow-none"
+                           v-model="loginParam.email" required autocomplete="off">
                 </div>
 
                 <!-- Password input field -->
                 <div class="form-group mb-3">
-                    <label for="user-password" class="form-label">Password</label>
-                    <input id="user-password" type="password" name="password" class="form-control shadow-none" required autocomplete="off">
+                    <label for="login-password" class="form-label">Password</label>
+                    <div class="position-relative">
+                        <input id="login-password" :type="passwordFieldType" name="password" class="form-control shadow-none"
+                               v-model="loginParam.password" autocomplete="off">
+
+                        <span class="position-absolute top-50 end-0 translate-middle-y pe-2">
+                            <button type="button" class="shadow-none rounded-0 p-0 m-0 border-0" @click="passwordVisibility">
+                                <span v-if="passwordFieldType === 'text'">
+                                    <i class="bi bi-eye"></i>
+                                </span>
+                                <span v-if="passwordFieldType === 'password'">
+                                    <i class="bi bi-eye-slash"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
 
                     <!-- Remember me checkbox field -->
-                    <label for="remember-me" class="form-label cursor-pointer">
-                        <input id="remember-me" type="checkbox" class="form-checkbox">
+                    <label for="login-remember-me" class="form-label cursor-pointer">
+                        <input id="login-remember-me" type="checkbox" class="form-checkbox" v-model="loginParam.remember_me">
                         Remember me
                     </label>
 
@@ -64,7 +79,7 @@
                 </div>
 
                 <!-- Action button -->
-                <button type="submit" class="btn btn-theme" style="width: 100px;">
+                <button type="submit" class="btn btn-theme width-100">
                     Login
                 </button>
 
@@ -80,11 +95,24 @@ export default {
     data() {
         return {
             // Data properties
+            loginParam: {
+                email: '',
+                password: '',
+                remember_me: '',
+            },
+            password: '',
+            passwordFieldType: 'password',
         }
     },
     mounted() {
     },
     methods: {
+
+        // Function of password visibility
+        passwordVisibility() {
+            this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+        },
+
     }
 }
 

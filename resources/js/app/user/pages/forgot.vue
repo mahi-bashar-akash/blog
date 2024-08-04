@@ -44,14 +44,14 @@
 
                 <!-- Email input field -->
                 <div class="form-group mb-3">
-                    <label for="user-email" class="form-label">Email</label>
-                    <input id="user-email" type="email" name="email" class="form-control shadow-none" required
-                           autocomplete="off">
+                    <label for="forgot-email" class="form-label">Email</label>
+                    <input id="forgot-email" type="email" name="email" class="form-control shadow-none" required
+                           autocomplete="off" v-model="forgotParam.email">
                 </div>
 
                 <!-- Action button -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-theme" style="width: 100px;" @click="tab = 'reset'">
+                    <button type="submit" class="btn btn-theme width-100" @click="tab = 'reset'">
                         Forgot
                     </button>
                 </div>
@@ -80,35 +80,59 @@
 
                 <!-- Email input field -->
                 <div class="form-group mb-3">
-                    <label for="user-email" class="form-label">Email</label>
-                    <input id="user-email" type="email" name="email" class="form-control shadow-none" required
-                           autocomplete="off">
+                    <label for="reset-email" class="form-label">Email</label>
+                    <input id="reset-email" type="email" name="email" class="form-control shadow-none"
+                           v-model="resetParam.email" required autocomplete="off">
                 </div>
 
                 <!-- Code input field -->
                 <div class="form-group mb-3">
-                    <label for="user-code" class="form-label">Code</label>
-                    <input id="user-code" type="text" name="code" class="form-control shadow-none" required
-                           autocomplete="off">
+                    <label for="reset-code" class="form-label">Code</label>
+                    <input id="reset-code" type="text" name="code" class="form-control shadow-none"
+                           v-model="resetParam.code" required autocomplete="off">
                 </div>
 
                 <!-- Password input field -->
                 <div class="form-group mb-3">
-                    <label for="user-password" class="form-label">Password</label>
-                    <input id="user-password" type="password" name="password" class="form-control shadow-none" required
-                           autocomplete="off">
+                    <label for="reset-password" class="form-label">Password</label>
+                    <div class="position-relative">
+                        <input id="reset-password" :type="passwordFieldType" name="password" class="form-control shadow-none"
+                               v-model="resetParam.password" autocomplete="off">
+                        <span class="position-absolute top-50 end-0 translate-middle-y pe-2">
+                            <button type="button" class="shadow-none rounded-0 p-0 m-0 border-0" @click="passwordVisibility">
+                                <span v-if="passwordFieldType === 'text'">
+                                    <i class="bi bi-eye"></i>
+                                </span>
+                                <span v-if="passwordFieldType === 'password'">
+                                    <i class="bi bi-eye-slash"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Password confirmation input field -->
                 <div class="form-group mb-3">
-                    <label for="user-password-confirmation" class="form-label">Confirm password</label>
-                    <input id="user-password-confirmation" type="text" name="password-confirmation" class="form-control shadow-none" required
-                           autocomplete="off">
+                    <label for="reset-password-confirmation" class="form-label">Confirm password</label>
+                    <div class="position-relative">
+                        <input id="reset-password-confirmation" :type="passwordConfirmationFieldType" name="password" class="form-control shadow-none"
+                               v-model="resetParam.password_confirmation" autocomplete="off">
+                        <span class="position-absolute top-50 end-0 translate-middle-y pe-2">
+                            <button type="button" class="shadow-none rounded-0 p-0 m-0 border-0" @click="passwordConfirmationVisibility">
+                                <span v-if="passwordConfirmationFieldType === 'text'">
+                                    <i class="bi bi-eye"></i>
+                                </span>
+                                <span v-if="passwordConfirmationFieldType === 'password'">
+                                    <i class="bi bi-eye-slash"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Action button -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-theme" style="width: 100px;">
+                    <button type="submit" class="btn btn-theme width-100">
                         Reset
                     </button>
                 </div>
@@ -132,11 +156,35 @@ export default {
         return {
             // Data properties
             tab: 'forgot',
+            forgotParam: {
+                email: '',
+            },
+            resetParam: {
+                email: '',
+                code: '',
+                password: '',
+                password_confirmation: '',
+            },
+            password: '',
+            passwordFieldType: 'password',
+            passwordConfirmation: '',
+            passwordConfirmationFieldType: 'password',
         }
     },
-    mounted() {
-    },
-    methods: {}
+    mounted() {  },
+    methods: {
+
+        // Function of password visibility
+        passwordVisibility() {
+            this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+        },
+
+        // Function of password confirmation visibility
+        passwordConfirmationVisibility() {
+            this.passwordConfirmationFieldType = this.passwordConfirmationFieldType === "password" ? "text" : "password";
+        },
+
+    }
 }
 
 </script>
