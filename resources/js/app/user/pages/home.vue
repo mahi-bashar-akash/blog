@@ -10,9 +10,9 @@
 
             <!-- Description -->
             <p class="line-height-2">
-                We work for share experience of <span class="fw-bold"> world activities by any writers </span>. We work
-                as team working with different places to share any need or necessary information by create, listing,
-                update and delete. This is <span class="fw-bold">writers site to provide experience</span>,
+                We work for share experience of <span class="fw-bold"> world activities by any writers </span>.
+                We work as team working with different places to share any need or necessary information by create,
+                listing, update and delete. This is <span class="fw-bold"> writers site to provide experience </span>,
                 where We like, comment, share as opinion and write about ethical and none-violence topic.
             </p>
 
