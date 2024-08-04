@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController\AuthenticationController;
 use App\Http\Controllers\UserController\BlogController;
@@ -18,9 +17,8 @@ use App\Http\Controllers\UserController\CategoryController;
 */
 
 /* USER AUTHENTICATION API Routes */
-
 Route::group(
-    ['middleware' => ['UserAuth'], ['prefix' => 'auth']],
+    ['middleware' => ['userAuth'], 'prefix' => 'auth'],
     function () {
         Route::post('/login', [AuthenticationController::class, 'user_login'])->name('User.Auth.Login');
         Route::post('/register', [AuthenticationController::class, 'user_register'])->name('User.Auth.Register');
@@ -30,11 +28,10 @@ Route::group(
 );
 
 Route::group(
-    ['middleware' => ['UserAuthReq']],
+    ['middleware' => ['userAuthReq']],
     function () {
 
         /* USER PROFILE API Routes */
-
         Route::group(
             ['prefix' => 'profile'],
             function () {
@@ -46,12 +43,9 @@ Route::group(
         );
 
         /* USER BLOGS API Routes */
-
-        Route::apiResource('blogs', BlogController::class );
+        Route::apiResource('blogs', BlogController::class);
 
         /* USER CATEGORIES API Routes */
-
-        Route::apiResource('categories', CategoryController::class );
-
+        Route::apiResource('categories', CategoryController::class);
     }
 );
