@@ -15,8 +15,13 @@
                         <li class="nav-item text-end d-inline-block d-lg-none">
                             <button type="button" class="btn btn-close border-0 p-3 icon-close" @click="collapse()"></button>
                         </li>
-                        <li class="nav-item" v-if="this.userInfo === null">
-                            <router-link :to="{name: 'login'}" class="nav-link">
+                        <li class="nav-item d-none d-lg-inline" v-if="this.userInfo === null">
+                            <router-link :to="{name: 'login'}" class="btn btn-theme py-2 px-4" @click="collapse()">
+                                Login
+                            </router-link>
+                        </li>
+                        <li class="nav-item d-lg-none" v-if="this.userInfo === null">
+                            <router-link :to="{name: 'login'}" class="nav-link" @click="collapse()">
                                 Login
                             </router-link>
                         </li>
