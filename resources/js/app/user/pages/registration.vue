@@ -159,6 +159,7 @@ export default {
 
         // Function of registration api callback
         registration() {
+            apiServices.clearErrorHandler()
             this.loading = true;
             axios.post(apiRoutes.register, this.registrationParam, { headers: apiServices.headerContent }).then((response) => {
                 if(response?.data?.status === 200) {

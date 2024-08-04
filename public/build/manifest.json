@@ -1,6 +1,6 @@
 {
-  "_vue-router-DU1vcEHn.js": {
-    "file": "assets/vue-router-DU1vcEHn.js",
+  "_vue-router-CwW0_E9R.js": {
+    "file": "assets/vue-router-CwW0_E9R.js",
     "name": "vue-router"
   },
   "resources/css/app.css": {
@@ -10,28 +10,28 @@
     "isEntry": true
   },
   "resources/js/app/admin/app.js": {
-    "file": "assets/app-B2I-3Juw.js",
+    "file": "assets/app-COSEwQq-.js",
     "name": "app",
     "src": "resources/js/app/admin/app.js",
     "isEntry": true,
     "imports": [
-      "_vue-router-DU1vcEHn.js"
+      "_vue-router-CwW0_E9R.js"
     ]
   },
   "resources/js/app/user/app.js": {
-    "file": "assets/app-CFu8kTFM.js",
+    "file": "assets/app-Bc2foLc6.js",
     "name": "app",
     "src": "resources/js/app/user/app.js",
     "isEntry": true,
     "imports": [
-      "_vue-router-DU1vcEHn.js"
+      "_vue-router-CwW0_E9R.js"
     ],
     "css": [
       "assets/app-D0j6vHqc.css"
     ]
   },
   "resources/scss/style-sheet.scss": {
-    "file": "assets/style-sheet-FQ-jmXd8.css",
+    "file": "assets/style-sheet-BSh2sUOp.css",
     "src": "resources/scss/style-sheet.scss",
     "isEntry": true
   }

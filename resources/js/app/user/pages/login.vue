@@ -141,6 +141,7 @@ export default {
 
         // Function of login api callback
         login() {
+            apiServices.clearErrorHandler()
             this.loading = true;
             axios.post(apiRoutes.login, this.loginParam, { headers: apiServices.headerContent }).then((response) => {
                 if(response?.data?.status === 200) {
