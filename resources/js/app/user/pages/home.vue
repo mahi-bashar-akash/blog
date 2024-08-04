@@ -2,43 +2,61 @@
 
     <section class="row py-5 align-items-center px-3">
         <article class="col-lg-6 py-5">
+
+            <!-- Title -->
             <h1 class="fs-1 mb-4 fw-bold">
                 Hey, We are <span class="text-theme"> News provider </span>
             </h1>
+
+            <!-- Description -->
             <p class="line-height-2">
                 We work for share experience of <span class="fw-bold"> world activities by any writers </span>. We work
                 as team working with different places to share any need or necessary information by create, listing,
                 update and delete. This is <span class="fw-bold">writers site to provide experience</span>,
                 where We like, comment, share as opinion and write about ethical and none-violence topic.
             </p>
+
+            <!-- connect with newsletter -->
             <div class="fs-5 fw-semibold"> Let's connect</div>
             <div class="my-3">
+
+                <!-- Form newsletter -->
                 <form class="position-relative w-100">
-                    <input type="text" name="subscribe"
+                    <input type="text" name="newsletter"
                            class="form-control shadow-none border border-secondary-subtle rounded-3 p-3" required
                            placeholder="Enter your email">
                     <div class="position-absolute top-50 end-0 pe-2 translate-middle-y">
+
+                        <!-- Action button -->
                         <button type="submit"
                                 class="btn btn-theme width-45 height-45 d-flex justify-content-center align-items-center">
                             <i class="bi bi-send"></i>
                         </button>
+
                     </div>
                 </form>
+
             </div>
         </article>
+
+        <!-- Image animation -->
         <div class="col-lg-6 p-5">
             <img :src="'/images/about-personal.webp'" class="img-fluid object-fit-cover border-animation"
                  alt="about-person">
         </div>
+
     </section>
 
     <section class="row align-items-start px-3">
 
         <div class="col-lg-4 sticky-lg-top order-2 order-lg-1 py-5" style="top: 85px; z-index: 0">
 
+            <!-- Category -->
             <div class="fs-5 fw-bold"> Tag Categories </div>
 
             <div class="mt-3 mb-5 d-flex justify-content-start align-items-center flex-wrap gap-3">
+
+                <!-- Category data list -->
                 <a href="javascript:void(0)" class="text-decoration-none text-dark">
                     <span class="d-flex justify-content-start align-items-center">
                         <span class="d-inline-block width-8 height-8 bg-dark rounded-circle me-2"></span> Health
@@ -74,11 +92,15 @@
                         <span class="d-inline-block width-8 height-8 bg-primary rounded-circle me-2"></span> Video
                     </span>
                 </a>
+
             </div>
 
+            <!-- Recent added posts -->
             <div class="fs-5 fw-bold">Recent Posts</div>
 
             <div class="mt-3 mb-5">
+
+                <!-- Recent added posts list -->
                 <div class="d-flex justify-content-start align-items-center mb-3 p-4 bg-white shadow rounded-4">
                     <div>
                         <img :src="'/images/about-personal.webp'" class="width-65 height-65 rounded-3"
@@ -130,9 +152,10 @@
 
         <div class="col-lg-8 order-1 order-lg-2 py-5">
 
+            <!-- Regular post activites -->
             <div class="fs-5 fw-bold"> Regular Post Activities</div>
 
-            <!-- recent post -->
+            <!-- Global users created blog -->
             <div class="px-2">
                 <div class="row justify-content-start align-items-center p-2 bg-white shadow rounded-4 my-3"
                      v-for="each in 10">
@@ -179,7 +202,7 @@
                 </div>
             </div>
 
-            <!-- pagination -->
+            <!-- Global users created blog pagination -->
             <div class="d-flex justify-content-center align-items-center my-4 py-3">
                 <div aria-label="Page navigation example" class="front-pagination">
                     <div class="pagination">
