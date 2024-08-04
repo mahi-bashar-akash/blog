@@ -17,10 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('avatar')->nullable();
-            $table->text('bio')->nullable();
-            $table->string('website')->nullable();
+            $table->string('facebook_link')->nullable();
+            $table->string('twitter_link')->nullable();
+            $table->string('instagram_link')->nullable();
+            $table->string('linkedin_link')->nullable();
+            $table->string('youtube_link')->nullable();
             $table->string('reset_code')->nullable();
             $table->string('verified_token')->nullable();
             $table->timestamp('last_login_at')->nullable();
