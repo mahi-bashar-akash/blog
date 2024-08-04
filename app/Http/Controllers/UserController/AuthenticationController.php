@@ -183,8 +183,15 @@ class AuthenticationController extends BaseController
             $validator = Validator::make(
                 $request->all(),
                 [
-                    'email' => 'required|email|unique:' . strtolower(class_basename($model)) . 's,email,' . $request->email . ',email',
                     'name' => 'required|string',
+                    'email' => 'required|email|unique:' . strtolower(class_basename($model)) . 's,email,' . $request->email . ',email',
+                    'phone' => 'nullable',
+                    'avatar' => 'nullable',
+                    'facebook_link' => 'nullable',
+                    'twitter_link' => 'nullable',
+                    'instagram_link' => 'nullable',
+                    'linkedin_link' => 'nullable',
+                    'youtube_link' => 'nullable',
                 ]
             );
             if ($validator->fails()) {
@@ -193,6 +200,13 @@ class AuthenticationController extends BaseController
             $user = $model::where('id', Auth::guard($guard)->id())->first();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->phone = $request->phone ?? null;
+            $user->avatar = $request->avatar ?? null;
+            $user->facebook_link = $request->facebook_link ?? null;
+            $user->twitter_link = $request->twitter_link ?? null;
+            $user->instagram_link = $request->instagram_link ?? null;
+            $user->linkedin_link = $request->linkedin_link ?? null;
+            $user->youtube_link = $request->youtube_link ?? null;
             $user->save();
             return response()->json(['message' => 'Profile updated successfully']);
         } catch (\Exception $e) {
