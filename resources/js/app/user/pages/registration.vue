@@ -95,8 +95,13 @@
 
                 <div class="mb-3">
                     <!-- Action button -->
-                    <button type="submit" class="btn btn-theme width-150">
+                    <button type="submit" class="btn btn-theme width-150" v-if="!loading">
                         Registration
+                    </button>
+                    <button type="button" class="btn btn-theme width-150 btn-loading d-flex justify-content-center align-items-center" v-if="loading">
+                        <span class="spinner-border d-inline-block width-17 height-17" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
                     </button>
                 </div>
 

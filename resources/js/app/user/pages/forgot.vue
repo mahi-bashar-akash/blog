@@ -30,7 +30,7 @@
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
 
             <!-- Forget password form -->
-            <form class="w-100 p-5 shadow bg-white" v-if="tab === 'forgot'">
+            <form @submit.prevent="forgot()" class="w-100 p-5 shadow bg-white" v-if="tab === 'forgot'">
 
                 <!-- Title -->
                 <div class="h4 fw-bold">
@@ -45,14 +45,20 @@
                 <!-- Email input field -->
                 <div class="form-group mb-3">
                     <label for="forgot-email" class="form-label">Email</label>
-                    <input id="forgot-email" type="email" name="email" class="form-control shadow-none" required
+                    <input id="forgot-email" type="email" name="email" class="form-control shadow-none"
                            autocomplete="off" v-model="forgotParam.email">
+                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                 </div>
 
                 <!-- Action button -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-theme width-100" @click="tab = 'reset'">
+                    <button type="submit" class="btn btn-theme width-100" v-if="!forgotLoading">
                         Forgot
+                    </button>
+                    <button type="button" class="btn btn-theme width-100 btn-loading d-flex justify-content-center align-items-center" v-if="forgotLoading">
+                        <span class="spinner-border d-inline-block width-17 height-17" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
                     </button>
                 </div>
 
@@ -66,7 +72,7 @@
             </form>
 
             <!-- Reset password form -->
-            <form class="w-100 p-5 shadow bg-white" v-if="tab === 'reset'">
+            <form @submit.prevent="reset()" class="w-100 p-5 shadow bg-white" v-if="tab === 'reset'">
 
                 <!-- Title -->
                 <div class="h4 fw-bold">
@@ -82,14 +88,16 @@
                 <div class="form-group mb-3">
                     <label for="reset-email" class="form-label">Email</label>
                     <input id="reset-email" type="email" name="email" class="form-control shadow-none"
-                           v-model="resetParam.email" required autocomplete="off">
+                           v-model="resetParam.email" autocomplete="off">
+                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                 </div>
 
                 <!-- Code input field -->
                 <div class="form-group mb-3">
                     <label for="reset-code" class="form-label">Code</label>
                     <input id="reset-code" type="text" name="code" class="form-control shadow-none"
-                           v-model="resetParam.code" required autocomplete="off">
+                           v-model="resetParam.code" autocomplete="off">
+                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                 </div>
 
                 <!-- Password input field -->
@@ -109,6 +117,7 @@
                             </button>
                         </span>
                     </div>
+                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                 </div>
 
                 <!-- Password confirmation input field -->
@@ -128,12 +137,18 @@
                             </button>
                         </span>
                     </div>
+                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                 </div>
 
                 <!-- Action button -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-theme width-100">
+                    <button type="submit" class="btn btn-theme width-100" v-if="!resetLoading">
                         Reset
+                    </button>
+                    <button type="button" class="btn btn-theme width-100 btn-loading d-flex justify-content-center align-items-center" v-if="resetLoading">
+                        <span class="spinner-border d-inline-block width-17 height-17" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
                     </button>
                 </div>
 
@@ -150,6 +165,14 @@
 </template>
 
 <script>
+import apiRoutes from '../../api/apiRoutes.js'
+import apiServices from '../../api/apiServices.js'
+import axios from "axios";
+
+import {createToaster} from "@meforma/vue-toaster";
+const toaster = createToaster({
+    position: 'top-right',
+});
 
 export default {
     data() {
@@ -169,6 +192,9 @@ export default {
             passwordFieldType: 'password',
             passwordConfirmation: '',
             passwordConfirmationFieldType: 'password',
+            forgotLoading: false,
+            resetLoading: false,
+            error: null,
         }
     },
     mounted() {  },
@@ -182,6 +208,54 @@ export default {
         // Function of password confirmation visibility
         passwordConfirmationVisibility() {
             this.passwordConfirmationFieldType = this.passwordConfirmationFieldType === "password" ? "text" : "password";
+        },
+
+        // Function of forgot api callback
+        forgot() {
+            apiServices.clearErrorHandler()
+            this.forgotLoading = true;
+            axios.post(apiRoutes.register, this.forgotParam, { headers: apiServices.headerContent }).then((response) => {
+                if(response?.data?.status === 200) {
+                    this.forgotLoading = false;
+                    toaster.info(response?.message);
+                    this.tab = 'reset';
+                }else{
+                    this.error = response?.data?.errors;
+                }
+            }).catch(err => {
+                this.forgotLoading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors.error;
+                } else {
+                    toaster.error('Server error!');
+                }
+            });
+        },
+
+        // Function of reset api callback
+        reset() {
+            apiServices.clearErrorHandler()
+            this.resetLoading = true;
+            axios.post(apiRoutes.register, this.resetParam, { headers: apiServices.headerContent }).then((response) => {
+                if(response?.data?.status === 200) {
+                    this.resetLoading = false;
+                    toaster.info(response?.message);
+                    this.$router.push({name: 'login'});
+                }else{
+                    this.error = response?.data?.errors;
+                }
+            }).catch(err => {
+                this.resetLoading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors.error;
+                } else {
+                    toaster.error('Server error!');
+                }
+            });
         },
 
     }

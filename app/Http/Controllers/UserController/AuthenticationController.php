@@ -58,6 +58,7 @@ class AuthenticationController extends BaseController
                 [
                     'name' => 'required|string',
                     'email' => 'required|unique:' . strtolower(class_basename($model)) . 's,email',
+                    'phone' => 'required',
                     'password' => 'required|min:6|confirmed'
                 ]
             );
@@ -68,6 +69,13 @@ class AuthenticationController extends BaseController
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);
+            $user->phone = $request->phone ?? null;
+            $user->avatar = $request->avatar ?? null;
+            $user->facebook_link = $request->facebook_link ?? null;
+            $user->twitter_link = $request->twitter_link ?? null;
+            $user->instagram_link = $request->instagram_link ?? null;
+            $user->linkedin_link = $request->linkedin_link ?? null;
+            $user->youtube_link = $request->youtube_link ?? null;
             $user->save();
             return response()->json(['message' => 'Registration has been completed successfully.']);
         } catch (\Exception $e) {
