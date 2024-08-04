@@ -2,10 +2,10 @@ const userApi = '/user';
 
 const apiRoutes = {
 
-    login: userApi + '/user/login',
-    register: userApi + '/user/register',
-    forgot: userApi + '/user/forgot',
-    reset: userApi + '/user/reset',
+    login: userApi + '/auth/login',
+    register: userApi + '/auth/register',
+    forgot: userApi + '/auth/forgot',
+    reset: userApi + '/auth/reset',
 
     profile: userApi + '/admin-profile/details',
     profileUpdate: userApi + '/admin-profile/update',

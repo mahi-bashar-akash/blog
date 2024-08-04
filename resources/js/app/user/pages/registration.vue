@@ -41,14 +41,16 @@
                 <div class="form-group mb-3">
                     <label for="registration-name" class="form-label">Full name</label>
                     <input id="registration-name" type="text" name="name" class="form-control shadow-none"
-                           v-model="registrationParam.name" required autocomplete="off">
+                           v-model="registrationParam.name" autocomplete="off">
+                    <div class="error-report" v-if="error != null && error.name !== undefined"> {{error.name[0]}} </div>
                 </div>
 
                 <!-- Email input field -->
                 <div class="form-group mb-3">
                     <label for="registration-email" class="form-label">Email</label>
                     <input id="registration-email" type="email" name="email" class="form-control shadow-none"
-                           v-model="registrationParam.email" required autocomplete="off">
+                           v-model="registrationParam.email" autocomplete="off">
+                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                 </div>
 
                 <!-- Password input field -->
@@ -68,6 +70,7 @@
                             </button>
                         </span>
                     </div>
+                    <div class="error-report" v-if="error != null && error.password !== undefined"> {{error.password[0]}} </div>
                 </div>
 
                 <!-- Password confirmation input field -->
@@ -87,19 +90,20 @@
                             </button>
                         </span>
                     </div>
+                    <div class="error-report" v-if="error != null && error.password_confirmation !== undefined"> {{error.password_confirmation[0]}} </div>
                 </div>
 
                 <div class="mb-3">
                     <!-- Action button -->
-                    <button type="submit" class="btn btn-theme width-100">
-                        Login
+                    <button type="submit" class="btn btn-theme width-150">
+                        Registration
                     </button>
                 </div>
 
                 <!-- Login route -->
                 <div class="text-center">
                     Already have an account?
-                    <router-link :to="{name: 'registration'}" class="text-theme-secondary">
+                    <router-link :to="{name: 'login'}" class="text-theme-secondary">
                         Sign in instead
                     </router-link>
                 </div>
@@ -114,6 +118,11 @@
 import apiRoutes from '../../api/apiRoutes.js'
 import apiServices from '../../api/apiServices.js'
 import axios from "axios";
+
+import {createToaster} from "@meforma/vue-toaster";
+const toaster = createToaster({
+    position: 'top-right',
+});
 
 export default {
     data() {
@@ -130,6 +139,7 @@ export default {
             passwordConfirmation: '',
             passwordConfirmationFieldType: 'password',
             loading: false,
+            error: null,
         }
     },
     mounted() {
@@ -149,7 +159,23 @@ export default {
 
         // Function of registration api callback
         registration() {
-
+            this.loading = true;
+            axios.post(apiRoutes.register, this.registrationParam, {headers: apiServices.headerContent}).then((response) => {
+                console.log(response)
+                // if()
+                // this.loading = false;
+                // toaster.info(response?.message)
+                // this.$router.push({name: 'login'})
+            }).catch(err => {
+                this.loading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors.error
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
         },
 
     }

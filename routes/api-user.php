@@ -21,10 +21,10 @@ use App\Http\Controllers\UserController\CategoryController;
 Route::group(
     ['middleware' => ['UserAuth'], 'prefix' => 'user'],
     function () {
-        Route::post('/login', [AuthenticationController::class, 'login'])->name('Admin.Auth.Login');
-        Route::post('/register', [AuthenticationController::class, 'register'])->name('Admin.Auth.Register');
-        Route::post('/forgot', [AuthenticationController::class, 'forgot'])->name('Admin.Auth.Forgot');
-        Route::post('/reset', [AuthenticationController::class, 'reset'])->name('Admin.Auth.Reset');
+        Route::post('/auth/login', [AuthenticationController::class, 'login'])->name('User.Auth.Login');
+        Route::post('/auth/register', [AuthenticationController::class, 'register'])->name('User.Auth.Register');
+        Route::post('/auth/forgot', [AuthenticationController::class, 'forgot'])->name('User.Auth.Forgot');
+        Route::post('/auth/reset', [AuthenticationController::class, 'reset'])->name('User.Auth.Reset');
     }
 );
 
@@ -37,10 +37,10 @@ Route::group(
         Route::group(
             ['prefix' => 'user'],
             function () {
-                Route::get('/details', [AuthenticationController::class, 'profile_details'])->name('Admin.Profile.Details');
-                Route::patch('/update', [AuthenticationController::class, 'profile_update'])->name('Admin.Profile.Update');
-                Route::patch('/update/password', [AuthenticationController::class, 'profile_update_password'])->name('Admin.Profile.Update.Password');
-                Route::get('/logout', [AuthenticationController::class, 'profile_logout'])->name('Admin.Profile.Logout');
+                Route::get('/details', [AuthenticationController::class, 'profile_details'])->name('User.Profile.Details');
+                Route::patch('/update', [AuthenticationController::class, 'profile_update'])->name('User.Profile.Update');
+                Route::patch('/update/password', [AuthenticationController::class, 'profile_update_password'])->name('User.Profile.Update.Password');
+                Route::get('/logout', [AuthenticationController::class, 'profile_logout'])->name('User.Profile.Logout');
             }
         );
 

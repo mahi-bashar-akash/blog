@@ -41,7 +41,8 @@
                 <div class="form-group mb-3">
                     <label for="login-email" class="form-label">Email</label>
                     <input id="login-email" type="email" name="email" class="form-control shadow-none"
-                           v-model="loginParam.email" required autocomplete="off">
+                           v-model="loginParam.email" autocomplete="off">
+                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                 </div>
 
                 <!-- Password input field -->
@@ -62,6 +63,7 @@
                             </button>
                         </span>
                     </div>
+                    <div class="error-report" v-if="error != null && error.password !== undefined"> {{error.password[0]}} </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
 
@@ -105,6 +107,11 @@ import apiRoutes from '../../api/apiRoutes.js'
 import apiServices from '../../api/apiServices.js'
 import axios from "axios";
 
+import {createToaster} from "@meforma/vue-toaster";
+const toaster = createToaster({
+    position: 'top-right',
+});
+
 export default {
     data() {
         return {
@@ -117,6 +124,7 @@ export default {
             password: '',
             passwordFieldType: 'password',
             loading: false,
+            error: null,
         }
     },
     mounted() {
@@ -135,7 +143,21 @@ export default {
 
         // Function of login api callback
         login() {
-
+            this.loading = true;
+            axios.post(apiRoutes.login, this.loginParam, {headers: apiServices.headerContent}).then((response) => {
+                this.loading = false;
+                toaster.info(response?.message)
+                window.location.reload();
+            }).catch(err => {
+                this.loading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors.error
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
         },
 
     }
