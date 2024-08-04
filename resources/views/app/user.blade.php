@@ -36,7 +36,12 @@
         <script>
             window.core = {
                 APP_NAME: 'Npvider',
-                APP_URL: '{{env('APP_URL')}}'
+                APP_URL: '{{env('APP_URL')}}',
+                @if(\Illuminate\Support\Facades\Auth::guard('users')->check())
+                    UserInfo: {!! \Illuminate\Support\Facades\Auth::guard('users')->user() !!},
+                @else
+                    UserInfo: null,
+                @endif
             };
         </script>
 

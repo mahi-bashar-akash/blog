@@ -16,8 +16,10 @@ use App\Http\Controllers\UserController\CategoryController;
 |
 */
 
+/* USER AUTHENTICATION API Routes */
+
 Route::group(
-    ['middleware' => ['UserAuth'], 'prefix' => 'admin-auth'],
+    ['middleware' => ['UserAuth'], 'prefix' => 'user'],
     function () {
         Route::post('/login', [AuthenticationController::class, 'login'])->name('Admin.Auth.Login');
         Route::post('/register', [AuthenticationController::class, 'register'])->name('Admin.Auth.Register');
@@ -29,8 +31,26 @@ Route::group(
 Route::group(
     ['middleware' => ['UserAuthReq']],
     function () {
-        Route::apiResource('profile', AuthenticationController::class );
+
+        /* USER PROFILE API Routes */
+
+        Route::group(
+            ['prefix' => 'user'],
+            function () {
+                Route::get('/details', [AuthenticationController::class, 'profile_details'])->name('Admin.Profile.Details');
+                Route::patch('/update', [AuthenticationController::class, 'profile_update'])->name('Admin.Profile.Update');
+                Route::patch('/update/password', [AuthenticationController::class, 'profile_update_password'])->name('Admin.Profile.Update.Password');
+                Route::get('/logout', [AuthenticationController::class, 'profile_logout'])->name('Admin.Profile.Logout');
+            }
+        );
+
+        /* USER BLOGS API Routes */
+
         Route::apiResource('blogs', BlogController::class );
+
+        /* USER CATEGORIES API Routes */
+
         Route::apiResource('categories', CategoryController::class );
+
     }
 );

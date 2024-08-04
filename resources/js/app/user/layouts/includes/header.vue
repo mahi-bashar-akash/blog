@@ -15,7 +15,12 @@
                         <li class="nav-item text-end d-inline-block d-lg-none">
                             <button type="button" class="btn btn-close border-0 p-3 icon-close" @click="collapse()"></button>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item" v-if="this.userInfo === null">
+                            <router-link :to="{name: 'login'}" class="nav-link">
+                                Login
+                            </router-link>
+                        </li>
+                        <li class="nav-item dropdown" v-if="this.userInfo !== null">
                             <a class="nav-link p-0" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="rounded-circle bg-theme text-white d-flex justify-content-center align-items-center" style="width:45px; height:45px;">
                                     {{nameControl(profileName)}}
@@ -53,7 +58,8 @@ export default {
     data(){
         return {
             tab: 'edit-profile',
-            profileName: 'Mahi Bashar Akash'
+            profileName: 'Mahi Bashar Akash',
+            userInfo: window.core.UserInfo,
         }
     },
     mounted() {

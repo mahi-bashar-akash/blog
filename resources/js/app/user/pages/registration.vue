@@ -13,8 +13,8 @@
                     </router-link>
                 </li>
                 <li class="breadcrumb-item">
-                    <router-link :to="{name: 'login'}" class="text-decoration-none text-theme">
-                        Login
+                    <router-link :to="{name: 'registration'}" class="text-decoration-none text-theme">
+                        Registration
                     </router-link>
                 </li>
             </ol>
@@ -24,33 +24,39 @@
     <div class="d-flex justify-content-center align-items-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
 
-            <!-- Login form -->
-            <form @submit.prevent="login()" class="w-100 p-5 shadow bg-white">
+            <!-- Registration form -->
+            <form @submit.prevent="registration()" class="w-100 p-5 shadow bg-white">
 
                 <!-- Title -->
                 <div class="h4 fw-bold">
-                    Welcome to Npvider ! 👋🏻
+                    Adventure starts here 🚀
                 </div>
 
                 <!-- Description -->
                 <div class="text-secondary mb-3">
-                    Please sign-in to your account and start the adventure
+                    Please sign-up to your account
                 </div>
 
                 <!-- Email input field -->
                 <div class="form-group mb-3">
-                    <label for="login-email" class="form-label">Email</label>
-                    <input id="login-email" type="email" name="email" class="form-control shadow-none"
-                           v-model="loginParam.email" required autocomplete="off">
+                    <label for="registration-name" class="form-label">Full name</label>
+                    <input id="registration-name" type="text" name="name" class="form-control shadow-none"
+                           v-model="registrationParam.name" required autocomplete="off">
+                </div>
+
+                <!-- Email input field -->
+                <div class="form-group mb-3">
+                    <label for="registration-email" class="form-label">Email</label>
+                    <input id="registration-email" type="email" name="email" class="form-control shadow-none"
+                           v-model="registrationParam.email" required autocomplete="off">
                 </div>
 
                 <!-- Password input field -->
                 <div class="form-group mb-3">
-                    <label for="login-password" class="form-label">Password</label>
+                    <label for="registration-password" class="form-label">Password</label>
                     <div class="position-relative">
-                        <input id="login-password" :type="passwordFieldType" name="password" class="form-control shadow-none"
-                               v-model="loginParam.password" autocomplete="off">
-
+                        <input id="registration-password" :type="passwordFieldType" name="password" class="form-control shadow-none"
+                               v-model="registrationParam.password" autocomplete="off">
                         <span class="position-absolute top-50 end-0 translate-middle-y pe-2">
                             <button type="button" class="shadow-none rounded-0 p-0 m-0 border-0" @click="passwordVisibility">
                                 <span v-if="passwordFieldType === 'text'">
@@ -63,20 +69,24 @@
                         </span>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mb-3">
 
-                    <!-- Remember me checkbox field -->
-                    <label for="remember" class="form-label cursor-pointer">
-                        <input id="remember" type="checkbox" class="form-checkbox" @change="rememberCheck()"
-                               :checked="loginParam.remember == true">
-                        Remember me
-                    </label>
-
-                    <!-- Forget route -->
-                    <router-link :to="{name: 'forgot'}" class="text-decoration-none text-danger">
-                        Forgot password
-                    </router-link>
-
+                <!-- Password confirmation input field -->
+                <div class="form-group mb-3">
+                    <label for="registration-password-confirmation" class="form-label">Confirm password</label>
+                    <div class="position-relative">
+                        <input id="registration-password-confirmation" :type="passwordConfirmationFieldType" name="password-confirmation" class="form-control shadow-none"
+                               v-model="registrationParam.password_confirmation" autocomplete="off">
+                        <span class="position-absolute top-50 end-0 translate-middle-y pe-2">
+                            <button type="button" class="shadow-none rounded-0 p-0 m-0 border-0" @click="passwordConfirmationVisibility">
+                                <span v-if="passwordConfirmationFieldType === 'text'">
+                                    <i class="bi bi-eye"></i>
+                                </span>
+                                <span v-if="passwordConfirmationFieldType === 'password'">
+                                    <i class="bi bi-eye-slash"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -86,11 +96,11 @@
                     </button>
                 </div>
 
+                <!-- Login route -->
                 <div class="text-center">
-                    New on our platform?
-                    <!-- Registration route -->
+                    Already have an account?
                     <router-link :to="{name: 'registration'}" class="text-theme-secondary">
-                        Create an account
+                        Sign in instead
                     </router-link>
                 </div>
 
@@ -109,13 +119,16 @@ export default {
     data() {
         return {
             // Data properties
-            loginParam: {
+            registrationParam: {
+                name: '',
                 email: '',
                 password: '',
-                remember: false,
+                password_confirmation: '',
             },
             password: '',
             passwordFieldType: 'password',
+            passwordConfirmation: '',
+            passwordConfirmationFieldType: 'password',
             loading: false,
         }
     },
@@ -129,12 +142,13 @@ export default {
             this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
         },
 
-        rememberCheck() {
-            this.loginParam.remember = this.loginParam.remember !== true;
+        // Function of password confirmation visibility
+        passwordConfirmationVisibility() {
+            this.passwordConfirmationFieldType = this.passwordConfirmationFieldType === "password" ? "text" : "password";
         },
 
-        // Function of login api callback
-        login() {
+        // Function of registration api callback
+        registration() {
 
         },
 

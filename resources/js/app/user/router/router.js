@@ -4,6 +4,7 @@ import layout from './../layouts/layout.vue'
 import home from './../pages/home.vue'
 import blogDetails from './../pages/details.vue'
 import login from './../pages/login.vue'
+import registration from './../pages/registration.vue'
 import forgot from './../pages/forgot.vue'
 import terms_conditions from './../pages/terms_&_conditions.vue'
 import privacy_policy from './../pages/privacy_&_policy.vue'
@@ -21,6 +22,7 @@ const routes = [
             { path: 'home', name: 'home', component: home, meta: { title: title + ' - home' } },
             { path: 'blog/details', name: 'blogDetails', component: blogDetails, meta: { title: title + ' - blog details' } },
             { path: 'login', name: 'login', component: login, meta: { title: title + ' - login' } },
+            { path: 'registration', name: 'registration', component: registration, meta: { title: title + ' - registration' } },
             { path: 'forgot', name: 'forgot', component: forgot, meta: { title: title + ' - forgot' } },
             { path: 'terms_conditions', name: 'terms_conditions', component: terms_conditions, meta: { title: title + ' - terms & conditions' } },
             { path: 'privacy_policy', name: 'privacy_policy', component: privacy_policy, meta: { title: title + ' - privacy & policy' } },

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('phone');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->string('facebook_link')->nullable();
@@ -24,9 +24,8 @@ return new class extends Migration
             $table->string('linkedin_link')->nullable();
             $table->string('youtube_link')->nullable();
             $table->string('reset_code')->nullable();
-            $table->string('verified_token')->nullable();
-            $table->timestamp('last_login_at')->nullable();
             $table->rememberToken();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
