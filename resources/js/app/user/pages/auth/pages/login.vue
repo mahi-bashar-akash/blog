@@ -27,8 +27,6 @@
             <!-- Login form -->
             <form @submit.prevent="login()" class="w-100 p-5 shadow bg-white">
 
-                <div class="alert alert-danger rounded-3 mb-3 text-center" v-if="error !== null && error.error !== undefined" v-text="error.error"></div>
-
                 <!-- Title -->
                 <div class="h4 fw-bold">
                     Welcome to Npvider ! 👋🏻
@@ -38,6 +36,8 @@
                 <div class="text-secondary mb-3">
                     Please sign-in to your account and start the adventure
                 </div>
+
+                <div class="alert alert-danger rounded-3 mb-3 text-center" v-if="error !== null && error.error !== undefined" v-text="error.error"></div>
 
                 <!-- Email input field -->
                 <div class="form-group mb-3">
