@@ -39,11 +39,16 @@
 
                     </div>
 
-                    <div class="col-12 col-lg-4 py-1 text-end">
+                    <div class="col-12 col-lg-4 py-1 d-flex justify-content-end align-items-center gap-3">
 
-                        <!-- New -->
-                        <button type="button" class="btn btn-theme" style="width: 100px;" @click="openManageModal()">
-                            New
+                        <!-- new category -->
+                        <button type="button" class="btn btn-theme width-140" @click="openCategoryManageModal()">
+                            Manage Category
+                        </button>
+
+                        <!-- New blog -->
+                        <button type="button" class="btn btn-theme width-100" @click="openManageModal()">
+                            Create Blog
                         </button>
 
                     </div>
@@ -261,13 +266,25 @@
 
                     </div>
 
-                    <div class="form-group mb-3 w-100">
-                        <label id="selectTagParent" class="form-label w-100"> Tags </label>
-                        <select id="selectTag" name="tags" multiple="multiple" class="form-select w-100" v-model="formData.tags">
-                            <option></option>
-                            <option v-for="tag in tags" :key="tag.title" :value="tag.title">{{ tag.title }}</option>
+                    <div class="form-group">
+                        <label for="select-category" class="form-label">Tags Category</label>
+                        <select name="select-category" id="select-category" class="form-select">
+                            <option value="select-category"> Select Category </option>
+                            <option value="food"> Food </option>
+                            <option value="dress"> Dress </option>
+                            <option value="shelter"> Shelter </option>
+                            <option value="education"> Education </option>
+                            <option value="treatment"> Treatment </option>
                         </select>
                     </div>
+
+<!--                    <div class="form-group mb-3 w-100">-->
+<!--                        <label id="selectTagParent" class="form-label w-100"> Tags </label>-->
+<!--                        <select id="selectTag" name="tags" multiple="multiple" class="form-select w-100" v-model="formData.tags">-->
+<!--                            <option></option>-->
+<!--                            <option v-for="tag in tags" :key="tag.title" :value="tag.title">{{ tag.title }}</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
 
                 </div>
 
@@ -327,6 +344,93 @@
         </div>
     </div>
 
+    <!-- category management -->
+    <div class="modal fade" id="categoryManageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content rounded-3 border-0 p-4">
+
+                <div class="modal-header border-0">
+                    <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+                        Manage Category
+                    </h1>
+                    <button type="button" class="btn-close shadow-none" @click="closeCategoryManageModal()"></button>
+                </div>
+
+                <div class="modal-body border-0">
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <input type="text" name="" class="form-control shadow-none" required autocomplete="off" placeholder="Add Category">
+                        <button type="submit" class="btn btn-theme">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4 text-secondary fw-semibold flex-column" v-if="categories.length === 0">
+                        <div class="mb-2 text-danger">
+                            No data founded
+                        </div>
+                        Click + to add new data
+                    </div>
+
+                    <div class="mt-4" v-if="categories.length > 0">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width: 75px; max-width: 75px;">
+                                            <div class="p-2">
+                                                Sl. No.
+                                            </div>
+                                        </th>
+                                        <th style="min-width: 200px; max-width: 200px;">
+                                            <div class="p-2">
+                                                Category Name
+                                            </div>
+                                        </th>
+                                        <th style="min-width: 100px; max-width: 100px;">
+                                            <div class="p-2">
+                                                Action
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="each in categories">
+                                        <td>
+                                            <div class="p-2">
+                                                {{each.id}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="p-2">
+                                                {{each.name}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="p-2">
+                                                <div class="d-flex align-items-center justify-content-start gap-2">
+                                                    <button type="button" class="btn border-0 btn-action text-secondary width-35 height-35 d-flex justify-content-center align-items-center rounded-circle">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </button>
+                                                    <button type="button" class="btn border-0 btn-action text-danger width-35 height-35 d-flex justify-content-center align-items-center rounded-circle">
+                                                        <i class="bi bi-trash2"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </template>
 
 <script>
@@ -341,7 +445,7 @@ export default {
                 description: '',
                 is_featured: '',
                 allow_comment: '',
-                category: '',
+                category: 'select-category',
                 tags: '',
             },
             listParam: {
@@ -352,7 +456,13 @@ export default {
             isCategorySelect: false,
             tagsSelect2: null,
             categoryData: [],
-            categories: [],
+            categories: [
+                { id: '1', name: 'food' },
+                { id: '2', name: 'dress' },
+                { id: '3', name: 'shelter' },
+                { id: '4', name: 'education' },
+                { id: '5', name: 'treatment' },
+            ],
             categoryIds: [],
             tags: []
         }
@@ -362,16 +472,16 @@ export default {
 
         // Function of open manage model
         openManageModal() {
-            setTimeout(() => {
-                $('#selectTag').select2({
-                    dropdownParent: $('#selectTagParent'),
-                    tags: true,
-                    placeholder: 'Select Tag',
-                    allowClear: true,
-                }).on('change', (e) => {
-                    this.formData.tags = $(e.target).val();
-                });
-            }, 500);
+            // setTimeout(() => {
+            //     $('#selectTag').select2({
+            //         dropdownParent: $('#selectTagParent'),
+            //         tags: true,
+            //         placeholder: 'Select Tag',
+            //         allowClear: true,
+            //     }).on('change', (e) => {
+            //         this.formData.tags = $(e.target).val();
+            //     });
+            // }, 500);
             const myModal = new bootstrap.Modal("#manageModal", {keyboard: false});
             myModal.show();
         },
@@ -392,6 +502,19 @@ export default {
         // Function of close manage modal
         closeDeleteModal() {
             let myModalEl = document.getElementById('deleteModal');
+            let modal = bootstrap.Modal.getInstance(myModalEl)
+            modal.hide();
+        },
+
+        // Function of open category manage model
+        openCategoryManageModal() {
+            const myModal = new bootstrap.Modal("#categoryManageModal", {keyboard: false});
+            myModal.show();
+        },
+
+        // Function of close manage modal
+        closeCategoryManageModal() {
+            let myModalEl = document.getElementById('categoryManageModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
             modal.hide();
         },

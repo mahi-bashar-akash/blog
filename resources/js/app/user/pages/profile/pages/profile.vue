@@ -57,7 +57,7 @@
                     <div class="w-100 mt-5" v-if="tab === 'details'">
                         <div class="d-flex justify-content-center mb-3">
                             <img :src="profileData?.avatar" v-if="this.profileData?.avatar !== null" class="img-fluid rounded-circle object-fit-cover width-200 height-200" alt="avatar">
-                            <div class="width-200 height-200 bg-opacity-theme rounded-circle d-flex justify-content-center align-items-center fs-1">
+                            <div class="width-200 height-200 bg-theme text-white rounded-circle d-flex justify-content-center align-items-center fs-1">
                                 {{nameControl(this.userInfo?.name)}}
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                     </div>
 
                     <!-- Profile edit form -->
-                    <form class="w-100 mt-5" v-if="tab === 'edit-profile'">
+                    <form @submit.prevent="updateProfile()" class="w-100 mt-5" v-if="tab === 'edit-profile'">
                         <div class="d-flex justify-content-center align-items-center flex-column text-start">
                             <div class="form-group mb-3">
                                 <div class="position-relative">
@@ -92,43 +92,87 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="user-name" class="form-label"> Full Name </label>
-                            <input id="user-name" type="text" name="full-name" v-model="editProfileParam.name" class="form-control shadow-none" required autocomplete="off">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-name" class="form-label"> Full Name </label>
+                                    <input id="user-name" type="text" name="full-name" v-model="editProfileParam.name" class="form-control shadow-none" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-email" class="form-label"> Email </label>
+                                    <input id="user-email" type="email" name="email" v-model="editProfileParam.email" class="form-control shadow-none" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-phone-number" class="form-label"> Phone Number </label>
+                                    <input id="user-phone-number" type="text" name="phone-number" v-model="editProfileParam.phone" class="form-control shadow-none" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-facebook-link" class="form-label"> Facebook Link </label>
+                                    <input id="user-facebook-link" type="url" name="facebook-link" v-model="editProfileParam.facebook_link" class="form-control shadow-none" placeholder="https://www.facebook.com" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-twitter-link" class="form-label"> Twitter Link </label>
+                                    <input id="user-twitter-link" type="url" name="twitter-link" v-model="editProfileParam.twitter_link" class="form-control shadow-none" placeholder="https://www.twitter.com" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-instagram-link" class="form-label"> Instagram Link </label>
+                                    <input id="user-instagram-link" type="url" name="instagram-link" v-model="editProfileParam.instagram_link" class="form-control shadow-none" placeholder="https://www.instagram.com" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-linkedin-link" class="form-label"> Linkedin Link </label>
+                                    <input id="user-linkedin-link" type="url" name="linkedin-link" v-model="editProfileParam.linkedin_link" class="form-control shadow-none" placeholder="https://www.linkedin.com" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="user-youtube-link" class="form-label"> Youtube Link </label>
+                                    <input id="user-youtube-link" type="url" name="youtube-link" v-model="editProfileParam.youtube_link" class="form-control shadow-none" placeholder="https://www.youtube.com" autocomplete="off">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="user-email" class="form-label"> Email </label>
-                            <input id="user-email" type="email" name="email" v-model="editProfileParam.email" class="form-control shadow-none" required autocomplete="off">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="user-phone-number" class="form-label"> Phone Number </label>
-                            <input id="user-phone-number" type="text" name="phone-number" v-model="editProfileParam.phone" class="form-control shadow-none" required autocomplete="off">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="user-present-address" class="form-label"> Preset Address </label>
-                            <input id="user-present-address" type="text" name="present-address" v-model="editProfileParam.address" class="form-control shadow-none" required autocomplete="off">
-                        </div>
-                        <button type="submit" class="btn btn-theme" style="width: 150px;">
+                        <button type="submit" class="btn btn-theme width-150" v-if="!updateProfileLoading">
                             Update
+                        </button>
+                        <button type="button" class="btn btn-theme width-150 btn-loading d-flex justify-content-center align-items-center" v-if="updateProfileLoading">
+                            <span class="spinner-border d-inline-block width-17 height-17" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </span>
                         </button>
                     </form>
 
                     <!-- Profile change password -->
-                    <form class="w-100 mt-5" v-if="tab === 'change-password'">
+                    <form @submit.prevent="changePassword()" class="w-100 mt-5" v-if="tab === 'change-password'">
                         <div class="form-group mb-3">
                             <label for="user-current-password" class="form-label"> Current Password </label>
-                            <input id="user-current-password" type="password" name="current-password" v-model="changePasswordParam.current_password" class="form-control shadow-none" required autocomplete="off">
+                            <input id="user-current-password" type="password" name="current-password" v-model="changePasswordParam.current_password" class="form-control shadow-none" autocomplete="off">
                         </div>
                         <div class="form-group mb-3">
                             <label for="user-password" class="form-label"> Password </label>
-                            <input id="user-password" type="password" name="password" v-model="changePasswordParam.password" class="form-control shadow-none" required autocomplete="off">
+                            <input id="user-password" type="password" name="password" v-model="changePasswordParam.password" class="form-control shadow-none" autocomplete="off">
                         </div>
                         <div class="form-group mb-3">
                             <label for="user-password-confirmation" class="form-label"> Password Confirmation </label>
-                            <input id="user-password-confirmation" type="password" name="password-confirmation" v-model="changePasswordParam.password_confirmation" class="form-control shadow-none" required autocomplete="off">
+                            <input id="user-password-confirmation" type="password" name="password-confirmation" v-model="changePasswordParam.password_confirmation" class="form-control shadow-none" autocomplete="off">
                         </div>
-                        <button type="submit" class="btn btn-theme" style="width: 150px;">
+                        <button type="submit" class="btn btn-theme width-150" v-if="!changePasswordLoading">
                             Update
+                        </button>
+                        <button type="button" class="btn btn-theme width-150 btn-loading d-flex justify-content-center align-items-center" v-if="changePasswordLoading">
+                            <span class="spinner-border d-inline-block width-17 height-17" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </span>
                         </button>
                     </form>
 
@@ -160,6 +204,11 @@ export default {
                 name: '',
                 email: '',
                 phone: '',
+                facebook_link: '',
+                twitter_link: '',
+                instagram_link: '',
+                linkedin_link: '',
+                youtube_link: '',
             },
             changePasswordParam: {
                 current_password: '',
@@ -167,6 +216,8 @@ export default {
                 password_confirmation: '',
             },
             profileLoading: false,
+            updateProfileLoading: false,
+            changePasswordLoading: false,
             userInfo: window.core.UserInfo,
         }
     },
@@ -180,10 +231,48 @@ export default {
             this.profileLoading = false;
             axios.get(apiRoutes.profile, this.profileData, { headers: apiServices.headerContent }).then((response) => {
                 this.profileLoading = false;
-                toaster.info(response?.data?.message);
                 this.profileData = response?.data?.data
+                this.editProfileParam = this.profileData
             }).catch(err => {
                 this.profileLoading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!');
+                }
+            });
+        },
+
+        // Function of update profile data api callback
+        updateProfile() {
+            this.updateProfileLoading = false;
+            axios.patch(apiRoutes.profileUpdate, this.editProfileParam, { headers: apiServices.headerContent }).then((response) => {
+                this.updateProfileLoading = false;
+                this.tab = 'details';
+                toaster.info(response?.data?.message);
+            }).catch(err => {
+                this.updateProfileLoading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!');
+                }
+            });
+        },
+
+        // Function of change password api callback
+        changePassword() {
+            this.changePasswordLoading = false;
+            axios.patch(apiRoutes.changePassword, this.changePasswordParam, { headers: apiServices.headerContent }).then((response) => {
+                this.changePasswordLoading = false;
+                this.tab = 'details';
+                toaster.info(response?.data?.message);
+            }).catch(err => {
+                this.changePasswordLoading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
