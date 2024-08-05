@@ -122,22 +122,22 @@
                 <hr class="w-100 border border-secondary">
 
                 <!-- Leave a comment -->
-                <div class="h1 py-3">
+                <div class="h1 py-3" v-if="userInfo !== null">
                     Leave a comment
                 </div>
 
                 <!-- Login to access form for submit comment -->
-                <div class="text-secondary pb-3">
+                <div class="text-secondary py-3" v-if="userInfo === null">
                     You must be
                     <!-- Login route -->
                     <router-link :to="{name: 'login'}" class="text-decoration-none text-primary">
                         logged in
                     </router-link>
-                    to post a comment.
+                    to comment on post.
                 </div>
 
                 <!-- Allow comment form -->
-                <form class="row">
+                <form class="row" v-if="userInfo !== null">
                     <div class="col-md-6">
 
                         <!-- Name input field -->
@@ -191,8 +191,8 @@
                     <div class="d-flex justify-content-start align-items-start">
                         <!-- commented user avatar -->
                         <div>
-                            <img :src="`/images/avatar.png`" class="img-fluid object-fit-cover rounded-circle"
-                                 style="width: 45px; height: 45px;" alt="avatar">
+                            <img :src="`/images/avatar.png`" class="img-fluid object-fit-cover rounded-circle width-45 height-45"
+                                 alt="avatar">
                         </div>
                         <div class="ps-3">
 
@@ -274,7 +274,8 @@ export default {
                 likes: '4000',
                 comment: '3000000',
                 share: '2000',
-            }
+            },
+            userInfo: window.core.UserInfo,
         }
     },
     mounted() {
