@@ -28,7 +28,7 @@
                         <li class="nav-item dropdown" v-if="this.userInfo !== null">
                             <a class="nav-link p-0" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="rounded-circle bg-theme text-white d-flex justify-content-center align-items-center" style="width:45px; height:45px;">
-                                    {{nameControl(profileName)}}
+                                    {{nameControl(this.userInfo?.name)}}
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
@@ -43,8 +43,13 @@
                                     </router-link>
                                 </li>
                                 <li>
-                                    <button type="button" class="dropdown-item" @click="collapse()">
+                                    <button type="button" class="dropdown-item" v-if="!profileLogoutLoading" @click="profileLogout();collapse()">
                                         Logout
+                                    </button>
+                                    <button type="button" class="dropdown-item" disabled v-if="profileLogoutLoading">
+                                        <span class="spinner-border d-inline-block width-17 height-17" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </span>
                                     </button>
                                 </li>
                             </ul>
@@ -58,6 +63,14 @@
 </template>
 
 <script>
+import apiRoutes from "@/app/api/apiRoutes.js";
+import apiServices from '@/app/api/apiServices.js'
+import axios from "axios";
+
+import {createToaster} from "@meforma/vue-toaster";
+const toaster = createToaster({
+    position: 'top-right',
+});
 
 export default {
     data(){
@@ -65,11 +78,10 @@ export default {
             tab: 'edit-profile',
             profileName: 'Mahi Bashar Akash',
             userInfo: window.core.UserInfo,
+            profileLogoutLoading: false,
         }
     },
     mounted() {
-
-        console.log(this.userInfo)
 
         this.scrollEffect();
 
@@ -105,7 +117,25 @@ export default {
             let words = fullName.split(' ');
             let outPut = ` ${words[0][0].toUpperCase()}${ words[words.length - 1][0].toUpperCase()}`;
             return outPut;
-        }
+        },
+
+        profileLogout() {
+            this.profileLogoutLoading = false;
+            axios.get(apiRoutes.logout, '', { headers: apiServices.headerContent }).then((response) => {
+                this.profileLogoutLoading = false;
+                toaster.info(response?.data?.message);
+                window.location.reload();
+            }).catch(err => {
+                this.profileLogoutLoading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!');
+                }
+            });
+        },
 
     }
 }

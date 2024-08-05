@@ -128,8 +128,8 @@
 </template>
 
 <script>
-import apiRoutes from '../../api/apiRoutes.js'
-import apiServices from '../../api/apiServices.js'
+import apiRoutes from "@/app/api/apiRoutes.js";
+import apiServices from '@/app/api/apiServices.js'
 import axios from "axios";
 
 import {createToaster} from "@meforma/vue-toaster";

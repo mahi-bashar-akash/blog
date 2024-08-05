@@ -56,23 +56,22 @@
                     <!-- Profile details -->
                     <div class="w-100 mt-5" v-if="tab === 'details'">
                         <div class="d-flex justify-content-center mb-3">
-                            <img :src="profileData?.avatar" class="img-fluid rounded-circle object-fit-cover" style="width: 200px; height: 200px" alt="avatar">
+                            <img :src="profileData?.avatar" v-if="this.profileData?.avatar !== null" class="img-fluid rounded-circle object-fit-cover width-200 height-200" alt="avatar">
+                            <div class="width-200 height-200 bg-opacity-theme rounded-circle d-flex justify-content-center align-items-center fs-1">
+                                {{nameControl(this.userInfo?.name)}}
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <div class="fs-6 fw-bold"> Full Name </div>
+                            <div class="fs-6 fw-bold"> Name </div>
                             <div class="fs-6 text-secondary"> {{profileData?.name}} </div>
                         </div>
                         <div class="mb-3">
                             <div class="fs-6 fw-bold"> Email </div>
                             <div class="fs-6 text-secondary"> {{profileData?.email}} </div>
                         </div>
-                        <div class="mb-3">
+                        <div>
                             <div class="fs-6 fw-bold"> Phone Number </div>
                             <div class="fs-6 text-secondary"> {{profileData?.phone}} </div>
-                        </div>
-                        <div>
-                            <div class="fs-6 fw-bold"> Present Address </div>
-                            <div class="fs-6 text-secondary"> {{profileData?.address}} </div>
                         </div>
                     </div>
 
@@ -141,19 +140,21 @@
 </template>
 
 <script>
+import apiRoutes from "@/app/api/apiRoutes.js";
+import apiServices from '@/app/api/apiServices.js'
+import axios from "axios";
+
+import {createToaster} from "@meforma/vue-toaster";
+const toaster = createToaster({
+    position: 'top-right',
+});
 
 export default {
     data(){
         return {
             // Data properties
             tab: 'details',
-            profileData: {
-                avatar: '/images/avatar.png',
-                name: 'Mahi Bashar Akash',
-                email: 'mahibashar2023@gmail.com',
-                phone: '01400125289',
-                address: 'Dhanmondi, Dhaka - 1209, Bangladesh',
-            },
+            profileData: {},
             editProfileParam: {
                 avatar: null,
                 name: '',
@@ -164,11 +165,43 @@ export default {
                 current_password: '',
                 password: '',
                 password_confirmation: '',
-            }
+            },
+            profileLoading: false,
+            userInfo: window.core.UserInfo,
         }
     },
-    mounted() {  },
-    methods: {  }
+    mounted() {
+        this.getProfile();
+    },
+    methods: {
+
+        // Function of get profile data api callback
+        getProfile() {
+            this.profileLoading = false;
+            axios.get(apiRoutes.profile, this.profileData, { headers: apiServices.headerContent }).then((response) => {
+                this.profileLoading = false;
+                toaster.info(response?.data?.message);
+                this.profileData = response?.data?.data
+            }).catch(err => {
+                this.profileLoading = false;
+                let res = err.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!');
+                }
+            });
+        },
+
+        // Function of name control
+        nameControl(fullName) {
+            let words = fullName.split(' ');
+            let outPut = ` ${words[0][0].toUpperCase()}${ words[words.length - 1][0].toUpperCase()}`;
+            return outPut;
+        },
+
+    }
 }
 
 </script>

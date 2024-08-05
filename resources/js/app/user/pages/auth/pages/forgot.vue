@@ -47,7 +47,7 @@
                     <label for="forgot-email" class="form-label">Email</label>
                     <input id="forgot-email" type="email" name="email" class="form-control shadow-none"
                            autocomplete="off" v-model="forgotParam.email">
-                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
+                    <div class="error-report" v-if="forgotError != null && forgotError.email !== undefined"> {{forgotError.email[0]}} </div>
                 </div>
 
                 <!-- Action button -->
@@ -89,15 +89,15 @@
                     <label for="reset-email" class="form-label">Email</label>
                     <input id="reset-email" type="email" name="email" class="form-control shadow-none"
                            v-model="resetParam.email" autocomplete="off">
-                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
+                    <div class="error-report" v-if="resetError != null && resetError.email !== undefined"> {{resetError.email[0]}} </div>
                 </div>
 
                 <!-- Code input field -->
                 <div class="form-group mb-3">
                     <label for="reset-code" class="form-label">Code</label>
                     <input id="reset-code" type="text" name="code" class="form-control shadow-none"
-                           v-model="resetParam.code" autocomplete="off">
-                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
+                           v-model="resetParam.reset_code" autocomplete="off">
+                    <div class="error-report" v-if="resetError != null && resetError.reset_code !== undefined"> {{resetError.reset_code[0]}} </div>
                 </div>
 
                 <!-- Password input field -->
@@ -117,7 +117,7 @@
                             </button>
                         </span>
                     </div>
-                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
+                    <div class="resetError-report" v-if="resetError != null && resetError.password !== undefined"> {{resetError.password[0]}} </div>
                 </div>
 
                 <!-- Password confirmation input field -->
@@ -137,7 +137,7 @@
                             </button>
                         </span>
                     </div>
-                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
+                    <div class="resetError-report" v-if="resetError != null && resetError.password_confirmation !== undefined"> {{resetError.password_confirmation[0]}} </div>
                 </div>
 
                 <!-- Action button -->
@@ -165,8 +165,8 @@
 </template>
 
 <script>
-import apiRoutes from '../../api/apiRoutes.js'
-import apiServices from '../../api/apiServices.js'
+import apiRoutes from "@/app/api/apiRoutes.js";
+import apiServices from '@/app/api/apiServices.js'
 import axios from "axios";
 
 import {createToaster} from "@meforma/vue-toaster";
@@ -184,7 +184,7 @@ export default {
             },
             resetParam: {
                 email: '',
-                code: '',
+                reset_code: '',
                 password: '',
                 password_confirmation: '',
             },
@@ -194,7 +194,8 @@ export default {
             passwordConfirmationFieldType: 'password',
             forgotLoading: false,
             resetLoading: false,
-            error: null,
+            forgotError: null,
+            resetError: null,
         }
     },
     mounted() {  },
@@ -215,15 +216,15 @@ export default {
             this.forgotLoading = true;
             axios.post(apiRoutes.forgot, this.forgotParam, { headers: apiServices.headerContent }).then((response) => {
                 this.forgotLoading = false;
-                toaster.info(response?.data?.message);
-                this.forgotParam.email = this.resetParam.email
+                this.resetParam.email = this.forgotParam.email
                 this.tab = 'reset';
+                toaster.info(response?.data?.message);
             }).catch(err => {
                 this.forgotLoading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors;
+                    this.forgotError = res?.data?.errors;
                 } else {
                     toaster.error('Server error!');
                 }
@@ -236,12 +237,13 @@ export default {
             axios.post(apiRoutes.reset, this.resetParam, { headers: apiServices.headerContent }).then((response) => {
                 this.resetLoading = false;
                 toaster.info(response?.data?.message);
+                this.$router.push({name: 'login'});
             }).catch(err => {
                 this.resetLoading = false;
                 let res = err.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
-                    this.error = res?.data?.errors;
+                    this.resetError = res?.data?.errors;
                 } else {
                     toaster.error('Server error!');
                 }
