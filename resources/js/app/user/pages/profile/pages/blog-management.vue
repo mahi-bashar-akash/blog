@@ -266,25 +266,13 @@
 
                     </div>
 
-                    <div class="form-group">
-                        <label for="select-category" class="form-label">Tags Category</label>
-                        <select name="select-category" id="select-category" class="form-select">
-                            <option value="select-category"> Select Category </option>
-                            <option value="food"> Food </option>
-                            <option value="dress"> Dress </option>
-                            <option value="shelter"> Shelter </option>
-                            <option value="education"> Education </option>
-                            <option value="treatment"> Treatment </option>
+                    <div class="form-group mb-3 w-100">
+                        <label id="selectTagParent" class="form-label w-100"> Tags </label>
+                        <select id="selectTag" name="tags" multiple="multiple" class="form-select w-100" v-model="formData.tags">
+                            <option></option>
+                            <option v-for="tag in tags" :key="tag.title" :value="tag.title">{{ tag.title }}</option>
                         </select>
                     </div>
-
-<!--                    <div class="form-group mb-3 w-100">-->
-<!--                        <label id="selectTagParent" class="form-label w-100"> Tags </label>-->
-<!--                        <select id="selectTag" name="tags" multiple="multiple" class="form-select w-100" v-model="formData.tags">-->
-<!--                            <option></option>-->
-<!--                            <option v-for="tag in tags" :key="tag.title" :value="tag.title">{{ tag.title }}</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
 
                 </div>
 
@@ -434,6 +422,14 @@
 </template>
 
 <script>
+import apiRoutes from "@/app/api/apiRoutes.js";
+import apiServices from '@/app/api/apiServices.js'
+import axios from "axios";
+
+import {createToaster} from "@meforma/vue-toaster";
+const toaster = createToaster({
+    position: 'top-right',
+});
 
 export default {
     data(){
@@ -456,32 +452,38 @@ export default {
             isCategorySelect: false,
             tagsSelect2: null,
             categoryData: [],
-            categories: [
-                { id: '1', name: 'food' },
-                { id: '2', name: 'dress' },
-                { id: '3', name: 'shelter' },
-                { id: '4', name: 'education' },
-                { id: '5', name: 'treatment' },
-            ],
+            categories: [],
             categoryIds: [],
-            tags: []
+            tags: [],
+            listCategoryParam: {
+                keyword: '',
+                limit: 20,
+                page: 1,
+            },
+            listCategoryLoading: false,
+            manageCategoryLoading: false,
+            singleCategoryLoading: false,
+            deleteCategoryLoading: false,
+            current_page: 1,
         }
     },
-    mounted() {  },
+    mounted() {
+        this.listCategory()
+    },
     methods: {
 
         // Function of open manage model
         openManageModal() {
-            // setTimeout(() => {
-            //     $('#selectTag').select2({
-            //         dropdownParent: $('#selectTagParent'),
-            //         tags: true,
-            //         placeholder: 'Select Tag',
-            //         allowClear: true,
-            //     }).on('change', (e) => {
-            //         this.formData.tags = $(e.target).val();
-            //     });
-            // }, 500);
+            setTimeout(() => {
+                $('#selectTag').select2({
+                    dropdownParent: $('#selectTagParent'),
+                    tags: true,
+                    placeholder: 'Select Tag',
+                    allowClear: true,
+                }).on('change', (e) => {
+                    this.formData.tags = $(e.target).val();
+                });
+            }, 500);
             const myModal = new bootstrap.Modal("#manageModal", {keyboard: false});
             myModal.show();
         },
@@ -533,6 +535,92 @@ export default {
             const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
             const item = lookup.findLast(item => num >= item.value);
             return item ? (num / item.value).toFixed(digits).replace(regexp, "").concat(item.symbol) : "0";
+        },
+
+        // Function of category list api callback
+        listCategory() {
+            this.listCategoryLoading = true;
+            this.listCategoryParam.page = this.current_page;
+            axios.get(apiRoutes.categories, {params: this.listCategoryParam}, {headers: apiServices.headerContent}).then((response) => {
+                this.listCategoryLoading = false;
+                console.log(response)
+            }).catch(err => {
+                this.listCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of category create api callback
+        createCategory() {
+            this.manageCategoryLoading = true;
+            axios.post(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.manageCategoryLoading = false;
+                toaster.info(response?.data?.message);
+            }).catch(err => {
+                this.manageCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of category update api callback
+        updateCategory() {
+            this.manageCategoryLoading = true;
+            axios.patch(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.manageCategoryLoading = false;
+                toaster.info(response?.data?.message);
+            }).catch(err => {
+                this.manageCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of single category api callback
+        singleCategory() {
+            this.singleCategoryLoading = true;
+            axios.get(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.singleCategoryLoading = false;
+                this.formData = response?.data?.data;
+            }).catch(err => {
+                this.singleCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of category delete api callback
+        deleteCategory() {
+            this.deleteCategoryLoading = true;
+            axios.patch(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.deleteCategoryLoading = false;
+                toaster.info(response?.data?.message);
+            }).catch(err => {
+                this.deleteCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
         },
 
     }

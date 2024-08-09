@@ -117,7 +117,7 @@
                             </button>
                         </span>
                     </div>
-                    <div class="resetError-report" v-if="resetError != null && resetError.password !== undefined"> {{resetError.password[0]}} </div>
+                    <div class="error-report" v-if="resetError != null && resetError.password !== undefined"> {{resetError.password[0]}} </div>
                 </div>
 
                 <!-- Password confirmation input field -->
@@ -137,7 +137,7 @@
                             </button>
                         </span>
                     </div>
-                    <div class="resetError-report" v-if="resetError != null && resetError.password_confirmation !== undefined"> {{resetError.password_confirmation[0]}} </div>
+                    <div class="error-report" v-if="resetError != null && resetError.password_confirmation !== undefined"> {{resetError.password_confirmation[0]}} </div>
                 </div>
 
                 <!-- Action button -->
