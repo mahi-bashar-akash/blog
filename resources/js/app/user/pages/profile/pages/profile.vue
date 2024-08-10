@@ -108,37 +108,37 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-phone-number" class="form-label"> Phone Number </label>
-                                    <input id="user-phone-number" type="text" name="phone-number" v-model="editProfileParam.phone" class="form-control shadow-none" autocomplete="off">
+                                    <input id="user-phone-number" type="text" name="phone" v-model="editProfileParam.phone" class="form-control shadow-none" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-facebook-link" class="form-label"> Facebook Link </label>
-                                    <input id="user-facebook-link" type="url" name="facebook-link" v-model="editProfileParam.facebook_link" class="form-control shadow-none" placeholder="https://www.facebook.com" autocomplete="off">
+                                    <input id="user-facebook-link" type="url" name="facebook_link" v-model="editProfileParam.facebook_link" class="form-control shadow-none" placeholder="https://www.facebook.com" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-twitter-link" class="form-label"> Twitter Link </label>
-                                    <input id="user-twitter-link" type="url" name="twitter-link" v-model="editProfileParam.twitter_link" class="form-control shadow-none" placeholder="https://www.twitter.com" autocomplete="off">
+                                    <input id="user-twitter-link" type="url" name="twitter_link" v-model="editProfileParam.twitter_link" class="form-control shadow-none" placeholder="https://www.twitter.com" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-instagram-link" class="form-label"> Instagram Link </label>
-                                    <input id="user-instagram-link" type="url" name="instagram-link" v-model="editProfileParam.instagram_link" class="form-control shadow-none" placeholder="https://www.instagram.com" autocomplete="off">
+                                    <input id="user-instagram-link" type="url" name="instagram_link" v-model="editProfileParam.instagram_link" class="form-control shadow-none" placeholder="https://www.instagram.com" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-linkedin-link" class="form-label"> Linkedin Link </label>
-                                    <input id="user-linkedin-link" type="url" name="linkedin-link" v-model="editProfileParam.linkedin_link" class="form-control shadow-none" placeholder="https://www.linkedin.com" autocomplete="off">
+                                    <input id="user-linkedin-link" type="url" name="linkedin_link" v-model="editProfileParam.linkedin_link" class="form-control shadow-none" placeholder="https://www.linkedin.com" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-youtube-link" class="form-label"> Youtube Link </label>
-                                    <input id="user-youtube-link" type="url" name="youtube-link" v-model="editProfileParam.youtube_link" class="form-control shadow-none" placeholder="https://www.youtube.com" autocomplete="off">
+                                    <input id="user-youtube-link" type="url" name="youtube_link" v-model="editProfileParam.youtube_link" class="form-control shadow-none" placeholder="https://www.youtube.com" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -204,11 +204,11 @@ export default {
                 name: '',
                 email: '',
                 phone: '',
-                facebook_link: '',
-                twitter_link: '',
-                instagram_link: '',
-                linkedin_link: '',
-                youtube_link: '',
+                facebook_link: 'https://www.facebook.com/',
+                twitter_link: 'https://www.twitter.com/',
+                instagram_link: 'https://www.instagram.com/',
+                linkedin_link: 'https://www.linkedin.com/',
+                youtube_link: 'https://www.youtube.com/',
             },
             changePasswordParam: {
                 current_password: '',

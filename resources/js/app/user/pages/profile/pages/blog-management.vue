@@ -39,15 +39,15 @@
 
                     </div>
 
-                    <div class="col-12 col-lg-4 py-1 d-flex justify-content-end align-items-center gap-3">
+                    <div class="col-12 col-lg-8 py-1 d-flex justify-content-end align-items-center gap-3">
 
                         <!-- new category -->
-                        <button type="button" class="btn btn-theme width-140" @click="openCategoryManageModal()">
-                            Manage Category
+                        <button type="button" class="btn btn-theme px-4" @click="openCategoryListModal()">
+                            Category
                         </button>
 
                         <!-- New blog -->
-                        <button type="button" class="btn btn-theme width-100" @click="openManageModal()">
+                        <button type="button" class="btn btn-theme px-4" @click="openManageBlogModal()">
                             Create Blog
                         </button>
 
@@ -128,12 +128,12 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li>
-                                                <button type="button" class="dropdown-item mb-1" @click="openManageModal()">
+                                                <button type="button" class="dropdown-item mb-1" @click="openManageBlogModal()">
                                                     Edit
                                                 </button>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item" @click="openDeleteModal()">
+                                                <button type="button" class="dropdown-item" @click="openDeleteBlogModal()">
                                                     Delete
                                                 </button>
                                             </li>
@@ -192,7 +192,7 @@
     </section>
 
     <!-- Blog manage modal -->
-    <div class="modal fade" id="manageModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="manageBlogModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
 
             <!-- Manage blog form -->
@@ -294,7 +294,7 @@
     </div>
 
     <!-- Blog delete modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteBlogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
 
             <!-- Form blog delete -->
@@ -302,7 +302,7 @@
 
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel"> Delete Blog </h1>
-                    <button type="button" class="btn-close shadow-none" @click="closeDeleteModal()"></button>
+                    <button type="button" class="btn-close shadow-none" @click="closeBlogDeleteModal()"></button>
                 </div>
 
                 <div class="modal-body border-0">
@@ -314,7 +314,7 @@
 
                     <div class="col-5">
                         <button type="button" class="btn btn-secondary py-2 w-100"
-                                @click="closeDeleteModal()">
+                                @click="closeBlogDeleteModal()">
                             Close
                         </button>
                     </div>
@@ -332,23 +332,23 @@
         </div>
     </div>
 
-    <!-- category management -->
-    <div class="modal fade" id="categoryManageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- category list modal -->
+    <div class="modal fade" id="categoryListModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
 
             <div class="modal-content rounded-3 border-0 p-4">
 
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
-                        Manage Category
+                        Category
                     </h1>
-                    <button type="button" class="btn-close shadow-none" @click="closeCategoryManageModal()"></button>
+                    <button type="button" class="btn-close shadow-none" @click="closeCategoryListModal()"></button>
                 </div>
 
                 <div class="modal-body border-0">
                     <div class="d-flex align-items-center justify-content-between gap-3">
-                        <input type="text" name="" class="form-control shadow-none" required autocomplete="off" placeholder="Add Category">
-                        <button type="submit" class="btn btn-theme">
+                        <input type="text" name="keyword" class="form-control shadow-none" required autocomplete="off" placeholder="Search here...">
+                        <button type="submit" class="btn btn-theme" @click="openCategoryManageModal()">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                     </div>
@@ -397,10 +397,10 @@
                                         <td>
                                             <div class="p-2">
                                                 <div class="d-flex align-items-center justify-content-start gap-2">
-                                                    <button type="button" class="btn border-0 btn-action text-secondary width-35 height-35 d-flex justify-content-center align-items-center rounded-circle">
+                                                    <button type="button" class="btn border-0 btn-action text-secondary width-35 height-35 d-flex justify-content-center align-items-center rounded-circle" @click="openCategoryManageModal(each.id)">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </button>
-                                                    <button type="button" class="btn border-0 btn-action text-danger width-35 height-35 d-flex justify-content-center align-items-center rounded-circle">
+                                                    <button type="button" class="btn border-0 btn-action text-danger width-35 height-35 d-flex justify-content-center align-items-center rounded-circle" @click="openCategoryDeleteModal(each.id)">
                                                         <i class="bi bi-trash2"></i>
                                                     </button>
                                                 </div>
@@ -415,6 +415,76 @@
                 </div>
 
             </div>
+
+        </div>
+    </div>
+
+    <!-- category manage modal -->
+    <div class="modal fade" id="categoryManageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+
+            <form @submit.prevent="manageCategory()" class="modal-content rounded-3 border-0 p-4">
+
+                <div class="modal-header border-0">
+                    <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+                        <span v-if="this.categoryParam.id === undefined || null || ''"> Create </span>
+                        <span v-if="this.categoryParam.id !== undefined || null || ''"> Edit </span>
+                        Category
+                    </h1>
+                    <button type="button" class="btn-close shadow-none" @click="closeCategoryManageModal()"></button>
+                </div>
+
+                <div class="modal-body border-0">
+
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input id="name" type="text" name="name" class="form-control shadow-none" required autocomplete="off" placeholder="Category name" v-model="categoryParam.name">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer border-0 d-flex justify-content-end align-items-center">
+                    <button type="button" class="btn btn-secondary width-100" @click="closeCategoryManageModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-theme width-100">
+                        Submit
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- category Delete modal -->
+    <div class="modal fade" id="categoryDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+
+            <form @submit.prevent="deleteCategory()" class="modal-content rounded-3 border-0 p-4">
+
+                <div class="modal-header border-0">
+                    <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
+                        Delete Category
+                    </h1>
+                    <button type="button" class="btn-close shadow-none" @click="closeCategoryDeleteModal()"></button>
+                </div>
+
+                <div class="modal-body border-0">
+                    <div class="bi bi-trash2 m-0 p-0 text-center text-danger" style="font-size: 65px"></div>
+                    <div class="mb-3 text-center fs-4"> Are you sure ?</div>
+                </div>
+
+                <div class="modal-footer border-0 d-flex justify-content-end align-items-center">
+                    <button type="button" class="btn btn-secondary width-100" @click="closeCategoryDeleteModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-theme width-100">
+                        Submit
+                    </button>
+                </div>
+
+            </form>
 
         </div>
     </div>
@@ -453,6 +523,9 @@ export default {
             tagsSelect2: null,
             categoryData: [],
             categories: [],
+            categoryParam: {
+                name
+            },
             categoryIds: [],
             tags: [],
             listCategoryParam: {
@@ -468,12 +541,15 @@ export default {
         }
     },
     mounted() {
-        this.listCategory()
+        this.listCategory();
+        if (!(this.categoryParam.id === undefined || null || '')) {
+            this.singleCategory();
+        }
     },
     methods: {
 
         // Function of open manage model
-        openManageModal() {
+        openManageBlogModal() {
             setTimeout(() => {
                 $('#selectTag').select2({
                     dropdownParent: $('#selectTagParent'),
@@ -484,39 +560,69 @@ export default {
                     this.formData.tags = $(e.target).val();
                 });
             }, 500);
-            const myModal = new bootstrap.Modal("#manageModal", {keyboard: false});
+            const myModal = new bootstrap.Modal("#manageBlogModal", {keyboard: false});
             myModal.show();
         },
 
         // Function of close manage modal
         closeManageModal() {
-            let myModalEl = document.getElementById('manageModal');
+            let myModalEl = document.getElementById('manageBlogModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
             modal.hide();
         },
 
         // Function of open manage model
-        openDeleteModal() {
-            const myModal = new bootstrap.Modal("#deleteModal", {keyboard: false});
+        openDeleteBlogModal() {
+            const myModal = new bootstrap.Modal("#deleteBlogModal", {keyboard: false});
             myModal.show();
         },
 
         // Function of close manage modal
-        closeDeleteModal() {
-            let myModalEl = document.getElementById('deleteModal');
+        closeBlogDeleteModal() {
+            let myModalEl = document.getElementById('deleteBlogModal');
+            let modal = bootstrap.Modal.getInstance(myModalEl)
+            modal.hide();
+        },
+
+        // Function of open category manage model
+        openCategoryListModal() {
+            const myModal = new bootstrap.Modal("#categoryListModal", {keyboard: false});
+            myModal.show();
+        },
+
+        // Function of close manage modal
+        closeCategoryListModal() {
+            let myModalEl = document.getElementById('categoryListModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
             modal.hide();
         },
 
         // Function of open category manage model
         openCategoryManageModal() {
+            this.closeCategoryListModal();
             const myModal = new bootstrap.Modal("#categoryManageModal", {keyboard: false});
             myModal.show();
         },
 
-        // Function of close manage modal
+        // Function of close category manage modal
         closeCategoryManageModal() {
+            this.openCategoryListModal();
             let myModalEl = document.getElementById('categoryManageModal');
+            let modal = bootstrap.Modal.getInstance(myModalEl)
+            modal.hide();
+        },
+
+        // Function of open category manage model
+        openCategoryDeleteModal() {
+            this.closeCategoryListModal();
+            const myModal = new bootstrap.Modal("#categoryDeleteModal", {keyboard: false});
+            myModal.show();
+        },
+
+        // Function of close category manage modal
+        closeCategoryDeleteModal() {
+            this.openCategoryListModal();
+            let myModalEl = document.getElementById('categoryDeleteModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
             modal.hide();
         },
@@ -543,7 +649,8 @@ export default {
             this.listCategoryParam.page = this.current_page;
             axios.get(apiRoutes.categories, {params: this.listCategoryParam}, {headers: apiServices.headerContent}).then((response) => {
                 this.listCategoryLoading = false;
-                console.log(response)
+                this.tableData = response?.data;
+                console.log(this.tableData)
             }).catch(err => {
                 this.listCategoryLoading = false;
                 let res = err?.response;
@@ -555,11 +662,21 @@ export default {
             })
         },
 
+        // Function of manage category api callback
+        manageCategory() {
+            if(this.categoryParam.id === undefined || null || '') {
+                this.createCategory();
+            }else{
+                this.updateCategory();
+            }
+        },
+
         // Function of category create api callback
         createCategory() {
             this.manageCategoryLoading = true;
-            axios.post(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+            axios.post(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
+                console.log(response?.data)
                 toaster.info(response?.data?.message);
             }).catch(err => {
                 this.manageCategoryLoading = false;
@@ -575,7 +692,7 @@ export default {
         // Function of category update api callback
         updateCategory() {
             this.manageCategoryLoading = true;
-            axios.patch(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+            axios.patch(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
                 toaster.info(response?.data?.message);
             }).catch(err => {
@@ -592,7 +709,7 @@ export default {
         // Function of single category api callback
         singleCategory() {
             this.singleCategoryLoading = true;
-            axios.get(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+            axios.get(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.singleCategoryLoading = false;
                 this.formData = response?.data?.data;
             }).catch(err => {
@@ -609,7 +726,7 @@ export default {
         // Function of category delete api callback
         deleteCategory() {
             this.deleteCategoryLoading = true;
-            axios.patch(apiRoutes.categories, this.formData, {headers: apiServices.headerContent}).then((response) => {
+            axios.delete(apiRoutes.categories, this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
                 this.deleteCategoryLoading = false;
                 toaster.info(response?.data?.message);
             }).catch(err => {

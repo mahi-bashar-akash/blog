@@ -2,85 +2,84 @@
 
 namespace App\Http\Controllers\UserController;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Services\CategoryService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Routing\Controller as BaseController;
 
-class CategoryController extends BaseController
+class CategoryController extends Controller
 {
+    private CategoryService $categoryService;
 
-    // Display a listing of the resource.
-    public function index()
+    public function __construct(CategoryService $categoryService)
     {
-        $categories = Category::all();
-        return response()->json($categories);
+        $this->categoryService = $categoryService;
     }
 
-    // Store a newly created resource in storage.
-    public function store(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        // Validate request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'limit' => 'nullable|integer',
+            'keyword' => 'nullable|string',
+            'orderBy' => 'nullable|string',
+            'order' => 'nullable|in:asc,desc',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 422, 'errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Create the category
-        $category = Category::create($request->all());
+        try {
+            $filter = [
+                'limit' => $request->limit ?? 20,
+                'keyword' => $request->keyword ?? '',
+                'orderBy' => $request->orderBy ?? 'name',
+                'order' => $request->order ?? 'asc',
+            ];
 
+            $categories = $this->categoryService->getAll($filter);
+            return response()->json($categories, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function show($id)
+    {
+        $category = $this->categoryService->getById($id);
+        return response()->json($category, 200);
+    }
+
+    public function store(CategoryRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+        $category = $this->categoryService->create($data);
         return response()->json($category, 201);
     }
 
-    // Display the specified resource.
-    public function show($id)
+    public function update(CategoryRequest $request, $id): JsonResponse
     {
-        $category = Category::find($id);
-
-        if ($category) {
-            return response()->json($category);
+        $data = $request->validated();
+        $category = $this->categoryService->getById($id);
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
         }
-
-        return response()->json(['status' => 404, 'message' => 'Category not found'], 404);
+        $category = $this->categoryService->update($category, $data);
+        return response()->json($category, 200);
     }
 
-    // Update the specified resource in storage.
-    public function update(Request $request, $id)
+    public function destroy($id): JsonResponse
     {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-        ]);
+        $category = $this->categoryService->getById($id);
 
-        if ($validator->fails()) {
-            return response()->json(['status' => 422, 'errors' => $validator->errors()], 422);
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
         }
+        $this->categoryService->delete($category);
 
-        // Find and update the category
-        $category = Category::find($id);
-
-        if ($category) {
-            $category->update($request->all());
-            return response()->json($category);
-        }
-
-        return response()->json(['status' => 404, 'message' => 'Category not found'], 404);
-    }
-
-    // Remove the specified resource from storage.
-    public function destroy($id)
-    {
-        $category = Category::find($id);
-
-        if ($category) {
-            $category->delete();
-            return response()->json(null, 204);
-        }
-
-        return response()->json(['status' => 404, 'message' => 'Category not found'], 404);
+        return response()->json(['message' => 'Category deleted successfully'], 200);
     }
 
 }
