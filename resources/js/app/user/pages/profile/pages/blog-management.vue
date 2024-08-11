@@ -347,20 +347,20 @@
 
                 <div class="modal-body border-0">
                     <div class="d-flex align-items-center justify-content-between gap-3">
-                        <input type="text" name="keyword" class="form-control shadow-none" required autocomplete="off" placeholder="Search here...">
-                        <button type="submit" class="btn btn-theme" @click="openCategoryManageModal()">
+                        <input type="text" name="keyword" v-model="listParam.keyword" class="form-control shadow-none" required autocomplete="off" placeholder="Search here...">
+                        <button type="submit" class="btn btn-theme" @click="openCategoryManageModal(null)">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                     </div>
 
-                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4 text-secondary fw-semibold flex-column" v-if="categories.length === 0">
+                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4 text-secondary fw-semibold flex-column" v-if="categoryData.length === 0">
                         <div class="mb-2 text-danger">
                             No data founded
                         </div>
                         Click + to add new data
                     </div>
 
-                    <div class="mt-4" v-if="categories.length > 0">
+                    <div class="mt-4" v-if="categoryData.length > 0">
                         <div class="table-responsive">
                             <table class="table table-borderless table-hover align-middle">
                                 <thead>
@@ -383,7 +383,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="each in categories">
+                                    <tr v-for="each in categoryData">
                                         <td>
                                             <div class="p-2">
                                                 {{each.id}}
@@ -427,8 +427,8 @@
 
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
-                        <span v-if="this.categoryParam.id === undefined || null || ''"> Create </span>
-                        <span v-if="this.categoryParam.id !== undefined || null || ''"> Edit </span>
+                        <span v-if="this.categoryParam.id === undefined"> Create </span>
+                        <span v-if="this.categoryParam.id !== undefined"> Edit </span>
                         Category
                     </h1>
                     <button type="button" class="btn-close shadow-none" @click="closeCategoryManageModal()"></button>
@@ -448,7 +448,8 @@
                         Cancel
                     </button>
                     <button type="submit" class="btn btn-theme width-100">
-                        Submit
+                        <span v-if="this.categoryParam.id === undefined"> Save </span>
+                        <span v-if="this.categoryParam.id !== undefined"> Update </span>
                     </button>
                 </div>
 
@@ -524,7 +525,7 @@ export default {
             categoryData: [],
             categories: [],
             categoryParam: {
-                name
+                name: '',
             },
             categoryIds: [],
             tags: [],
@@ -542,9 +543,6 @@ export default {
     },
     mounted() {
         this.listCategory();
-        if (!(this.categoryParam.id === undefined || null || '')) {
-            this.singleCategory();
-        }
     },
     methods: {
 
@@ -598,7 +596,18 @@ export default {
         },
 
         // Function of open category manage model
-        openCategoryManageModal() {
+        openCategoryManageModal(data = null) {
+            if (data !== null) {
+                this.formData = {
+                    id: data.id,
+                    name: data.name,
+                }
+            }else {
+                this.formData = {
+                    id: '',
+                    name: '',
+                }
+            }
             this.closeCategoryListModal();
             const myModal = new bootstrap.Modal("#categoryManageModal", {keyboard: false});
             myModal.show();
@@ -649,8 +658,7 @@ export default {
             this.listCategoryParam.page = this.current_page;
             axios.get(apiRoutes.categories, {params: this.listCategoryParam}, {headers: apiServices.headerContent}).then((response) => {
                 this.listCategoryLoading = false;
-                this.tableData = response?.data;
-                console.log(this.tableData)
+                this.categoryData = response?.data?.data;
             }).catch(err => {
                 this.listCategoryLoading = false;
                 let res = err?.response;
@@ -677,7 +685,7 @@ export default {
             axios.post(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
                 console.log(response?.data)
-                toaster.info(response?.data?.message);
+                toaster.info('Category created successfully');
             }).catch(err => {
                 this.manageCategoryLoading = false;
                 let res = err?.response;
@@ -692,28 +700,11 @@ export default {
         // Function of category update api callback
         updateCategory() {
             this.manageCategoryLoading = true;
-            axios.patch(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
+            axios.patch(apiRoutes.categories+'/'+this.categoryParam.id, this.categoryParam, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
-                toaster.info(response?.data?.message);
+                toaster.info('Category updated successfully');
             }).catch(err => {
                 this.manageCategoryLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of single category api callback
-        singleCategory() {
-            this.singleCategoryLoading = true;
-            axios.get(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
-                this.singleCategoryLoading = false;
-                this.formData = response?.data?.data;
-            }).catch(err => {
-                this.singleCategoryLoading = false;
                 let res = err?.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
@@ -726,9 +717,9 @@ export default {
         // Function of category delete api callback
         deleteCategory() {
             this.deleteCategoryLoading = true;
-            axios.delete(apiRoutes.categories, this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
+            axios.delete(apiRoutes.categories+'/'+this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
                 this.deleteCategoryLoading = false;
-                toaster.info(response?.data?.message);
+                toaster.info('Category deleted successfully');
             }).catch(err => {
                 this.deleteCategoryLoading = false;
                 let res = err?.response;

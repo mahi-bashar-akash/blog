@@ -32,21 +32,21 @@
 
                         <!-- button of details -->
                         <div class="p-2">
-                            <button type="button" class="btn w-100" :class="{ 'btn-theme' :tab === 'details', 'btn-outline-theme' : tab !== 'details' }" @click="tab = 'details'">
+                            <button type="button" class="btn w-100" :class="{ 'btn-theme' :tab === 'details', 'btn-outline-theme' : tab !== 'details' }" @click="setTabChange('details')">
                                 Details
                             </button>
                         </div>
 
                         <!-- button of edit profile -->
                         <div class="p-2">
-                            <button type="button" class="btn w-100" :class="{ 'btn-theme' : tab === 'edit-profile', 'btn-outline-theme' : tab !== 'edit-profile' }" @click="tab = 'edit-profile'">
+                            <button type="button" class="btn w-100" :class="{ 'btn-theme' : tab === 'edit-profile', 'btn-outline-theme' : tab !== 'edit-profile' }" @click="setTabChange('edit-profile')">
                                 Edit Profile
                             </button>
                         </div>
 
                         <!-- button of change password -->
                         <div class="p-2">
-                            <button type="button" class="btn w-100" :class="{ 'btn-theme' : tab === 'change-password', 'btn-outline-theme' : tab !== 'change-password' }" @click="tab = 'change-password'">
+                            <button type="button" class="btn w-100" :class="{ 'btn-theme' : tab === 'change-password', 'btn-outline-theme' : tab !== 'change-password' }" @click="setTabChange('change-password')">
                                 Change Password
                             </button>
                         </div>
@@ -97,48 +97,56 @@
                                 <div class="form-group mb-3">
                                     <label for="user-name" class="form-label"> Full Name </label>
                                     <input id="user-name" type="text" name="full-name" v-model="editProfileParam.name" class="form-control shadow-none" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.name !== undefined"> {{error.name[0]}} </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-email" class="form-label"> Email </label>
                                     <input id="user-email" type="email" name="email" v-model="editProfileParam.email" class="form-control shadow-none" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.email !== undefined"> {{error.email[0]}} </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-phone-number" class="form-label"> Phone Number </label>
                                     <input id="user-phone-number" type="text" name="phone" v-model="editProfileParam.phone" class="form-control shadow-none" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.phone !== undefined"> {{error.phone[0]}} </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-facebook-link" class="form-label"> Facebook Link </label>
                                     <input id="user-facebook-link" type="url" name="facebook_link" v-model="editProfileParam.facebook_link" class="form-control shadow-none" placeholder="https://www.facebook.com" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.facebook_link !== undefined"> {{error.facebook_link[0]}} </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-twitter-link" class="form-label"> Twitter Link </label>
                                     <input id="user-twitter-link" type="url" name="twitter_link" v-model="editProfileParam.twitter_link" class="form-control shadow-none" placeholder="https://www.twitter.com" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.twitter_link !== undefined"> {{error.twitter_link[0]}} </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-instagram-link" class="form-label"> Instagram Link </label>
                                     <input id="user-instagram-link" type="url" name="instagram_link" v-model="editProfileParam.instagram_link" class="form-control shadow-none" placeholder="https://www.instagram.com" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.instagram_link !== undefined"> {{error.instagram_link[0]}} </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-linkedin-link" class="form-label"> Linkedin Link </label>
                                     <input id="user-linkedin-link" type="url" name="linkedin_link" v-model="editProfileParam.linkedin_link" class="form-control shadow-none" placeholder="https://www.linkedin.com" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.linkedin_link !== undefined"> {{error.linkedin_link[0]}} </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="user-youtube-link" class="form-label"> Youtube Link </label>
                                     <input id="user-youtube-link" type="url" name="youtube_link" v-model="editProfileParam.youtube_link" class="form-control shadow-none" placeholder="https://www.youtube.com" autocomplete="off">
+                                    <div class="error-report" v-if="error != null && error.youtube_link !== undefined"> {{error.youtube_link[0]}} </div>
                                 </div>
                             </div>
                         </div>
@@ -157,14 +165,17 @@
                         <div class="form-group mb-3">
                             <label for="user-current-password" class="form-label"> Current Password </label>
                             <input id="user-current-password" type="password" name="current-password" v-model="changePasswordParam.current_password" class="form-control shadow-none" autocomplete="off">
+                            <div class="error-report" v-if="error != null && error.current_password !== undefined"> {{error.current_password[0]}} </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="user-password" class="form-label"> Password </label>
                             <input id="user-password" type="password" name="password" v-model="changePasswordParam.password" class="form-control shadow-none" autocomplete="off">
+                            <div class="error-report" v-if="error != null && error.password !== undefined"> {{error.password[0]}} </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="user-password-confirmation" class="form-label"> Password Confirmation </label>
                             <input id="user-password-confirmation" type="password" name="password-confirmation" v-model="changePasswordParam.password_confirmation" class="form-control shadow-none" autocomplete="off">
+                            <div class="error-report" v-if="error != null && error.password_confirmation !== undefined"> {{error.password_confirmation[0]}} </div>
                         </div>
                         <button type="submit" class="btn btn-theme width-150" v-if="!changePasswordLoading">
                             Update
@@ -219,12 +230,18 @@ export default {
             updateProfileLoading: false,
             changePasswordLoading: false,
             userInfo: window.core.UserInfo,
+            error: null,
         }
     },
     mounted() {
         this.getProfile();
     },
     methods: {
+
+        // set tab change
+        setTabChange(tab) {
+            this.tab = tab;
+        },
 
         // Function of get profile data api callback
         getProfile() {
@@ -250,11 +267,16 @@ export default {
             this.updateProfileLoading = false;
             axios.patch(apiRoutes.profileUpdate, this.editProfileParam, { headers: apiServices.headerContent }).then((response) => {
                 this.updateProfileLoading = false;
-                this.tab = 'details';
-                toaster.info(response?.data?.message);
+                if(response?.data?.errors) {
+                    this.error = response?.data?.errors
+                }else{
+                    this.tab = 'details';
+                    toaster.info(response?.data?.message);
+                }
             }).catch(err => {
+                console.log(err?.response?.data?.errors)
                 this.updateProfileLoading = false;
-                let res = err.response;
+                let res = err?.response
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
                     this.error = res?.data?.errors;
@@ -269,8 +291,13 @@ export default {
             this.changePasswordLoading = false;
             axios.patch(apiRoutes.changePassword, this.changePasswordParam, { headers: apiServices.headerContent }).then((response) => {
                 this.changePasswordLoading = false;
-                this.tab = 'details';
                 toaster.info(response?.data?.message);
+                this.changePasswordParam = {
+                    current_password: '',
+                    password: '',
+                    password_confirmation: '',
+                };
+                this.tab = 'details';
             }).catch(err => {
                 this.changePasswordLoading = false;
                 let res = err.response;
