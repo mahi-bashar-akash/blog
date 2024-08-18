@@ -347,20 +347,23 @@
 
                 <div class="modal-body border-0">
                     <div class="d-flex align-items-center justify-content-between gap-3">
-                        <input type="text" name="keyword" v-model="listParam.keyword" class="form-control shadow-none" required autocomplete="off" placeholder="Search here...">
+                        <input type="text" name="keyword" v-model="listCategoryParam.keyword" @keyup="searchCategoryData()" class="form-control shadow-none" required autocomplete="off" placeholder="Search here...">
                         <button type="submit" class="btn btn-theme" @click="openCategoryManageModal(null)">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                     </div>
 
-                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4 text-secondary fw-semibold flex-column" v-if="categoryData.length === 0">
-                        <div class="mb-2 text-danger">
-                            No data founded
+                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4" v-if="categoryData.length === 0 && !listCategoryLoading">
+                        <div class="spinner-border text-danger" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
-                        Click + to add new data
                     </div>
 
-                    <div class="mt-4" v-if="categoryData.length > 0">
+                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4 text-secondary fw-semibold flex-column" v-if="listCategoryLoading">
+
+                    </div>
+
+                    <div class="mt-4" v-if="categoryData.length > 0 && !listCategoryLoading">
                         <div class="table-responsive">
                             <table class="table table-borderless table-hover align-middle">
                                 <thead>
@@ -520,6 +523,11 @@ export default {
                 page: 1,
                 limit: 10,
             },
+            listCategoryParam: {
+                keyword: '',
+                page: 1,
+                limit: 10,
+            },
             isCategorySelect: false,
             tagsSelect2: null,
             categoryData: [],
@@ -529,16 +537,13 @@ export default {
             },
             categoryIds: [],
             tags: [],
-            listCategoryParam: {
-                keyword: '',
-                limit: 20,
-                page: 1,
-            },
             listCategoryLoading: false,
             manageCategoryLoading: false,
             singleCategoryLoading: false,
             deleteCategoryLoading: false,
             current_page: 1,
+            searchTimeout: null,
+            error: null,
         }
     },
     mounted() {
@@ -668,6 +673,14 @@ export default {
                     toaster.error('Server error!')
                 }
             })
+        },
+
+        // Function of search category data
+        searchCategoryData() {
+            clearTimeout(this.listCategoryLoading);
+            this.listCategoryLoading = setTimeout(() => {
+                this.listCategory();
+            }, 800);
         },
 
         // Function of manage category api callback
