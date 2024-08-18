@@ -14,6 +14,21 @@ body {
     --grey-500: #ccc;
 }
 
+.scrollable {
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        background-color: transparent;
+        width: 5px !important;
+        height: 5px !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--bs-border-color);
+        height: 5px !important;
+    }
+}
+
 $iteration: 2560;
 $base-value: 1px;
 @for $i from 1 through $iteration {

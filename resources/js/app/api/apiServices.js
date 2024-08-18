@@ -26,8 +26,6 @@ const apiService = {
         Object.entries(error).forEach(([i, v]) => {
             const inputElement = document.querySelector(`[name="${i}"]`);
             const errorReport = inputElement?.closest('.form-group')?.querySelector('.error-report');
-            const isInvalid = inputElement?.closest('.form-control',)?.classList.add('is-invalid-custom');
-            const isInvalidText = inputElement?.closest('.form-textarea',)?.classList.add('is-invalid-custom');
             if (errorReport) errorReport.textContent = v;
         });
     },

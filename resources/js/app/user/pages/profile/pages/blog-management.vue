@@ -21,9 +21,9 @@
 
     <!-- Card -->
     <section class="w-100">
-        <div class="card border-0 rounded-3 shadow-lg">
+        <div class="card border-0 rounded-3 shadow-lg bg-white">
 
-            <div class="card-header border-0 px-4 pt-4">
+            <div class="card-header border-0 px-4 pt-4 bg-white">
 
                 <div class="row justify-content-between align-items-center">
 
@@ -62,7 +62,7 @@
 
             </div>
 
-            <div class="card-body border-0 px-4">
+            <div class="card-body border-0 px-4 bg-white">
 
                 <!-- Table data -->
                 <div class="table-responsive">
@@ -71,7 +71,7 @@
                         <!-- Table data head -->
                         <thead>
                             <tr>
-                                <th class="p-3" style="min-width: 200px; max-width: 200px;">
+                                <th class="p-3" style="min-width: 150px; max-width: 150px;">
                                     Photo or video
                                 </th>
                                 <th class="p-3 text-start" style="min-width: 200px; max-width: 200px;">
@@ -150,7 +150,7 @@
 
             </div>
 
-            <div class="card-footer border-0 px-4 pb-4">
+            <div class="card-footer border-0 px-4 pb-4 bg-white">
 
                 <!-- pagination -->
                 <div class="d-flex justify-content-center align-items-center">
@@ -266,11 +266,15 @@
 
                     </div>
 
-                    <div class="form-group mb-3 w-100">
-                        <label id="selectTagParent" class="form-label w-100"> Tags </label>
-                        <select id="selectTag" name="tags" multiple="multiple" class="form-select w-100" v-model="formData.tags">
-                            <option></option>
-                            <option v-for="tag in tags" :key="tag.title" :value="tag.title">{{ tag.title }}</option>
+                    <div class="form-group mb-3">
+                        <label for="category" class="form-label">Category tag</label>
+                        <select name="category" id="category" v-model="formData.category">
+                            <option value="select-category">Select Category Tag</option>
+                            <option value="food"> Food </option>
+                            <option value="food"> Dress </option>
+                            <option value="food"> Shelter </option>
+                            <option value="food"> Education </option>
+                            <option value="food"> Treatment </option>
                         </select>
                     </div>
 
@@ -353,26 +357,21 @@
                         </button>
                     </div>
 
-                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4" v-if="categoryData.length === 0 && !listCategoryLoading">
+                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4" v-if="listCategoryLoading">
                         <div class="spinner-border text-danger" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
 
-                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4 text-secondary fw-semibold flex-column" v-if="listCategoryLoading">
-
+                    <div class="w-100 height-450 d-flex justify-content-center align-items-center border rounded-3 mt-4 text-secondary fw-semibold flex-column" v-if="categoryData.length === 0 && !listCategoryLoading">
+                        No data founded.
                     </div>
 
-                    <div class="mt-4" v-if="categoryData.length > 0 && !listCategoryLoading">
+                    <div class="mt-4 height-500 scrollable" v-if="categoryData.length > 0 && !listCategoryLoading">
                         <div class="table-responsive">
                             <table class="table table-borderless table-hover align-middle">
                                 <thead>
                                     <tr>
-                                        <th style="min-width: 75px; max-width: 75px;">
-                                            <div class="p-2">
-                                                Sl. No.
-                                            </div>
-                                        </th>
                                         <th style="min-width: 200px; max-width: 200px;">
                                             <div class="p-2">
                                                 Category Name
@@ -387,11 +386,6 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="each in categoryData">
-                                        <td>
-                                            <div class="p-2">
-                                                {{each.id}}
-                                            </div>
-                                        </td>
                                         <td>
                                             <div class="p-2">
                                                 {{each.name}}
@@ -441,7 +435,8 @@
 
                     <div class="form-group">
                         <label for="name" class="form-label">Name</label>
-                        <input id="name" type="text" name="name" class="form-control shadow-none" required autocomplete="off" placeholder="Category name" v-model="categoryParam.name">
+                        <input id="name" type="text" name="name" class="form-control shadow-none" autocomplete="off" placeholder="Category name" v-model="categoryParam.name">
+                        <div class="error-report" v-if="categoryError != null && categoryError.name !== undefined"> {{categoryError.name[0]}} </div>
                     </div>
 
                 </div>
@@ -516,7 +511,6 @@ export default {
                 is_featured: '',
                 allow_comment: '',
                 category: 'select-category',
-                tags: '',
             },
             listParam: {
                 keyword: '',
@@ -528,15 +522,10 @@ export default {
                 page: 1,
                 limit: 10,
             },
-            isCategorySelect: false,
-            tagsSelect2: null,
             categoryData: [],
-            categories: [],
             categoryParam: {
                 name: '',
             },
-            categoryIds: [],
-            tags: [],
             listCategoryLoading: false,
             manageCategoryLoading: false,
             singleCategoryLoading: false,
@@ -544,6 +533,7 @@ export default {
             current_page: 1,
             searchTimeout: null,
             error: null,
+            categoryError: null,
         }
     },
     mounted() {
@@ -553,16 +543,6 @@ export default {
 
         // Function of open manage model
         openManageBlogModal() {
-            setTimeout(() => {
-                $('#selectTag').select2({
-                    dropdownParent: $('#selectTagParent'),
-                    tags: true,
-                    placeholder: 'Select Tag',
-                    allowClear: true,
-                }).on('change', (e) => {
-                    this.formData.tags = $(e.target).val();
-                });
-            }, 500);
             const myModal = new bootstrap.Modal("#manageBlogModal", {keyboard: false});
             myModal.show();
         },
@@ -602,14 +582,11 @@ export default {
 
         // Function of open category manage model
         openCategoryManageModal(data = null) {
+            apiServices.clearErrorHandler()
             if (data !== null) {
-                this.formData = {
-                    id: data.id,
-                    name: data.name,
-                }
+                this.singleCategory(data);
             }else {
-                this.formData = {
-                    id: '',
+                this.categoryParam = {
                     name: '',
                 }
             }
@@ -627,7 +604,8 @@ export default {
         },
 
         // Function of open category manage model
-        openCategoryDeleteModal() {
+        openCategoryDeleteModal(data) {
+            this.categoryParam.id = data
             this.closeCategoryListModal();
             const myModal = new bootstrap.Modal("#categoryDeleteModal", {keyboard: false});
             myModal.show();
@@ -680,7 +658,7 @@ export default {
             clearTimeout(this.listCategoryLoading);
             this.listCategoryLoading = setTimeout(() => {
                 this.listCategory();
-            }, 800);
+            }, 1000);
         },
 
         // Function of manage category api callback
@@ -697,13 +675,15 @@ export default {
             this.manageCategoryLoading = true;
             axios.post(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
-                console.log(response?.data)
+                this.closeCategoryManageModal();
+                this.listCategory();
                 toaster.info('Category created successfully');
             }).catch(err => {
                 this.manageCategoryLoading = false;
                 let res = err?.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
+                    this.categoryError = res?.data?.errors;
                 } else {
                     toaster.error('Server error!')
                 }
@@ -715,12 +695,15 @@ export default {
             this.manageCategoryLoading = true;
             axios.patch(apiRoutes.categories+'/'+this.categoryParam.id, this.categoryParam, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
+                this.closeCategoryManageModal();
+                this.listCategory();
                 toaster.info('Category updated successfully');
             }).catch(err => {
                 this.manageCategoryLoading = false;
                 let res = err?.response;
                 if (res?.data?.errors !== undefined) {
                     apiServices.ErrorHandler(res?.data?.errors);
+                    this.categoryError = res?.data?.errors;
                 } else {
                     toaster.error('Server error!')
                 }
@@ -732,6 +715,8 @@ export default {
             this.deleteCategoryLoading = true;
             axios.delete(apiRoutes.categories+'/'+this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
                 this.deleteCategoryLoading = false;
+                this.closeCategoryDeleteModal();
+                this.listCategory();
                 toaster.info('Category deleted successfully');
             }).catch(err => {
                 this.deleteCategoryLoading = false;
@@ -743,6 +728,13 @@ export default {
                 }
             })
         },
+
+        // Function of single category
+        singleCategory(data) {
+            axios.get(apiRoutes.categories+'/'+data, {headers: apiServices.headerContent}).then((response) => {
+                this.categoryParam = response?.data;
+            })
+        }
 
     }
 }

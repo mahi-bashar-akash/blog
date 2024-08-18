@@ -19,13 +19,6 @@
             <link rel="stylesheet" href="{{asset('/source-code/bootstrap/dist/css/bootstrap.min.css')}}">
             <link rel="stylesheet" href="{{asset('/source-code/bootstrap-icons/font/bootstrap-icons.min.css')}}">
 
-            {{-- JQuery --}}
-            <script src="{{asset('/source-code/JQuery/jquery.min.js')}}" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-            {{-- Select2 --}}
-            <link href="{{asset('/source-code/select2/select2.min.css')}}" rel="stylesheet" />
-            <script src="{{asset('/source-code/select2/select2.min.js')}}"></script>
-
             @vite('resources/scss/style-sheet.scss')
             @vite('resources/js/app/user/app.js')
 

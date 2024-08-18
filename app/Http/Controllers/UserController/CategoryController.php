@@ -46,10 +46,14 @@ class CategoryController extends Controller
         }
     }
 
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        $category = $this->categoryService->getById($id);
-        return response()->json($category, 200);
+        try {
+            $category = $this->categoryService->getById($id);
+            return response()->json($category, 200);
+        } catch ( \Exception $e ) {
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        }
     }
 
     public function store(CategoryRequest $request): JsonResponse
@@ -62,24 +66,24 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id): JsonResponse
     {
         $data = $request->validated();
-        $category = $this->categoryService->getById($id);
-        if (!$category) {
+        try {
+            $category = $this->categoryService->getById($id);
+            $category = $this->categoryService->update($category, $data);
+            return response()->json($category, 200);
+        } catch ( \Exception $e ) {
             return response()->json(['message' => 'Category not found'], 404);
         }
-        $category = $this->categoryService->update($category, $data);
-        return response()->json($category, 200);
     }
 
     public function destroy($id): JsonResponse
     {
-        $category = $this->categoryService->getById($id);
-
-        if (!$category) {
+        try {
+            $category = $this->categoryService->getById($id);
+            $this->categoryService->delete($category);
+            return response()->json(['message' => 'Category deleted successfully'], 200);
+        } catch ( \Exception $e ) {
             return response()->json(['message' => 'Category not found'], 404);
         }
-        $this->categoryService->delete($category);
-
-        return response()->json(['message' => 'Category deleted successfully'], 200);
     }
 
 }
