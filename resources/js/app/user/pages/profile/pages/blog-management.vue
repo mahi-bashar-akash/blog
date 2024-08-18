@@ -445,9 +445,14 @@
                     <button type="button" class="btn btn-secondary width-100" @click="closeCategoryManageModal()">
                         Cancel
                     </button>
-                    <button type="submit" class="btn btn-theme width-100">
+                    <button type="submit" class="btn btn-theme width-100" v-if="!manageCategoryLoading">
                         <span v-if="this.categoryParam.id === undefined"> Save </span>
                         <span v-if="this.categoryParam.id !== undefined"> Update </span>
+                    </button>
+                    <button type="button" class="btn btn-theme width-100 height-38" v-if="manageCategoryLoading">
+                        <div class="spinner-border text-white width-15 height-15" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </button>
                 </div>
 
@@ -478,8 +483,13 @@
                     <button type="button" class="btn btn-secondary width-100" @click="closeCategoryDeleteModal()">
                         Cancel
                     </button>
-                    <button type="submit" class="btn btn-theme width-100">
+                    <button type="submit" class="btn btn-theme width-100" v-if="!deleteCategoryLoading">
                         Submit
+                    </button>
+                    <button type="button" class="btn btn-theme width-100 height-38" v-if="deleteCategoryLoading">
+                        <div class="spinner-border text-white width-15 height-15" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </button>
                 </div>
 
@@ -582,7 +592,6 @@ export default {
 
         // Function of open category manage model
         openCategoryManageModal(data = null) {
-            apiServices.clearErrorHandler()
             if (data !== null) {
                 this.singleCategory(data);
             }else {
@@ -597,6 +606,7 @@ export default {
 
         // Function of close category manage modal
         closeCategoryManageModal() {
+            this.categoryError = null;
             this.openCategoryListModal();
             let myModalEl = document.getElementById('categoryManageModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
@@ -698,6 +708,7 @@ export default {
                 this.closeCategoryManageModal();
                 this.listCategory();
                 toaster.info('Category updated successfully');
+                apiServices.clearErrorHandler();
             }).catch(err => {
                 this.manageCategoryLoading = false;
                 let res = err?.response;
