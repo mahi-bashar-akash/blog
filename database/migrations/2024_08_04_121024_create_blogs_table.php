@@ -21,7 +21,6 @@ return new class extends Migration
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->dateTime('published_at')->nullable();
             $table->unsignedInteger('views_count')->default(0);
-            $table->boolean('allow_comments')->default(true);
             $table->dateTime('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

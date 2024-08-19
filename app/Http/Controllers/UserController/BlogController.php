@@ -2,106 +2,95 @@
 
 namespace App\Http\Controllers\UserController;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogRequest;
 use App\Http\Services\BlogService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
-class BlogController extends BaseController
+class BlogController extends Controller
 {
-    private BlogService $BlogService;
+    private BlogService $blogService;
 
-    public function __construct(BlogService $BlogService)
+    public function __construct(BlogService $blogService)
     {
-        $this->BlogService = $BlogService;
+        $this->blogService = $blogService;
     }
 
     public function index(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'limit' => 'nullable|integer',
-            'keyword' => 'nullable|string',
-            'orderBy' => 'nullable|string',
-            'order' => 'nullable|in:asc,desc',
-        ]);
+        $filter = [
+            'limit' => $request->get('limit', 20),
+            'keyword' => $request->get('keyword', ''),
+            'orderBy' => $request->get('orderBy', 'id'),
+            'order' => $request->get('order', 'asc'),
+        ];
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        try {
-            $filter = [
-                'limit' => $request->limit ?? 20,
-                'keyword' => $request->keyword ?? '',
-                'orderBy' => $request->orderBy ?? 'name',
-                'order' => $request->order ?? 'asc',
-            ];
-
-            $categories = $this->BlogService->getAll($filter);
-            return response()->json($categories, 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
-        }
+        $blogs = $this->blogService->getAll($filter);
+        return response()->json($blogs, 200);
     }
 
     public function show($id): JsonResponse
     {
-        try {
-            $category = $this->BlogService->getById($id);
-            return response()->json($category, 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
+        $blog = $this->blogService->getById($id);
+        if ($blog) {
+            $blog->increment('views_count');
+            return response()->json($blog, 200);
         }
+        return response()->json(['message' => 'Blog not found'], 404);
     }
 
     public function store(BlogRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $data['user_id'] = Auth::id();
-
         try {
-            $category = $this->BlogService->create($data);
-            return response()->json($category, 201);
+            $authenticatedUser = Auth::guard('users')->user();
+            if (!$authenticatedUser) {
+                return response()->json(['status' => 401, 'message' => 'Unauthorized'], 401);
+            }
+            $data = $request->validated();
+            $data['user_id'] = $authenticatedUser->id;
+            $data['views_count'] = 0;
+            if ($data['status'] === 'published') {
+                $data['published_at'] = now();
+            }
+            $blog = $this->blogService->create($data);
+            return response()->json(['message' => 'Blog created successfully', 'data' => $blog], 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
+            return response()->json(['status' => 500, 'errors' => $e->getMessage(), 'line' => $e->getLine()], 500);
         }
     }
 
     public function update(BlogRequest $request, $id): JsonResponse
     {
         $data = $request->validated();
-        $data['user_id'] = Auth::id();
+        $blog = $this->blogService->getById($id);
 
-        try {
-            $category = $this->BlogService->getById($id);
-
-            if (Auth::id() !== $category->user_id) {
-                return response()->json(['message' => 'Unauthorized'], 403);
-            }
-
-            $category = $this->BlogService->update($category, $data);
-            return response()->json($category, 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Category not found'], 404);
+        if (!$blog) {
+            return response()->json(['message' => 'Blog not found'], 404);
         }
+
+        $data['user_id'] = $blog->user_id;
+
+        if ($data['status'] === 'published' && $blog->status !== 'published') {
+            $data['published_at'] = now();
+        } elseif ($data['status'] !== 'published' && $blog->status === 'published') {
+            $data['published_at'] = null;
+        }
+
+        $blog = $this->blogService->update($blog, $data);
+        return response()->json($blog, 200);
     }
 
     public function destroy($id): JsonResponse
     {
-        try {
-            $category = $this->BlogService->getById($id);
+        $blog = $this->blogService->getById($id);
 
-            if (Auth::id() !== $category->user_id) {
-                return response()->json(['message' => 'Unauthorized'], 403);
-            }
-
-            $this->BlogService->delete($category);
-            return response()->json(['message' => 'Category deleted successfully'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Category not found'], 404);
+        if (!$blog) {
+            return response()->json(['message' => 'Blog not found'], 404);
         }
+
+        $this->blogService->delete($blog);
+        return response()->json(['message' => 'Blog has been deleted successfully'], 200);
     }
 }

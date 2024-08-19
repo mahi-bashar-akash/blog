@@ -12,20 +12,20 @@ class BlogService
         return Blog::create($data);
     }
 
-    public function update(Blog $category, array $data)
+    public function update(Blog $blog, array $data)
     {
-        $category->update($data);
-        return $category;
+        $blog->update($data);
+        return $blog;
     }
 
-    public function delete(Blog $category)
+    public function delete(Blog $blog)
     {
-        $category->delete();
+        $blog->delete();
     }
 
     public static function getAll(array $filter)
     {
-        $query = Blog::orderBy($filter['orderBy'], $filter['order']);
+        $query = Blog::with('user_information')->orderBy($filter['orderBy'], $filter['order']);
         if (!empty($filter['keyword'])) {
             $query->where(function($q) use ($filter) {
                 $q->where('name', 'LIKE', '%'.$filter['keyword'].'%');
@@ -38,5 +38,4 @@ class BlogService
     {
         return Blog::findOrFail($id);
     }
-
 }

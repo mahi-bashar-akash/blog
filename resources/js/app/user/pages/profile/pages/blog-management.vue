@@ -205,7 +205,7 @@
         <div class="modal-dialog modal-dialog-centered">
 
             <!-- Manage blog form -->
-            <form class="modal-content rounded-3 border-0 p-4">
+            <form @submit.prevent="manageBlog()" class="modal-content rounded-3 border-0 p-4">
 
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
@@ -220,17 +220,37 @@
                     <button type="button" class="btn-close shadow-none" @click="closeManageBlogModal()"></button>
                 </div>
 
-                <form @submit.prevent="manageBlog()" class="modal-body border-0">
+                <div class="modal-body border-0">
 
-                    <div class="form-group mv-3">
-                        <label for="file-upload" class="form-label border w-100 px-3 height-200 rounded-3 d-flex justify-content-center align-items-center flex-column cursor-pointer">
-                            <input type="file" name="file-upload" id="file-upload" hidden="hidden" @change="uploadFile($event)">
-                            <i class="bi bi-cloud-check fs-1"></i>
-                            <span class="fw-bold small">
+                    <div class="mb-3">
+                        <div class="form-group" v-if="this.formData.avatar == null && !uploadLoading">
+                            <label for="file-upload" class="form-label border w-100 px-3 height-200 rounded-3 d-flex justify-content-center align-items-center flex-column cursor-pointer">
+                                <input type="file" name="file-upload" id="file-upload" hidden="hidden" @change="uploadFile($event)">
+                                <i class="bi bi-cloud-check fs-1"></i>
+                                <span class="fw-bold small">
                                 Upload File
                             </span>
-                        </label>
-                        <div class="error-report" v-if="error != null && error.avatar !== undefined"> {{error.avatar[0]}} </div>
+                            </label>
+                            <div class="error-report" v-if="error != null && error.avatar !== undefined"> {{error.avatar[0]}} </div>
+                        </div>
+
+                        <div class="position-relative" v-if="uploadLoading">
+                            <div class="w-100 height-200 rounded-3 bg-secondary-subtle"></div>
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+                                <div class="spinner-border text-secondary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="position-relative" v-if="this.formData.avatar != null && !uploadLoading">
+                            <img :src="formData.avatar" class="img-fluid object-fit-cover w-100 height-200 rounded-3" alt="uploaded image">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-danger width-35 height-35 d-flex justify-content-center align-items-center rounded-circle p-0" @click="deleteFile">
+                                    <i class="bi bi-trash2"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group mb-3">
@@ -249,58 +269,48 @@
                         <div class="error-report" v-if="error != null && error.description !== undefined"> {{error.description[0]}} </div>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div class="form-group mb-3">
-                            <label for="is_featured">
-                                <span class="d-block mb-2">
-                                    Is featured
-                                </span>
-                                <span class="form-toggle">
-                                    <input id="is_featured" type="checkbox" v-model="formData.is_featured"/>
-                                    <label></label>
-                                </span>
-                            </label>
-                            <div class="error-report" v-if="error != null && error.is_featured !== undefined"> {{error.is_featured[0]}} </div>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="allow_comment">
-                                <span class="d-block mb-2">
-                                    Allow Comment
-                                </span>
-                                <span class="form-toggle">
-                                    <input id="allow_comment" type="checkbox" v-model="formData.allow_comment"/>
-                                    <label></label>
-                                </span>
-                            </label>
-                            <div class="error-report" v-if="error != null && error.allow_comment !== undefined"> {{error.allow_comment[0]}} </div>
-                        </div>
-
-                    </div>
-
                     <div class="form-group mb-3">
-                        <label for="category" class="form-label">Category tag</label>
-                        <select name="category" id="category" class="form-select shadow-none" v-model="formData.category">
+                        <label for="category_id" class="form-label">Category</label>
+                        <select name="category_id" id="category_id" class="form-select shadow-none" v-model="formData.category_id">
                             <option value="select-category">Select Category Tag</option>
                             <option v-for="each in categoryData" :value="each.id" > {{each.name}} </option>
                         </select>
                         <div class="error-report" v-if="error != null && error.category !== undefined"> {{error.category[0]}} </div>
                     </div>
 
-                </form>
+                </div>
 
                 <div class="modal-footer border-0">
 
-                    <button type="button" class="btn btn-secondary py-2 width-95" @click="closeManageBlogModal()">
+                    <button type="button" class="btn btn-secondary py-2 width-95 height-38" @click="closeManageBlogModal()">
                         Close
                     </button>
 
-                    <button type="submit" class="btn btn-theme py-2 width-95">
-                        Save
+                    <button type="submit" class="btn btn-danger py-2 width-75 height-38" v-if="!archiveLoading" @click="manageBlog('archived')">
+                        Archive
                     </button>
-                    <button type="submit" class="btn btn-theme py-2 width-95">
-                        Save
+                    <button type="button" class="btn btn-danger width-95 height-38" v-if="archiveLoading">
+                        <span class="spinner-border text-white width-15 height-15" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
+                    </button>
+
+                    <button type="submit" class="btn btn-warning py-2 width-75 height-38" v-if="!draftLoading" @click="manageBlog('draft')">
+                        Draft
+                    </button>
+                    <button type="button" class="btn btn-warning width-95 height-38" v-if="draftLoading">
+                        <span class="spinner-border text-white width-15 height-15" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
+                    </button>
+
+                    <button type="submit" class="btn btn-theme py-2 width-75 height-38" v-if="!publishLoading" @click="manageBlog('published')">
+                        Publish
+                    </button>
+                    <button type="button" class="btn btn-theme width-95 height-38" v-if="publishLoading">
+                        <span class="spinner-border text-white width-15 height-15" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
                     </button>
 
                 </div>
@@ -315,7 +325,7 @@
         <div class="modal-dialog modal-dialog-centered">
 
             <!-- Form blog delete -->
-            <form class="modal-content rounded-3 border-0 p-4">
+            <form @submit.prevent="deleteBlog()" class="modal-content rounded-3 border-0 p-4">
 
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel"> Delete Blog </h1>
@@ -330,8 +340,7 @@
                 <div class="modal-footer border-0 d-flex justify-content-between align-items-center">
 
                     <div class="col-5">
-                        <button type="button" class="btn btn-secondary py-2 w-100"
-                                @click="closeBlogDeleteModal()">
+                        <button type="button" class="btn btn-secondary py-2 w-100" @click="closeBlogDeleteModal()">
                             Close
                         </button>
                     </div>
@@ -535,9 +544,7 @@ export default {
                 avatar: null,
                 name: '',
                 description: '',
-                is_featured: '',
-                allow_comment: '',
-                category: 'select-category',
+                category_id: 'select-category',
             },
             listParam: {
                 keyword: '',
@@ -566,6 +573,13 @@ export default {
             error: null,
             categoryError: null,
             blogError: null,
+            deleteBlogLoading: false,
+            archiveLoading: false,
+            draftLoading: false,
+            publishLoading: false,
+            uploadedImageId: {
+                id: '',
+            }
         }
     },
     mounted() {
@@ -598,6 +612,278 @@ export default {
             let myModalEl = document.getElementById('deleteBlogModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
             modal.hide();
+        },
+
+        // Function of number format
+        numberFormat(num, digits) {
+            const lookup = [
+                { value: 1, symbol: "" },
+                { value: 1e3, symbol: "k" },
+                { value: 1e6, symbol: "M" },
+                { value: 1e9, symbol: "G" },
+                { value: 1e12, symbol: "T" },
+                { value: 1e15, symbol: "P" },
+                { value: 1e18, symbol: "E" }
+            ];
+            const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
+            const item = lookup.findLast(item => num >= item.value);
+            return item ? (num / item.value).toFixed(digits).replace(regexp, "").concat(item.symbol) : "0";
+        },
+
+        // Function of upload file
+        uploadFile(event) {
+            this.uploadLoading = true;
+            let file = event.target.files[0];
+            let formData = new FormData();
+            formData.append("file", file);
+            formData.append("media_type", 1);
+            formData.append("media_use", 1);
+            axios.post(apiRoutes.fileUpload, formData, {headers: apiServices.mediaHeaderContent}).then((response) => {
+                let res = response.data?.data;
+                this.uploadLoading = false;
+                event.target.value = '';
+                this.uploadedImageId = res.id;
+                this.formData.avatar = res.full_file_path;
+                toaster.info('Upload file successfully');
+            }).catch(err => {
+                this.uploadLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of delete file
+        deleteFile() {
+            this.uploadLoading = true;
+            axios.delete(apiRoutes.fileDelete+`/${this.uploadedImageId}`, {headers: apiServices.mediaHeaderContent}).then((response) => {
+                this.uploadLoading = false;
+                this.formData.avatar = null;
+                toaster.info('delete file successfully');
+            }).catch(err => {
+                this.uploadLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            });
+        },
+
+        // Function of blog status
+        manageBlog(status) {
+            if(status === 'archived'){
+                this.formData.status = 'archived';
+                this.archiveLoading = true;
+            }else if (status === 'draft') {
+                this.formData.status = 'draft';
+                this.draftLoading = true;
+            }else {
+                this.formData.status = 'published';
+                this.publishLoading = true;
+            }
+            if(!this.formData.id === undefined || null || '') {
+                this.createBlog()
+            }else {
+                this.updateBlog()
+            }
+        },
+
+        // Function of blog create api callback
+        createBlog() {
+            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.archiveLoading = false;
+                this.draftLoading = false;
+                this.publishLoading = false;
+                this.closeManageBlogModal();
+                this.listBlog();
+                toaster.info('Blog created successfully');
+            }).catch(err => {
+                this.archiveLoading = false;
+                this.draftLoading = false;
+                this.publishLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.blogError = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of blog update api callback
+        updateBlog() {
+            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.archiveLoading = false;
+                this.draftLoading = false;
+                this.publishLoading = false;
+                this.closeManageBlogModal();
+                this.listBlog();
+                toaster.info('Blog created successfully');
+            }).catch(err => {
+                this.archiveLoading = false;
+                this.draftLoading = false;
+                this.publishLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.blogError = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of blog list api callback
+        listBlog() {
+            this.listBlogLoading = true;
+            this.listParam.page = this.current_page;
+            axios.get(apiRoutes.blogs, {params: this.listParam}, {headers: apiServices.headerContent}).then((response) => {
+                this.listBlogLoading = false;
+                this.blogData = response?.data?.data;
+            }).catch(err => {
+                this.listBlogLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of blog delete api callback
+        deleteBlog() {
+            this.deleteBlogLoading = true;
+            axios.delete(apiRoutes.blogs+'/'+this.formData.id, {headers: apiServices.headerContent}).then((response) => {
+                this.deleteBlogLoading = false;
+                this.closeBlogDeleteModal();
+                this.listBlog();
+                toaster.info('Category deleted successfully');
+            }).catch(err => {
+                this.deleteBlogLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of search category data
+        searchBlogData() {
+            clearTimeout(this.listBlogLoading);
+            this.listBlogLoading = setTimeout(() => {
+                this.listBlog();
+            }, 1000);
+        },
+
+        // Function of category list api callback
+        listCategory() {
+            this.listCategoryLoading = true;
+            this.listCategoryParam.page = this.current_page;
+            axios.get(apiRoutes.categories, {params: this.listCategoryParam}, {headers: apiServices.headerContent}).then((response) => {
+                this.listCategoryLoading = false;
+                this.categoryData = response?.data?.data;
+            }).catch(err => {
+                this.listCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of search category data
+        searchCategoryData() {
+            clearTimeout(this.listCategoryLoading);
+            this.listCategoryLoading = setTimeout(() => {
+                this.listCategory();
+            }, 1000);
+        },
+
+        // Function of manage category api callback
+        manageCategory() {
+            if(this.categoryParam.id === undefined || null || '') {
+                this.createCategory();
+            }else{
+                this.updateCategory();
+            }
+        },
+
+        // Function of category create api callback
+        createCategory() {
+            this.manageCategoryLoading = true;
+            axios.post(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
+                this.manageCategoryLoading = false;
+                this.closeCategoryManageModal();
+                this.listCategory();
+                toaster.info('Category created successfully');
+            }).catch(err => {
+                this.manageCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of category update api callback
+        updateCategory() {
+            this.manageCategoryLoading = true;
+            axios.patch(apiRoutes.categories+'/'+this.categoryParam.id, this.categoryParam, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
+                this.manageCategoryLoading = false;
+                this.closeCategoryManageModal();
+                this.listCategory();
+                toaster.info('Category updated successfully');
+                apiServices.clearErrorHandler();
+            }).catch(err => {
+                this.manageCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.error = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of category delete api callback
+        deleteCategory() {
+            this.deleteCategoryLoading = true;
+            axios.delete(apiRoutes.categories+'/'+this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
+                this.deleteCategoryLoading = false;
+                this.closeCategoryDeleteModal();
+                this.listCategory();
+                toaster.info('Category deleted successfully');
+            }).catch(err => {
+                this.deleteCategoryLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of single category
+        singleCategory(data) {
+            axios.get(apiRoutes.categories+'/'+data, {headers: apiServices.headerContent}).then((response) => {
+                this.categoryParam = response?.data;
+            })
         },
 
         // Function of open category manage model
@@ -650,230 +936,6 @@ export default {
             let myModalEl = document.getElementById('categoryDeleteModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
             modal.hide();
-        },
-
-        // Function of number format
-        numberFormat(num, digits) {
-            const lookup = [
-                { value: 1, symbol: "" },
-                { value: 1e3, symbol: "k" },
-                { value: 1e6, symbol: "M" },
-                { value: 1e9, symbol: "G" },
-                { value: 1e12, symbol: "T" },
-                { value: 1e15, symbol: "P" },
-                { value: 1e18, symbol: "E" }
-            ];
-            const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
-            const item = lookup.findLast(item => num >= item.value);
-            return item ? (num / item.value).toFixed(digits).replace(regexp, "").concat(item.symbol) : "0";
-        },
-
-        // Function of category list api callback
-        listCategory() {
-            this.listCategoryLoading = true;
-            this.listCategoryParam.page = this.current_page;
-            axios.get(apiRoutes.categories, {params: this.listCategoryParam}, {headers: apiServices.headerContent}).then((response) => {
-                this.listCategoryLoading = false;
-                this.categoryData = response?.data?.data;
-            }).catch(err => {
-                this.listCategoryLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of search category data
-        searchCategoryData() {
-            clearTimeout(this.listCategoryLoading);
-            this.listCategoryLoading = setTimeout(() => {
-                this.listCategory();
-            }, 1000);
-        },
-
-        // Function of manage category api callback
-        manageCategory() {
-            if(this.categoryParam.id === undefined || null || '') {
-                this.createCategory();
-            }else{
-                this.updateCategory();
-            }
-        },
-
-        // Function of category create api callback
-        createCategory() {
-            this.manageCategoryLoading = true;
-            axios.post(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
-                this.manageCategoryLoading = false;
-                this.closeCategoryManageModal();
-                this.listCategory();
-                toaster.info('Category created successfully');
-            }).catch(err => {
-                this.manageCategoryLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                    this.categoryError = res?.data?.errors;
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of category update api callback
-        updateCategory() {
-            this.manageCategoryLoading = true;
-            axios.patch(apiRoutes.categories+'/'+this.categoryParam.id, this.categoryParam, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
-                this.manageCategoryLoading = false;
-                this.closeCategoryManageModal();
-                this.listCategory();
-                toaster.info('Category updated successfully');
-                apiServices.clearErrorHandler();
-            }).catch(err => {
-                this.manageCategoryLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                    this.categoryError = res?.data?.errors;
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of category delete api callback
-        deleteCategory() {
-            this.deleteCategoryLoading = true;
-            axios.delete(apiRoutes.categories+'/'+this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
-                this.deleteCategoryLoading = false;
-                this.closeCategoryDeleteModal();
-                this.listCategory();
-                toaster.info('Category deleted successfully');
-            }).catch(err => {
-                this.deleteCategoryLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of single category
-        singleCategory(data) {
-            axios.get(apiRoutes.categories+'/'+data, {headers: apiServices.headerContent}).then((response) => {
-                this.categoryParam = response?.data;
-            })
-        },
-
-        manageBlog(){
-            if(this.formData.id === undefined || null || '') {
-                this.createBlog();
-            }else{
-                this.updateBlog();
-            }
-        },
-
-        // Function of blog create api callback
-        createBlog() {
-            this.manageBlogLoading = true;
-            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
-                this.manageBlogLoading = false;
-                this.closeManageBlogModal();
-                this.listBlog();
-                toaster.info('Blog created successfully');
-            }).catch(err => {
-                this.manageBlogLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                    this.blogError = res?.data?.errors;
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of blog update api callback
-        updateBlog() {
-            this.manageBlogLoading = true;
-            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
-                this.manageBlogLoading = false;
-                this.closeManageBlogModal();
-                this.listBlog();
-                toaster.info('Blog created successfully');
-            }).catch(err => {
-                this.manageBlogLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                    this.blogError = res?.data?.errors;
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of blog list api callback
-        listBlog() {
-            this.listBlogLoading = true;
-            this.listParam.page = this.current_page;
-            axios.get(apiRoutes.blogs, {params: this.listParam}, {headers: apiServices.headerContent}).then((response) => {
-                this.listBlogLoading = false;
-                this.blogData = response?.data?.data;
-            }).catch(err => {
-                this.listBlogLoading = false;
-                let res = err?.response;
-                if (res?.data?.errors !== undefined) {
-                    apiServices.ErrorHandler(res?.data?.errors);
-                } else {
-                    toaster.error('Server error!')
-                }
-            })
-        },
-
-        // Function of search category data
-        searchBlogData() {
-            clearTimeout(this.listBlogLoading);
-            this.listBlogLoading = setTimeout(() => {
-                this.listBlog();
-            }, 1000);
-        },
-
-        // Function of upload file
-        uploadFile(event) {
-            this.uploadLoading = true;
-            let file = event.target.files[0];
-            let formData = new FormData();
-            formData.append("file", file)
-            formData.append("media_type", 1);
-            apiServices.upload(apiRoutes.fileUpload, formData, (res) => {
-                event.target.value = ''
-                this.uploadLoading = false
-                if (res) {
-                    this.uploadedImageId = res?.data?.id
-                    this.formData.avatar = res?.data?.full_file_path
-                } else {
-                    this.error = res.errors
-                }
-            })
-        },
-
-        // Function of delete file
-        deleteFile() {
-            this.uploadLoading = true;
-            apiServices.delete(apiRoutes.fileDelete+`/${this.uploadedImageId}`, {}, (res) => {
-                if(res) {
-                    this.uploadLoading = false;
-                    this.formData.avatar = null;
-                } else {
-                    this.error = res.errors
-                }
-            });
         },
 
     }

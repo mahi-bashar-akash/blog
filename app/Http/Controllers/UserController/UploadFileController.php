@@ -12,7 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 class UploadFileController extends BaseController
 {
 
-    public function uploadFile(Request $request)
+    public function uploadFile(Request $request): array
     {
         try {
             $input = $request->all();
@@ -50,7 +50,7 @@ class UploadFileController extends BaseController
         }
     }
 
-    public function deleteFile(Request $request, $id)
+    public function deleteFile(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         try {
             $media = Media::findOrFail($id);

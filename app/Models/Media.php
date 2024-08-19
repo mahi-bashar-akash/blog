@@ -4,46 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
 
 class Media extends Model
 {
 
-    protected $fillable = [
-        'filename',
-        'mime_type',
-        'file_type',
-        'metadata',
+    use HasFactory;
+
+    protected $hidden = [
+        'admin_id',
+        'created_at',
+        'updated_at'
+    ];
+    protected $appends = [
+        'full_file_path', 'file_name'
     ];
 
-    protected $casts = [
-        'metadata' => 'array',
-    ];
-
-    protected $encryptMetadata = true;
-
-    public function setMetadataAttribute($value)
+    public function getFullFilePathAttribute()
     {
-        if ($this->encryptMetadata) {
-            $this->attributes['metadata'] = Crypt::encryptString(serialize($value));
-        } else {
-            $this->attributes['metadata'] = $value;
+        if ($this->media_type == 2) {
+            return asset('storage/media/file/'.$this->file_path);
         }
+        return asset('storage/media/image/'.$this->file_path);
     }
-
-    public function getMetadataAttribute($value)
+    public function getFileNameAttribute()
     {
-        if ($this->encryptMetadata) {
-            return unserialize(Crypt::decryptString($value));
-        } else {
-            return $value ? json_decode($value, true) : null;
+        if ($this->media_type == 2 || $this->media_type == 1) {
+            $attr = unserialize($this->attrs);
+            return $attr['filename'];
         }
-    }
-
-    public function getUrlAttribute()
-    {
-        return Storage::disk('public')->url("media/{$this->filename}");
+        return null;
     }
 
 }
