@@ -32,10 +32,27 @@ body {
 $iteration: 2560;
 $base-value: 1px;
 @for $i from 1 through $iteration {
-    .width-#{$i} { width: $base-value * $i !important; }
-    .height-#{$i} { height: $base-value * $i !important; }
-    .height-calc-#{$i} { height: calc(100vh - $base-value * $i) !important; }
-    .min-width-#{$i} { min-width: $base-value * $i !important }
+
+    .width-#{$i} {
+        width: $base-value * $i !important;
+    }
+
+    .height-#{$i} {
+        height: $base-value * $i !important;
+    }
+
+    .height-calc-#{$i} {
+        height: calc(100vh - $base-value * $i) !important;
+    }
+
+    .min-width-#{$i} {
+        min-width: $base-value * $i !important
+    }
+
+    .font-size-#{$i} {
+        font-size: $base-value * $i !important;
+    }
+
 }
 
 .line-height-2 {

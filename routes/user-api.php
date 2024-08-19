@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController\AuthenticationController;
 use App\Http\Controllers\UserController\BlogController;
 use App\Http\Controllers\UserController\CategoryController;
+use App\Http\Controllers\UserController\UploadFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,5 +48,15 @@ Route::group(
 
         /* USER CATEGORIES API Routes */
         Route::apiResource('categories', CategoryController::class);
+
+        /* USER FILE ATTACHMENT API Routes */
+        Route::group(
+            ['prefix' => 'file'],
+            function () {
+                Route::post('/upload', [UploadFileController::class, 'uploadFile'])->name('User.File.Upload');
+                Route::delete('/delete/{id}', [UploadFileController::class, 'deleteFile'])->name('User.File.Delete');
+            }
+        );
+
     }
 );

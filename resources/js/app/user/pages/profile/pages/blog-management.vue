@@ -31,7 +31,7 @@
 
                         <!-- Search -->
                         <div class="position-relative">
-                            <input type="text" name="keyword" v-model="listParam.keyword" class="form-control shadow-none ps-5" placeholder="Search Here" required autocomplete="off">
+                            <input type="text" name="keyword" v-model="listParam.keyword" class="form-control shadow-none ps-5" placeholder="Search Here" @keyup="searchBlogData()" autocomplete="off">
                             <div class="position-absolute top-0 start-0 h-100 d-flex justify-content-center align-items-center ps-3">
                                 <i class="bi bi-search"></i>
                             </div>
@@ -62,10 +62,20 @@
 
             </div>
 
-            <div class="card-body border-0 px-4 bg-white">
+            <div class="card-body height-calc-300 scrollable border-0 px-4 bg-white">
+
+                <!-- No data founded -->
+                <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+                    <div>
+                        <i class="bi bi-exclamation-circle text-danger font-size-35"></i>
+                    </div>
+                    <div class="fw-bold">
+                        No data founded
+                    </div>
+                </div>
 
                 <!-- Table data -->
-                <div class="table-responsive">
+                <div class="table-responsive" v-if="blogData.length > 0 && !listBlogLoading">
                     <table class="table table-borderless table-hover align-middle">
 
                         <!-- Table data head -->
@@ -99,14 +109,13 @@
                         <tbody>
 
                             <!-- Table single data -->
-                            <tr v-for="each in 10">
+                            <tr v-for="each in blogData">
                                 <td class="p-3 text-start">
-                                    <img :src="`/images/about-personal.webp`" class="img-fluid object-fit-cover rounded-2" alt="picture">
+                                    <img :src="each.avatar" class="img-fluid object-fit-cover rounded-2" alt="picture">
                                 </td>
                                 <td class="p-3">
                                     <div class="text-truncate-3">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur deserunt
-                                        eligendi fuga laborum maiores minima perspiciatis quam quidem repellat rerum!
+                                        {{each.description}}
                                     </div>
                                 </td>
                                 <td class="p-3 text-center">
@@ -128,12 +137,12 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li>
-                                                <button type="button" class="dropdown-item mb-1" @click="openManageBlogModal()">
+                                                <button type="button" class="dropdown-item mb-1" @click="openManageBlogModal(each.id)">
                                                     Edit
                                                 </button>
                                             </li>
                                             <li>
-                                                <button type="button" class="dropdown-item" @click="openDeleteBlogModal()">
+                                                <button type="button" class="dropdown-item" @click="openDeleteBlogModal(each.id)">
                                                     Delete
                                                 </button>
                                             </li>
@@ -153,7 +162,7 @@
             <div class="card-footer border-0 px-4 pb-4 bg-white">
 
                 <!-- pagination -->
-                <div class="d-flex justify-content-center align-items-center">
+                <div class="d-flex justify-content-center align-items-center" v-if="blogData.length > 0 && !listBlogLoading">
                     <div aria-label="Page navigation example" class="front-pagination">
                         <div class="pagination">
                             <div class="page-item">
@@ -208,34 +217,36 @@
                         </template>
                         Blog
                     </h1>
-                    <button type="button" class="btn-close shadow-none" @click="closeManageModal()"></button>
+                    <button type="button" class="btn-close shadow-none" @click="closeManageBlogModal()"></button>
                 </div>
 
-                <div class="modal-body border-0">
+                <form @submit.prevent="manageBlog()" class="modal-body border-0">
 
                     <div class="form-group mv-3">
-                        <label for="file-upload"
-                               class="form-label border w-100 px-3 height-200 rounded-3 d-flex justify-content-center align-items-center flex-column cursor-pointer">
-                            <input type="file" name="file-upload" id="file-upload" hidden="hidden">
+                        <label for="file-upload" class="form-label border w-100 px-3 height-200 rounded-3 d-flex justify-content-center align-items-center flex-column cursor-pointer">
+                            <input type="file" name="file-upload" id="file-upload" hidden="hidden" @change="uploadFile($event)">
                             <i class="bi bi-cloud-check fs-1"></i>
                             <span class="fw-bold small">
                                 Upload File
                             </span>
                         </label>
+                        <div class="error-report" v-if="error != null && error.avatar !== undefined"> {{error.avatar[0]}} </div>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input id="name" type="text" name="name"
-                               class="form-control border shadow-none" required
+                               class="form-control border shadow-none"
                                autoComplete="new-name" v-model="formData.name">
+                        <div class="error-report" v-if="error != null && error.name !== undefined"> {{error.name[0]}} </div>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="description" class="form-label">Description</label>
                         <textarea name="description" id="description" cols="30" rows="5"
-                                  class="form-textarea border shadow-none resize" required
+                                  class="form-textarea border shadow-none resize"
                                   autocomplete="new-description" v-model="formData.description"></textarea>
+                        <div class="error-report" v-if="error != null && error.description !== undefined"> {{error.description[0]}} </div>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center">
@@ -250,6 +261,7 @@
                                     <label></label>
                                 </span>
                             </label>
+                            <div class="error-report" v-if="error != null && error.is_featured !== undefined"> {{error.is_featured[0]}} </div>
                         </div>
 
                         <div class="form-group mb-3">
@@ -262,30 +274,31 @@
                                     <label></label>
                                 </span>
                             </label>
+                            <div class="error-report" v-if="error != null && error.allow_comment !== undefined"> {{error.allow_comment[0]}} </div>
                         </div>
 
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="category" class="form-label">Category tag</label>
-                        <select name="category" id="category" v-model="formData.category">
+                        <select name="category" id="category" class="form-select shadow-none" v-model="formData.category">
                             <option value="select-category">Select Category Tag</option>
-                            <option value="food"> Food </option>
-                            <option value="food"> Dress </option>
-                            <option value="food"> Shelter </option>
-                            <option value="food"> Education </option>
-                            <option value="food"> Treatment </option>
+                            <option v-for="each in categoryData" :value="each.id" > {{each.name}} </option>
                         </select>
+                        <div class="error-report" v-if="error != null && error.category !== undefined"> {{error.category[0]}} </div>
                     </div>
 
-                </div>
+                </form>
 
                 <div class="modal-footer border-0">
 
-                    <button type="button" class="btn btn-secondary py-2 width-95" @click="closeManageModal()">
+                    <button type="button" class="btn btn-secondary py-2 width-95" @click="closeManageBlogModal()">
                         Close
                     </button>
 
+                    <button type="submit" class="btn btn-theme py-2 width-95">
+                        Save
+                    </button>
                     <button type="submit" class="btn btn-theme py-2 width-95">
                         Save
                     </button>
@@ -377,7 +390,7 @@
                                                 Category Name
                                             </div>
                                         </th>
-                                        <th style="min-width: 100px; max-width: 100px;">
+                                        <th style="min-width: 100px; max-width: 100px;" class="text-end">
                                             <div class="p-2">
                                                 Action
                                             </div>
@@ -393,7 +406,7 @@
                                         </td>
                                         <td>
                                             <div class="p-2">
-                                                <div class="d-flex align-items-center justify-content-start gap-2">
+                                                <div class="d-flex align-items-center justify-content-end gap-2">
                                                     <button type="button" class="btn border-0 btn-action text-secondary width-35 height-35 d-flex justify-content-center align-items-center rounded-circle" @click="openCategoryManageModal(each.id)">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </button>
@@ -479,18 +492,22 @@
                     <div class="mb-3 text-center fs-4"> Are you sure ?</div>
                 </div>
 
-                <div class="modal-footer border-0 d-flex justify-content-end align-items-center">
-                    <button type="button" class="btn btn-secondary width-100" @click="closeCategoryDeleteModal()">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-theme width-100" v-if="!deleteCategoryLoading">
-                        Submit
-                    </button>
-                    <button type="button" class="btn btn-theme width-100 height-38" v-if="deleteCategoryLoading">
-                        <div class="spinner-border text-white width-15 height-15" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </button>
+                <div class="modal-footer border-0 row justify-content-between align-items-center">
+                    <div class="col-5 p-0">
+                        <button type="button" class="btn btn-secondary w-100" @click="closeCategoryDeleteModal()">
+                            Cancel
+                        </button>
+                    </div>
+                    <div class="col-5 p-0">
+                        <button type="submit" class="btn btn-theme w-100" v-if="!deleteCategoryLoading">
+                            Submit
+                        </button>
+                        <button type="button" class="btn btn-theme w-100 height-38" v-if="deleteCategoryLoading">
+                            <span class="spinner-border text-white width-15 height-15" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
 
             </form>
@@ -536,18 +553,24 @@ export default {
             categoryParam: {
                 name: '',
             },
+            blogData: [],
             listCategoryLoading: false,
+            listBlogLoading: false,
             manageCategoryLoading: false,
             singleCategoryLoading: false,
             deleteCategoryLoading: false,
+            manageBlogLoading: false,
+            uploadLoading: false,
             current_page: 1,
             searchTimeout: null,
             error: null,
             categoryError: null,
+            blogError: null,
         }
     },
     mounted() {
         this.listCategory();
+        this.listBlog();
     },
     methods: {
 
@@ -558,7 +581,7 @@ export default {
         },
 
         // Function of close manage modal
-        closeManageModal() {
+        closeManageBlogModal() {
             let myModalEl = document.getElementById('manageBlogModal');
             let modal = bootstrap.Modal.getInstance(myModalEl)
             modal.hide();
@@ -745,7 +768,113 @@ export default {
             axios.get(apiRoutes.categories+'/'+data, {headers: apiServices.headerContent}).then((response) => {
                 this.categoryParam = response?.data;
             })
-        }
+        },
+
+        manageBlog(){
+            if(this.formData.id === undefined || null || '') {
+                this.createBlog();
+            }else{
+                this.updateBlog();
+            }
+        },
+
+        // Function of blog create api callback
+        createBlog() {
+            this.manageBlogLoading = true;
+            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.manageBlogLoading = false;
+                this.closeManageBlogModal();
+                this.listBlog();
+                toaster.info('Blog created successfully');
+            }).catch(err => {
+                this.manageBlogLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.blogError = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of blog update api callback
+        updateBlog() {
+            this.manageBlogLoading = true;
+            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
+                this.manageBlogLoading = false;
+                this.closeManageBlogModal();
+                this.listBlog();
+                toaster.info('Blog created successfully');
+            }).catch(err => {
+                this.manageBlogLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                    this.blogError = res?.data?.errors;
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of blog list api callback
+        listBlog() {
+            this.listBlogLoading = true;
+            this.listParam.page = this.current_page;
+            axios.get(apiRoutes.blogs, {params: this.listParam}, {headers: apiServices.headerContent}).then((response) => {
+                this.listBlogLoading = false;
+                this.blogData = response?.data?.data;
+            }).catch(err => {
+                this.listBlogLoading = false;
+                let res = err?.response;
+                if (res?.data?.errors !== undefined) {
+                    apiServices.ErrorHandler(res?.data?.errors);
+                } else {
+                    toaster.error('Server error!')
+                }
+            })
+        },
+
+        // Function of search category data
+        searchBlogData() {
+            clearTimeout(this.listBlogLoading);
+            this.listBlogLoading = setTimeout(() => {
+                this.listBlog();
+            }, 1000);
+        },
+
+        // Function of upload file
+        uploadFile(event) {
+            this.uploadLoading = true;
+            let file = event.target.files[0];
+            let formData = new FormData();
+            formData.append("file", file)
+            formData.append("media_type", 1);
+            apiServices.upload(apiRoutes.fileUpload, formData, (res) => {
+                event.target.value = ''
+                this.uploadLoading = false
+                if (res) {
+                    this.uploadedImageId = res?.data?.id
+                    this.formData.avatar = res?.data?.full_file_path
+                } else {
+                    this.error = res.errors
+                }
+            })
+        },
+
+        // Function of delete file
+        deleteFile() {
+            this.uploadLoading = true;
+            apiServices.delete(apiRoutes.fileDelete+`/${this.uploadedImageId}`, {}, (res) => {
+                if(res) {
+                    this.uploadLoading = false;
+                    this.formData.avatar = null;
+                } else {
+                    this.error = res.errors
+                }
+            });
+        },
 
     }
 }

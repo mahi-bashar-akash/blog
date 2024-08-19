@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id')->nullable();
+            $table->string('avatar');
             $table->string('name');
+            $table->string('description')->nullable();
             $table->string('category_id')->nullable();
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->dateTime('published_at')->nullable();

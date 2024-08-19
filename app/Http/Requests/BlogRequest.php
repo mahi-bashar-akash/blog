@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryRequest extends FormRequest
+class BlogRequest extends FormRequest
 {
 
     /**
@@ -18,7 +18,15 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'avatar' => 'required|string',
             'name' => 'required|string',
+            'description' => 'required|string',
+            'category_id' => 'required|integer',
+            'status' => 'required',
+            'published_at' => 'required|date',
+            'views_count' => 'required|integer',
+            'allow_comments' => 'required|boolean',
+            'is_featured' => 'required|boolean',
         ];
     }
 

@@ -8,23 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
 
-    use HasSlug;
-
     protected $fillable = [
         'user_id',
-        'title',
-        'slug',
-        'content',
-        'category',
-        'tags',
-        'featured_image',
+        'name',
+        'description',
+        'category_id',
         'status',
         'published_at',
         'views_count',
-        'meta_title',
-        'meta_description',
-        'is_featured',
         'allow_comments',
+        'created_at',
+        'updated_at',
     ];
 
 

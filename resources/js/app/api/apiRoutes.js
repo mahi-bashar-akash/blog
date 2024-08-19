@@ -16,6 +16,9 @@ const apiRoutes = {
 
     categories: userApi + '/categories',
 
+    fileUpload: userApi + '/file/upload',
+    fileDelete: userApi + '/file/delete',
+
 }
 
 export default apiRoutes;
