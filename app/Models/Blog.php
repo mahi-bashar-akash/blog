@@ -18,15 +18,15 @@ class Blog extends Model
         'status',
         'published_at',
         'views_count',
-        'user_id', // Add user_id to fillable fields
+        'user_id',
     ];
 
-    public function user_information(): BelongsTo
+    public function author_info(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function category_information(): BelongsTo
+    public function category_info(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }

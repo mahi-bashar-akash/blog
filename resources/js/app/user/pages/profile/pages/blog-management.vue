@@ -47,7 +47,7 @@
                         </button>
 
                         <!-- New blog -->
-                        <button type="button" class="btn btn-theme px-4" @click="openManageBlogModal()">
+                        <button type="button" class="btn btn-theme px-4" @click="openManageBlogModal(null)">
                             Create Blog
                         </button>
 
@@ -96,15 +96,6 @@
                                 <th class="p-3 text-center" style="min-width: 150px; max-width: 150px;">
                                     Status
                                 </th>
-<!--                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">-->
-<!--                                    Like-->
-<!--                                </th>-->
-<!--                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">-->
-<!--                                    Comment-->
-<!--                                </th>-->
-<!--                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">-->
-<!--                                    Share-->
-<!--                                </th>-->
                                 <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
                                     Action
                                 </th>
@@ -133,15 +124,6 @@
                                 <td class="p-3 text-center">
                                     {{each.status}}
                                 </td>
-<!--                                <td class="p-3 text-center">-->
-<!--                                    {{numberFormat(20000)}}-->
-<!--                                </td>-->
-<!--                                <td class="p-3 text-center">-->
-<!--                                    {{numberFormat(300000)}}-->
-<!--                                </td>-->
-<!--                                <td class="p-3 text-center">-->
-<!--                                    {{numberFormat(4000000)}}-->
-<!--                                </td>-->
                                 <td class="p-3">
                                     <div class="dropdown w-100 text-center">
                                         <a class="text-decoration-none text-theme fw-bold p-2" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -173,38 +155,8 @@
 
             <div class="card-footer border-0 px-4 pb-4 bg-white">
 
-                <!-- pagination -->
-                <div class="d-flex justify-content-center align-items-center" v-if="blogData.length > 0 && !listBlogLoading">
-                    <div aria-label="Page navigation example" class="front-pagination">
-                        <div class="pagination">
-                            <div class="page-item">
-                                <a class="page-link" href="javascript:void(0)">
-                                    <i class="bi bi-chevron-left"></i>
-                                </a>
-                            </div>
-                            <div class="page-item active">
-                                <a class="page-link" href="javascript:void(0)">
-                                    1
-                                </a>
-                            </div>
-                            <div class="page-item">
-                                <a class="page-link" href="javascript:void(0)">
-                                    2
-                                </a>
-                            </div>
-                            <div class="page-item">
-                                <a class="page-link" href="javascript:void(0)">
-                                    3
-                                </a>
-                            </div>
-                            <div class="page-item">
-                                <a class="page-link" href="javascript:void(0)">
-                                    <i class="bi bi-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!--                <pagination :total_pages="total_pages" :current_page="current_page" :buttons="buttons"-->
+<!--                            @page-change="handlePageChange" v-if="!listBlogLoading && blogData.length > 0"/>-->
 
             </div>
 
@@ -217,7 +169,7 @@
         <div class="modal-dialog modal-dialog-centered">
 
             <!-- Manage blog form -->
-            <form @submit.prevent="manageBlog()" class="modal-content rounded-3 border-0 p-4">
+            <form class="modal-content rounded-3 border-0 p-4">
 
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
@@ -294,11 +246,11 @@
 
                 <div class="modal-footer border-0">
 
-                    <button type="button" class="btn btn-secondary py-2 width-95 height-38" @click="closeManageBlogModal()">
+                    <button type="button" class="btn btn-secondary width-95 height-38" @click="closeManageBlogModal()">
                         Close
                     </button>
 
-                    <button type="submit" class="btn btn-danger py-2 width-75 height-38" v-if="!archiveLoading" @click="manageBlog('archived')">
+                    <button type="submit" class="btn btn-danger width-95 height-38" v-if="!archiveLoading" @click="manageBlog('archived')">
                         Archive
                     </button>
                     <button type="button" class="btn btn-danger width-95 height-38" v-if="archiveLoading">
@@ -307,7 +259,7 @@
                         </span>
                     </button>
 
-                    <button type="submit" class="btn btn-warning py-2 width-75 height-38" v-if="!draftLoading" @click="manageBlog('draft')">
+                    <button type="submit" class="btn btn-warning py-2 width-95 height-38" v-if="!draftLoading" @click="manageBlog('draft')">
                         Draft
                     </button>
                     <button type="button" class="btn btn-warning width-95 height-38" v-if="draftLoading">
@@ -316,7 +268,7 @@
                         </span>
                     </button>
 
-                    <button type="submit" class="btn btn-theme py-2 width-75 height-38" v-if="!publishLoading" @click="manageBlog('published')">
+                    <button type="submit" class="btn btn-theme py-2 width-95 height-38" v-if="!publishLoading" @click="manageBlog('published')">
                         Publish
                     </button>
                     <button type="button" class="btn btn-theme width-95 height-38" v-if="publishLoading">
@@ -358,8 +310,13 @@
                     </div>
 
                     <div class="col-5">
-                        <button type="submit" class="btn btn-theme py-2 w-100">
+                        <button type="submit" class="btn btn-danger py-2 w-100" v-if="!deleteBlogLoading">
                             Confirm
+                        </button>
+                        <button type="button" class="btn btn-theme w-100 height-38" v-if="deleteBlogLoading">
+                            <span class="spinner-border text-white width-15 height-15" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </span>
                         </button>
                     </div>
 
@@ -520,7 +477,7 @@
                         </button>
                     </div>
                     <div class="col-5 p-0">
-                        <button type="submit" class="btn btn-theme w-100" v-if="!deleteCategoryLoading">
+                        <button type="submit" class="btn btn-danger w-100" v-if="!deleteCategoryLoading">
                             Submit
                         </button>
                         <button type="button" class="btn btn-theme w-100 height-38" v-if="deleteCategoryLoading">
@@ -540,7 +497,7 @@
 
 <script>
 import apiRoutes from "@/app/api/apiRoutes.js";
-import apiServices from '@/app/api/apiServices.js'
+import apiServices from '@/app/api/apiServices.js';
 import axios from "axios";
 
 import {createToaster} from "@meforma/vue-toaster";
@@ -572,6 +529,10 @@ export default {
             categoryParam: {
                 name: '',
             },
+            total_pages: 0,
+            current_page: 1,
+            buttons: [],
+            last_page: 0,
             blogData: [],
             listCategoryLoading: false,
             listBlogLoading: false,
@@ -580,7 +541,6 @@ export default {
             deleteCategoryLoading: false,
             manageBlogLoading: false,
             uploadLoading: false,
-            current_page: 1,
             searchTimeout: null,
             error: null,
             categoryError: null,
@@ -599,6 +559,12 @@ export default {
         this.listBlog();
     },
     methods: {
+
+        // Function of handle page change
+        handlePageChange(page) {
+            this.current_page = page;
+            this.listBlog();
+        },
 
         // Function of open manage model
         openManageBlogModal(data = null) {
@@ -749,7 +715,7 @@ export default {
 
         // Function of blog update api callback
         updateBlog() {
-            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
+            axios.patch(apiRoutes.blogs+'/'+this.formData.id, this.formData, {headers: apiServices.headerContent}).then((response) => {
                 this.archiveLoading = false;
                 this.draftLoading = false;
                 this.publishLoading = false;
@@ -777,6 +743,10 @@ export default {
             axios.get(apiRoutes.blogs, {params: this.listParam}, {headers: apiServices.headerContent}).then((response) => {
                 this.listBlogLoading = false;
                 this.blogData = response?.data?.data;
+                this.last_page = response?.data?.last_page
+                this.total_pages = response?.data?.total < response?.data?.per_page ? 1 : Math.ceil((response?.data?.total / response?.data?.per_page));
+                this.current_page = response?.data?.current_page;
+                this.buttons = [...Array(this.total_pages).keys()].map((i) => i + 1);
             }).catch(err => {
                 this.listBlogLoading = false;
                 let res = err?.response;
@@ -873,7 +843,7 @@ export default {
         // Function of category update api callback
         updateCategory() {
             this.manageCategoryLoading = true;
-            axios.patch(apiRoutes.categories+'/'+this.categoryParam.id, this.categoryParam, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
+            axios.patch(apiRoutes.categories+'/'+this.categoryParam.id, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
                 this.closeCategoryManageModal();
                 this.listCategory();
