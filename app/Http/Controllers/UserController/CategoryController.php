@@ -20,30 +20,15 @@ class CategoryController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'limit' => 'nullable|integer',
-            'keyword' => 'nullable|string',
-            'orderBy' => 'nullable|string',
-            'order' => 'nullable|in:asc,desc',
-        ]);
+        $filter = [
+            'limit' => $request->get('limit', 20),
+            'keyword' => $request->get('keyword', ''),
+            'orderBy' => $request->get('orderBy', 'dsc'),
+        ];
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $categories = $this->categoryService->getAll($filter);
+        return response()->json($categories, 200);
 
-        try {
-            $filter = [
-                'limit' => $request->limit ?? 20,
-                'keyword' => $request->keyword ?? '',
-                'orderBy' => $request->orderBy ?? 'name',
-                'order' => $request->order ?? 'asc',
-            ];
-
-            $categories = $this->categoryService->getAll($filter);
-            return response()->json($categories, 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], $e->getCode());
-        }
     }
 
     public function show($id): JsonResponse

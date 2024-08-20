@@ -25,7 +25,7 @@ class CategoryService
 
     public static function getAll(array $filter)
     {
-        $query = Category::orderBy($filter['orderBy'], $filter['order']);
+        $query = Category::orderBy('id', 'dsc');
         if (!empty($filter['keyword'])) {
             $query->where(function($q) use ($filter) {
                 $q->where('name', 'LIKE', '%'.$filter['keyword'].'%');
