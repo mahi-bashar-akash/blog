@@ -65,7 +65,7 @@
             <div class="card-body height-calc-300 scrollable border-0 px-4 bg-white">
 
                 <!-- No data founded -->
-                <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+                <div class="h-100 d-flex justify-content-center align-items-center flex-column" v-if="blogData.length === 0">
                     <div>
                         <i class="bi bi-exclamation-circle text-danger font-size-35"></i>
                     </div>
@@ -81,24 +81,30 @@
                         <!-- Table data head -->
                         <thead>
                             <tr>
-                                <th class="p-3" style="min-width: 150px; max-width: 150px;">
+                                <th class="p-3" style="min-width: 125px; max-width: 125px;">
                                     Photo or video
                                 </th>
                                 <th class="p-3 text-start" style="min-width: 200px; max-width: 200px;">
                                     Title
                                 </th>
-                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
+                                <th class="p-3 text-center" style="min-width: 150px; max-width: 150px;">
                                     Views
                                 </th>
-                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
-                                    Like
+                                <th class="p-3 text-center" style="min-width: 150px; max-width: 150px">
+                                    Category
                                 </th>
-                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
-                                    Comment
+                                <th class="p-3 text-center" style="min-width: 150px; max-width: 150px;">
+                                    Status
                                 </th>
-                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
-                                    Share
-                                </th>
+<!--                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">-->
+<!--                                    Like-->
+<!--                                </th>-->
+<!--                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">-->
+<!--                                    Comment-->
+<!--                                </th>-->
+<!--                                <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">-->
+<!--                                    Share-->
+<!--                                </th>-->
                                 <th class="p-3 text-center" style="min-width: 150px; max-width: 100px;">
                                     Action
                                 </th>
@@ -110,7 +116,7 @@
 
                             <!-- Table single data -->
                             <tr v-for="each in blogData">
-                                <td class="p-3 text-start">
+                                <td class="p-3 text-start" style="min-width: 125px; max-width: 125px;">
                                     <img :src="each.avatar" class="img-fluid object-fit-cover rounded-2" alt="picture">
                                 </td>
                                 <td class="p-3">
@@ -119,17 +125,23 @@
                                     </div>
                                 </td>
                                 <td class="p-3 text-center">
-                                    {{numberFormat(1000)}}
+                                    {{numberFormat(each?.views_count)}}
                                 </td>
                                 <td class="p-3 text-center">
-                                    {{numberFormat(20000)}}
+                                    {{each.category_information.name}}
                                 </td>
                                 <td class="p-3 text-center">
-                                    {{numberFormat(300000)}}
+                                    {{each.status}}
                                 </td>
-                                <td class="p-3 text-center">
-                                    {{numberFormat(4000000)}}
-                                </td>
+<!--                                <td class="p-3 text-center">-->
+<!--                                    {{numberFormat(20000)}}-->
+<!--                                </td>-->
+<!--                                <td class="p-3 text-center">-->
+<!--                                    {{numberFormat(300000)}}-->
+<!--                                </td>-->
+<!--                                <td class="p-3 text-center">-->
+<!--                                    {{numberFormat(4000000)}}-->
+<!--                                </td>-->
                                 <td class="p-3">
                                     <div class="dropdown w-100 text-center">
                                         <a class="text-decoration-none text-theme fw-bold p-2" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -589,7 +601,17 @@ export default {
     methods: {
 
         // Function of open manage model
-        openManageBlogModal() {
+        openManageBlogModal(data = null) {
+            if (data !== null) {
+                this.singleBlog(data)
+            } else {
+                this.formData = {
+                    avatar: null,
+                    name: '',
+                    description: '',
+                    category_id: 'select-category',
+                }
+            }
             const myModal = new bootstrap.Modal("#manageBlogModal", {keyboard: false});
             myModal.show();
         },
@@ -602,7 +624,8 @@ export default {
         },
 
         // Function of open manage model
-        openDeleteBlogModal() {
+        openDeleteBlogModal(data) {
+            this.formData.id = data;
             const myModal = new bootstrap.Modal("#deleteBlogModal", {keyboard: false});
             myModal.show();
         },
@@ -672,6 +695,14 @@ export default {
                     toaster.error('Server error!')
                 }
             });
+        },
+
+        // Function of blog single data api callback
+        singleBlog(data) {
+            axios.get(apiRoutes.blogs+'/'+data, {headers: apiServices.headerContent}).then((response) => {
+                console.log(response?.data)
+                this.formData = response?.data;
+            })
         },
 
         // Function of blog status
@@ -764,7 +795,7 @@ export default {
                 this.deleteBlogLoading = false;
                 this.closeBlogDeleteModal();
                 this.listBlog();
-                toaster.info('Category deleted successfully');
+                toaster.info('Blog deleted successfully');
             }).catch(err => {
                 this.deleteBlogLoading = false;
                 let res = err?.response;

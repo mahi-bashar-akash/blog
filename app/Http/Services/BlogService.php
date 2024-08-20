@@ -25,7 +25,7 @@ class BlogService
 
     public static function getAll(array $filter)
     {
-        $query = Blog::with('user_information')->orderBy($filter['orderBy'], $filter['order']);
+        $query = Blog::with(['user_information','category_information'])->orderBy($filter['orderBy'], $filter['order']);
         if (!empty($filter['keyword'])) {
             $query->where(function($q) use ($filter) {
                 $q->where('name', 'LIKE', '%'.$filter['keyword'].'%');
