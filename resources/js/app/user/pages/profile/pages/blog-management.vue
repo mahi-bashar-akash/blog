@@ -119,7 +119,7 @@
                                     {{numberFormat(each?.views_count)}}
                                 </td>
                                 <td class="p-3 text-center">
-                                    {{each.category_information.name}}
+                                    {{each.category_info.name}}
                                 </td>
                                 <td class="p-3 text-center">
                                     {{each.status}}
@@ -155,8 +155,8 @@
 
             <div class="card-footer border-0 px-4 pb-4 bg-white">
 
-<!--                <pagination :total_pages="total_pages" :current_page="current_page" :buttons="buttons"-->
-<!--                            @page-change="handlePageChange" v-if="!listBlogLoading && blogData.length > 0"/>-->
+                <pagination :total_pages="total_pages" :current_page="current_page" :buttons="buttons"
+                            @page-change="handlePageChange" v-if="!listBlogLoading && blogData.length > 0"/>
 
             </div>
 
@@ -173,10 +173,10 @@
 
                 <div class="modal-header border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">
-                        <template v-if="this.formData.id === undefined">
+                        <template v-if="this.formData.id === ''">
                             Create
                         </template>
-                        <template v-if="this.formData.id !== undefined">
+                        <template v-if="this.formData.id !== ''">
                             Edit
                         </template>
                         Blog
@@ -499,6 +499,7 @@
 import apiRoutes from "@/app/api/apiRoutes.js";
 import apiServices from '@/app/api/apiServices.js';
 import axios from "axios";
+import pagination from "../../../../component/pagination.vue";
 
 import {createToaster} from "@meforma/vue-toaster";
 const toaster = createToaster({
@@ -506,6 +507,9 @@ const toaster = createToaster({
 });
 
 export default {
+    components: {
+        pagination
+    },
     data(){
         return {
             // Data properties
@@ -572,6 +576,7 @@ export default {
                 this.singleBlog(data)
             } else {
                 this.formData = {
+                    id: '',
                     avatar: null,
                     name: '',
                     description: '',
@@ -683,7 +688,8 @@ export default {
                 this.formData.status = 'published';
                 this.publishLoading = true;
             }
-            if(!this.formData.id === undefined || null || '') {
+            console.log(this.formData)
+            if(this.formData.id === '' || undefined || null) {
                 this.createBlog()
             }else {
                 this.updateBlog()
