@@ -23,7 +23,7 @@ class BlogController extends Controller
         $filter = [
             'limit' => $request->get('limit', 20),
             'keyword' => $request->get('keyword', ''),
-            'orderBy' => $request->get('orderBy', 'dsc'),
+            'orderBy' => $request->get('orderBy', 'desc'),
         ];
 
         $blogs = $this->blogService->getAll($filter);

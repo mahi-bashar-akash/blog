@@ -65,12 +65,19 @@
             <div class="card-body height-calc-300 scrollable border-0 px-4 bg-white">
 
                 <!-- No data founded -->
-                <div class="h-100 d-flex justify-content-center align-items-center flex-column" v-if="blogData.length === 0">
+                <div class="h-100 d-flex justify-content-center align-items-center flex-column" v-if="blogData.length === 0 && !listBlogLoading">
                     <div>
                         <i class="bi bi-exclamation-circle text-danger font-size-35"></i>
                     </div>
                     <div class="fw-bold">
                         No data founded
+                    </div>
+                </div>
+
+                <!-- Data loading -->
+                <div class="h-100 d-flex justify-content-center align-items-center flex-column" v-if="listBlogLoading">
+                    <div class="spinner-border d-inline-block width-35 height-35" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
 
@@ -86,9 +93,6 @@
                                 </th>
                                 <th class="p-3 text-start" style="min-width: 200px; max-width: 200px;">
                                     Title
-                                </th>
-                                <th class="p-3 text-center" style="min-width: 150px; max-width: 150px;">
-                                    Views
                                 </th>
                                 <th class="p-3 text-center" style="min-width: 150px; max-width: 150px">
                                     Category
@@ -108,15 +112,12 @@
                             <!-- Table single data -->
                             <tr v-for="each in blogData">
                                 <td class="p-3 text-start" style="min-width: 125px; max-width: 125px;">
-                                    <img :src="each.avatar" class="img-fluid object-fit-cover rounded-2" alt="picture">
+                                    <img :src="each.avatar" class="img-fluid object-fit-cover rounded-2" style="min-width: 115px; max-width: 115px;" alt="picture">
                                 </td>
                                 <td class="p-3">
-                                    <div class="text-truncate-3">
-                                        {{each.description}}
+                                    <div class="text-truncate-2">
+                                        {{each.name}}
                                     </div>
-                                </td>
-                                <td class="p-3 text-center">
-                                    {{numberFormat(each?.views_count)}}
                                 </td>
                                 <td class="p-3 text-center">
                                     {{each.category_info.name}}
@@ -239,7 +240,7 @@
                             <option value="select-category">Select Category Tag</option>
                             <option v-for="each in categoryData" :value="each.id" > {{each.name}} </option>
                         </select>
-                        <div class="error-report" v-if="error != null && error.category !== undefined"> {{error.category[0]}} </div>
+                        <div class="error-report" v-if="error != null && error.category_id !== undefined"> {{error.category_id[0]}} </div>
                     </div>
 
                 </div>
@@ -670,7 +671,7 @@ export default {
 
         // Function of blog single data api callback
         singleBlog(data) {
-            axios.get(apiRoutes.blogs+'/'+data, {headers: apiServices.headerContent}).then((response) => {
+            axios.get(apiRoutes.blogResource+'/'+data, {headers: apiServices.headerContent}).then((response) => {
                 console.log(response?.data)
                 this.formData = response?.data;
             })
@@ -698,7 +699,7 @@ export default {
 
         // Function of blog create api callback
         createBlog() {
-            axios.post(apiRoutes.blogs, this.formData, {headers: apiServices.headerContent}).then((response) => {
+            axios.post(apiRoutes.blogResource, this.formData, {headers: apiServices.headerContent}).then((response) => {
                 this.archiveLoading = false;
                 this.draftLoading = false;
                 this.publishLoading = false;
@@ -721,7 +722,7 @@ export default {
 
         // Function of blog update api callback
         updateBlog() {
-            axios.patch(apiRoutes.blogs+'/'+this.formData.id, this.formData, {headers: apiServices.headerContent}).then((response) => {
+            axios.patch(apiRoutes.blogResource+'/'+this.formData.id, this.formData, {headers: apiServices.headerContent}).then((response) => {
                 this.archiveLoading = false;
                 this.draftLoading = false;
                 this.publishLoading = false;
@@ -746,7 +747,7 @@ export default {
         listBlog() {
             this.listBlogLoading = true;
             this.listParam.page = this.current_page;
-            axios.get(apiRoutes.blogs, {params: this.listParam}, {headers: apiServices.headerContent}).then((response) => {
+            axios.get(apiRoutes.blogResource, {params: this.listParam}, {headers: apiServices.headerContent}).then((response) => {
                 this.listBlogLoading = false;
                 this.blogData = response?.data?.data;
                 this.last_page = response?.data?.last_page
@@ -767,7 +768,7 @@ export default {
         // Function of blog delete api callback
         deleteBlog() {
             this.deleteBlogLoading = true;
-            axios.delete(apiRoutes.blogs+'/'+this.formData.id, {headers: apiServices.headerContent}).then((response) => {
+            axios.delete(apiRoutes.blogResource+'/'+this.formData.id, {headers: apiServices.headerContent}).then((response) => {
                 this.deleteBlogLoading = false;
                 this.closeBlogDeleteModal();
                 this.listBlog();
@@ -795,7 +796,7 @@ export default {
         listCategory() {
             this.listCategoryLoading = true;
             this.listCategoryParam.page = this.current_page;
-            axios.get(apiRoutes.categories, {params: this.listCategoryParam}, {headers: apiServices.headerContent}).then((response) => {
+            axios.get(apiRoutes.categoryResource, {params: this.listCategoryParam}, {headers: apiServices.headerContent}).then((response) => {
                 this.listCategoryLoading = false;
                 this.categoryData = response?.data?.data;
             }).catch(err => {
@@ -829,7 +830,7 @@ export default {
         // Function of category create api callback
         createCategory() {
             this.manageCategoryLoading = true;
-            axios.post(apiRoutes.categories, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
+            axios.post(apiRoutes.categoryResource, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
                 this.closeCategoryManageModal();
                 this.listCategory();
@@ -849,7 +850,7 @@ export default {
         // Function of category update api callback
         updateCategory() {
             this.manageCategoryLoading = true;
-            axios.patch(apiRoutes.categories+'/'+this.categoryParam.id, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
+            axios.patch(apiRoutes.categoryResource+'/'+this.categoryParam.id, this.categoryParam, {headers: apiServices.headerContent}).then((response) => {
                 this.manageCategoryLoading = false;
                 this.closeCategoryManageModal();
                 this.listCategory();
@@ -870,7 +871,7 @@ export default {
         // Function of category delete api callback
         deleteCategory() {
             this.deleteCategoryLoading = true;
-            axios.delete(apiRoutes.categories+'/'+this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
+            axios.delete(apiRoutes.categoryResource+'/'+this.categoryParam.id, {headers: apiServices.headerContent}).then((response) => {
                 this.deleteCategoryLoading = false;
                 this.closeCategoryDeleteModal();
                 this.listCategory();
@@ -888,7 +889,7 @@ export default {
 
         // Function of single category
         singleCategory(data) {
-            axios.get(apiRoutes.categories+'/'+data, {headers: apiServices.headerContent}).then((response) => {
+            axios.get(apiRoutes.categoryResource+'/'+data, {headers: apiServices.headerContent}).then((response) => {
                 this.categoryParam = response?.data;
             })
         },

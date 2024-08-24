@@ -23,7 +23,7 @@ class CategoryController extends Controller
         $filter = [
             'limit' => $request->get('limit', 20),
             'keyword' => $request->get('keyword', ''),
-            'orderBy' => $request->get('orderBy', 'dsc'),
+            'orderBy' => $request->get('orderBy', 'desc'),
         ];
 
         $categories = $this->categoryService->getAll($filter);

@@ -12,9 +12,9 @@ const apiRoutes = {
     changePassword: userApi + '/profile/update/password',
     logout: userApi + '/profile/logout',
 
-    blogs: userApi + '/blogs',
+    blogResource: userApi + '/blogs',
 
-    categories: userApi + '/categories',
+    categoryResource: userApi + '/categories',
 
     fileUpload: userApi + '/file/upload',
     fileDelete: userApi + '/file/delete',
